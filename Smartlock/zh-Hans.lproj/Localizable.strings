@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  Smartlock
+
+  Created by RivenL on 15/3/11.
+  Copyright (c) 2015年 RivenL. All rights reserved.
+*/
+"Peripheral" = "外设";
+"Service" = "服务";
+"Characteristic" = "特征";
+
+"Login" = "登    录";
+"Forget PW?" = "忘记密码？";
+
+"yongjiakeji" = "永家";
+"ScanningQRCode" = "扫描二维码";
+
+"My Devices" = "我的设备";
+
+"Back" = "返回";

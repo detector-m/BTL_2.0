@@ -1,0 +1,23 @@
+//
+//  Prefix.pch
+//  Smartlock
+//
+//  Created by RivenL on 15/3/24.
+//  Copyright (c) 2015年 RivenL. All rights reserved.
+//
+
+#ifndef Smartlock_Prefix_pch
+#define Smartlock_Prefix_pch
+
+#define URLTimeoutInterval 15.0
+
+#ifdef __OBJC__
+#import <Foundation/Foundation.h>
+#endif
+#import "AppDelegate.h"
+#import "RLDebug.h"
+#import "RLTypecast.h"
+#import "NSString+Regex.h"
+#import "RLHUD.h"
+#import "User.h"
+#endif
