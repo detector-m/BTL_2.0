@@ -947,7 +947,6 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     if(![[RLBluetooth sharedBluetooth] isSupportBluetoothLow])
         return;
     
-#if 1
     self.isOpenLockNow = NO;
     if([User getAutoOpenLockSwitch]) return;
     if(self.autoOpenlockTimer) return;
@@ -957,9 +956,6 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         self.autoOpenlockTimer = [MSWeakTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(openLock) userInfo:nil repeats:YES dispatchQueue:dispatch_get_main_queue()];
         [self openLock];
     });
-#else
-//        [self autoScan];
-#endif
 }
 
 - (void)cancelAutoOpenlockTimer {

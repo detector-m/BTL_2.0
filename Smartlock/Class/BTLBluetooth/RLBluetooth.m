@@ -165,12 +165,36 @@ static RLBluetooth *_sharedBluetooth = nil;
             return ;
         }
         
-        for(RLService *service in services) {
-            [weakSelf discoverServiceCharacteristicsWithService:service];
-        }
+//        for(RLService *service in services) {
+//            [weakSelf discoverServiceCharacteristicsWithService:service];
+//        }
+        [weakSelf discoverPeripheralServiceCharacteristicsWithPeripheral:peripheral];
     };
     
     [peripheral discoverServicesWithCompletion:discoverPeripheralServicesCallback];
+}
+
+- (void)discoverPeripheralServiceCharacteristicsWithPeripheral:(RLPeripheral *)peripheral withServiceUUIDString:(NSString *)uuidString {
+    RLService *service = [self serviceForUUIDString:uuidString withPeripheral:peripheral];
+    
+    __weak __typeof(self)weakSelf = self;
+    RLServiceDiscoverCharacteristicsCallback discoverServiceCharacteristicsCallback = ^(NSArray *characteristics, NSError *error) {
+        if(error) {
+            if(weakSelf.connectedCallback)
+                weakSelf.connectedCallback(error);
+            weakSelf.connectedCallback = nil;
+            DLog(@"error = %@", error);
+            return;
+        }
+        
+        if(weakSelf.connectedCallback) {
+            weakSelf.connectedCallback(nil);
+        }
+    };
+    [service discoverCharacteristicsWithCompletion:discoverServiceCharacteristicsCallback];
+}
+- (void)discoverPeripheralServiceCharacteristicsWithPeripheral:(RLPeripheral *)peripheral {
+    [self discoverPeripheralServiceCharacteristicsWithPeripheral:peripheral withServiceUUIDString:@"1910"];
 }
 
 - (void)discoverServiceCharacteristicsWithService:(RLService *)service {
@@ -353,10 +377,6 @@ static RLBluetooth *_sharedBluetooth = nil;
 }
 
 #pragma mark -
-- (void)writeDataToCharacteristic:(RLCharacteristic *)characteristic withData:(NSData *)data {
-    [self writeDataToCharacteristic:characteristic cmdCode:0x00 cmdMode:0x00 withDatas:data];
-}
-
 - (void)writeDataToCharacteristic:(RLCharacteristic *)characteristic cmdCode:(Byte)cmdCode cmdMode:(Byte)cmdMode withDatas:(NSData *)data {
     if(characteristic.cbCharacteristic.properties == CBCharacteristicPropertyWrite || CBCharacteristicPropertyWriteWithoutResponse == characteristic.cbCharacteristic.properties) {
         
