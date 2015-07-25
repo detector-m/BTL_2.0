@@ -599,7 +599,13 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         }
         
         RLPeripheral *peripheral = [[RLBluetooth sharedBluetooth] peripheralForName:key.keyOwner.address];
+        if(!peripheral) {
+            continue;
+        }
         
+        if(![User getVoiceSwitch]) {
+            [[SoundManager sharedManager] playSound:@"SoundOperator.mp3" looping:NO];
+        }
         RLPeripheralRequest *perRequest = [[RLPeripheralRequest alloc] init];
         perRequest.cmdCode = 0x02;
         perRequest.userPwd = key.keyOwner.pwd;
@@ -875,11 +881,6 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 
         return;
     }
-    if(![User getVoiceSwitch]) {
-        
-        [[SoundManager sharedManager] playSound:@"SoundOperator.mp3" looping:NO];
-    }
-    
     __weak __typeof(self)weakSelf = self;
     self.openLockBtn.userInteractionEnabled = NO;
     [self noResponseHandlerForOpenLockManual];
