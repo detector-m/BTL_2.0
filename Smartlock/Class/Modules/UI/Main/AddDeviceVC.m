@@ -208,7 +208,21 @@
     NSInteger index = [self indexForData:indexPath];
     [self deselectRow];
     if(!self.table.datas.count) return;
-    RLPeripheral *peripheral = [self.table.datas objectAtIndex:index];
-    [self setBTLockAdmin:peripheral];
+//    RLPeripheral *peripheral = nil;
+    RLPeripheral *tPeripheral = [self.table.datas objectAtIndex:index];
+    RLPeripheral *peripheral = nil;
+
+    for(RLPeripheral *tm in [RLBluetooth sharedBluetooth].manager.peripherals) {
+        if([tm.name isEqualToString:tPeripheral.name]) {
+            peripheral = tm;
+        }
+    }
+
+    if(peripheral) {
+        [self setBTLockAdmin:peripheral];
+    }
+    else {
+        [RLHUD hudAlertNoticeWithBody:NSLocalizedString(@"未找到可设置设备，请刷新列表！", nil)];
+    }
 }
 @end

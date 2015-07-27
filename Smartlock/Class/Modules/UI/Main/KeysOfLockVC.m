@@ -27,10 +27,8 @@
 
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self loadKeysOfLockWithLockID:_lockId];
+- (void)reloadTableData {
+    // do nothing
 }
 
 #pragma mark -
@@ -48,7 +46,8 @@
             if(weakSelf.table.datas.count) {
                 [weakSelf.table.datas removeAllObjects];
             }
-            [weakSelf.table.datas addObjectsFromArray:response.list];
+            
+            [weakSelf.table.datas addObjectsFromArray:[response.list copy]];
             [weakSelf.table.tableView reloadData];
         });
     }];
@@ -57,6 +56,8 @@
 #pragma mark -
 - (void)setLockId:(NSUInteger)lockId {
     _lockId = lockId;
+    
+    [self loadKeysOfLockWithLockID:_lockId];
 }
 
 #pragma mark -

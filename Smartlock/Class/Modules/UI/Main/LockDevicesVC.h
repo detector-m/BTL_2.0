@@ -18,6 +18,5 @@
 @class MainVC;
 @interface LockDevicesVC : BaseTableVC
 @property (nonatomic, weak) MainVC *mainVC;
-#pragma mark -
-- (void)addLockWithPeripheral:(LockModel *)lock;
+
 @end

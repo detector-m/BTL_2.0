@@ -19,7 +19,7 @@
 
 - (instancetype)init {
     if(self = [super init]) {
-        self.datas = [NSMutableArray new];
+        self.datas = [[NSMutableArray alloc] init];
     }
     return self;
 }

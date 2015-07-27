@@ -8,7 +8,6 @@
 
 #import "LockDevicesVC.h"
 #import "AddDeviceVC.h"
-//#import "ScanningQRCodeVC.h"
 #import "MainVC.h"
 #import "SubTitleListCell.h"
 #import "KeysOfLockVC.h"
@@ -33,6 +32,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [self reloadTableData];
+}
+
+- (void)reloadTableData {
     [self.table.datas removeAllObjects];
     [self.table addObjectFromArray:[self.mainVC locks]];
     [self.table.tableView reloadData];
@@ -53,11 +56,6 @@
 
 
 - (void)clickRightItem {
-#if 0
-    ScanningQRCodeVC *vc = [ScanningQRCodeVC new];
-    vc.lockDevicesVC = self;
-    [self.navigationController pushViewController:vc animated:YES];
-#endif
     if(![[RLBluetooth sharedBluetooth] bluetoothIsReady]) {
         [RLHUD hudAlertWaitingWithBody:NSLocalizedString(@"未开启蓝牙，请先开启蓝牙", nil)];
         
@@ -113,20 +111,6 @@
         self.modifyKey = [self.table.datas objectAtIndex:indexPath.row];
         [self showAlertView];
     }
-}
-
-#pragma mark -
-- (void)addLockWithPeripheral:(LockModel *)lock {
-    KeyModel *key = [[KeyModel alloc] init];
-    key.keyOwner = lock;
-    key.name = lock.address;
-    key.ower = [User sharedUser].gid;
-    [self.mainVC addKey:key];
-    [self.table.datas addObject:key];
-    __weak __typeof(self)weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf.table.tableView reloadData];
-    });
 }
 
 #pragma mark -

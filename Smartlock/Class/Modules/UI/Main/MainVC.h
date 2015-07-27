@@ -15,7 +15,6 @@
 
 @property (nonatomic, assign) NSInteger messageBadgeNumber;
 
-- (void)addKey:(KeyModel *)key;
 - (void)removeKey:(KeyModel *)key;
 
 - (void)loadLockList;

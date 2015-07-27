@@ -20,5 +20,7 @@
 - (void)setupBackItem:(NSString *)title;
 - (void)setupRightItem;
 
+- (void)reloadTableData;
+
 - (void)deselectRow;
 @end

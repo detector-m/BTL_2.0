@@ -90,31 +90,27 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self setBackButtonHide:YES];
-    
-#pragma mark -
-    self.navigationController.navigationBarHidden = YES;
-    self.bannersView.delegate = nil;
-
-    self.messageBadgeNumber = [[MyCoreDataManager sharedManager] objectsCountWithKey:@"isRead" contains:@NO withTablename:NSStringFromClass([Message class])];
-    
-    [self createAndScheduleAutoOpenlockTimer];
-     self.isMainVC = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    self.messageBadgeNumber = [[MyCoreDataManager sharedManager] objectsCountWithKey:@"isRead" contains:@NO withTablename:NSStringFromClass([Message class])];
+
+    self.navigationController.navigationBarHidden = YES;
     [self setBackButtonHide:YES];
+    [self loadBannersRequest];
+    
+    [self createAndScheduleAutoOpenlockTimer];
+    self.isMainVC = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBarHidden = NO;
     
+    self.navigationController.navigationBarHidden = NO;
     [self setBackButtonHide:NO];
-    [self.bannersView stopLoading];
-    self.bannersView.delegate = nil;
+    [self stopLoadingBannersRequest];
     
     [self cancelAutoOpenlockTimer];
     self.isMainVC = NO;
@@ -127,7 +123,8 @@
     
     [self setBackButtonHide:YES];
 
-    self.title = NSLocalizedString(@"yongjiakeji", nil);
+//    self.title = NSLocalizedString(@"yongjiakeji", nil);
+    self.title = @"";
     
     [self setupBLCentralManaer];
 
@@ -163,8 +160,8 @@
 }
 
 - (void)setupNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
@@ -175,14 +172,14 @@
 }
 
 #pragma mark -
-- (void)applictionWillEnterForeground:(id)sender {
-//    if(self.isMainVC)
-//        [self createAndScheduleAutoOpenlockTimer];
-}
-
-- (void)applictionDidEnterBackground:(id)sender {
-//    [self cancelAutoOpenlockTimer];
-}
+//- (void)applictionWillEnterForeground:(id)sender {
+////    if(self.isMainVC)
+////        [self createAndScheduleAutoOpenlockTimer];
+//}
+//
+//- (void)applictionDidEnterBackground:(id)sender {
+////    [self cancelAutoOpenlockTimer];
+//}
 
 - (void)applictionDidBecomeActive {
     if(self.isMainVC) {
@@ -211,7 +208,7 @@
         [self updateRecords];
     }
     else {
-        [self.bannersView stopLoading];
+        [self stopLoadingBannersRequest];
     }
 }
 
@@ -219,8 +216,17 @@ static CGFloat BannerViewHeight = 120.0f;
 static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 - (void)loadBannersRequest {
     if(!self.isBannersLoaded && !self.isBannersLoading) {
+        self.bannersView.delegate = self;
         self.isBannersLoading = YES;
         [self.bannersView loadRequest:[self requestForBanners:self.bannersUrl]];
+    }
+}
+
+- (void)stopLoadingBannersRequest {
+    self.isBannersLoading = NO;
+    if(!self.isBannersLoaded) {
+        [self.bannersView stopLoading];
+        self.bannersView.delegate = nil;
     }
 }
 
@@ -461,13 +467,6 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 }
 
 #pragma mark - public methods
-#pragma mark -
-- (void)addKey:(KeyModel *)key {
-    if(!key )
-        return;
-    [self.lockList addObject:key ];
-}
-
 - (void)removeKey:(KeyModel *)key {
     if(!key)
         return;

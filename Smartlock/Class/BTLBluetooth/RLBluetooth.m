@@ -12,6 +12,9 @@
 #import "BTLcmdRequest.h"
 #import "BTLcmdResponse.h"
 
+static NSString *kDestServicesUUIDString = @"1910";
+static NSString *kDestCharacteristicUUIDString = @"fff2";
+
 @interface RLBluetooth ()
 @property (nonatomic, readwrite, strong) RLCentralManager *manager;
 
@@ -194,7 +197,7 @@ static RLBluetooth *_sharedBluetooth = nil;
     [service discoverCharacteristicsWithCompletion:discoverServiceCharacteristicsCallback];
 }
 - (void)discoverPeripheralServiceCharacteristicsWithPeripheral:(RLPeripheral *)peripheral {
-    [self discoverPeripheralServiceCharacteristicsWithPeripheral:peripheral withServiceUUIDString:@"1910"];
+    [self discoverPeripheralServiceCharacteristicsWithPeripheral:peripheral withServiceUUIDString:kDestServicesUUIDString];
 }
 
 - (void)discoverServiceCharacteristicsWithService:(RLService *)service {
@@ -226,7 +229,7 @@ static RLBluetooth *_sharedBluetooth = nil;
                  withDisconnect:(void(^)(NSError *error))disconnectCallback {
     
     __weak __typeof(self)weakSelf = self;
-    RLService *service = [self serviceForUUIDString:@"1910" withPeripheral:peripheral];
+    RLService *service = [self serviceForUUIDString:kDestServicesUUIDString withPeripheral:peripheral];
     RLCharacteristic *characteristic = [self characteristicForNotifyWithService:service];
     if(characteristic.cbCharacteristic.isNotifying || characteristic.notified)
         return;
@@ -282,8 +285,8 @@ static RLBluetooth *_sharedBluetooth = nil;
 
 - (void)handlePeripheralRequestDataWithPeripheral:(RLPeripheral *)peripheral request:(RLPeripheralRequest *)request  {
     if(!peripheral || !request) return;
-    RLService *service = [self serviceForUUIDString:@"1910" withPeripheral:peripheral];
-    RLCharacteristic *characteristic = [self characteristicForUUIDString:@"fff2" withService:service];
+    RLService *service = [self serviceForUUIDString:kDestServicesUUIDString withPeripheral:peripheral];
+    RLCharacteristic *characteristic = [self characteristicForUUIDString:kDestCharacteristicUUIDString withService:service];
     if(!characteristic) return;
     
     NSData *dataToWrite = nil;
@@ -460,7 +463,7 @@ static RLBluetooth *_sharedBluetooth = nil;
                  withDisconnect:(void(^)(NSError *error))disconnectCallback {
     
     __weak __typeof(self)weakSelf = self;
-    RLService *service = [self serviceForUUIDString:@"1910" withPeripheral:peripheral];
+    RLService *service = [self serviceForUUIDString:kDestServicesUUIDString withPeripheral:peripheral];
     RLCharacteristic *characteristic = [self characteristicForNotifyWithService:service];
     if(characteristic.cbCharacteristic.isNotifying)
         return;
@@ -516,8 +519,8 @@ static RLBluetooth *_sharedBluetooth = nil;
 
 - (void)btlHandlePeripheralRequestDataWithPeripheral:(RLPeripheral *)peripheral request:(RLPeripheralRequest *)request  {
     if(!peripheral || !request) return;
-    RLService *service = [self serviceForUUIDString:@"1910" withPeripheral:peripheral];
-    RLCharacteristic *characteristic = [self characteristicForUUIDString:@"fff2" withService:service];
+    RLService *service = [self serviceForUUIDString:kDestServicesUUIDString withPeripheral:peripheral];
+    RLCharacteristic *characteristic = [self characteristicForUUIDString:kDestCharacteristicUUIDString withService:service];
     if(!characteristic) return;
     
     NSData *dataToWrite = nil;
@@ -711,7 +714,7 @@ static RLBluetooth *_sharedBluetooth = nil;
 #pragma mark - app method
 - (RLCharacteristic *)characteristicForNotifyWithPeripheralName:(NSString *)peripheralName {
     RLPeripheral *peripheral = [self peripheralForName:peripheralName];
-    RLService *service = [self serviceForUUIDString:@"1910" withPeripheral:peripheral];
+    RLService *service = [self serviceForUUIDString:kDestServicesUUIDString withPeripheral:peripheral];
     RLCharacteristic *characteristic = [self characteristicForNotifyWithService:service];
     
     return characteristic;

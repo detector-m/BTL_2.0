@@ -67,6 +67,10 @@
 
 }
 
+- (void)reloadTableData {
+
+}
+
 #pragma mark -
 - (void)deselectRow {
     self.table.tableView.userInteractionEnabled = NO;
@@ -86,7 +90,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return self.table.datas.count;
 }
 
 /*
