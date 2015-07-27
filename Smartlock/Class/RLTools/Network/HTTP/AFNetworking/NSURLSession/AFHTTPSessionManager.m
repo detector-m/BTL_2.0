@@ -227,8 +227,11 @@
 {
     NSError *serializationError = nil;
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&serializationError];
+#ifdef DEBUG
 #warning "Print url and parameters -------------"
     DLog(@"%@?%@", [request.URL absoluteString], [[NSString alloc] initWithData:request.HTTPBody encoding:self.requestSerializer.stringEncoding]);
+#endif
+
     if (serializationError) {
         if (failure) {
 #pragma clang diagnostic push
