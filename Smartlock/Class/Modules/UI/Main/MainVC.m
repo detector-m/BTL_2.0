@@ -160,7 +160,7 @@
 }
 
 - (void)setupNotification {
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -172,10 +172,18 @@
 }
 
 #pragma mark -
-//- (void)applictionWillEnterForeground:(id)sender {
-////    if(self.isMainVC)
-////        [self createAndScheduleAutoOpenlockTimer];
-//}
+- (void)applictionWillEnterForeground:(id)sender {
+    if(![[RLBluetooth sharedBluetooth] isSupportBluetoothLow]) {
+        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"不支持低功耗蓝牙！", nil)];
+        
+        return;
+    }
+    if(![[RLBluetooth sharedBluetooth] bluetoothIsReady])  {
+        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"未开启蓝牙！请打开蓝牙！", nil)];
+        
+        return;
+    }
+}
 //
 //- (void)applictionDidEnterBackground:(id)sender {
 ////    [self cancelAutoOpenlockTimer];
@@ -871,12 +879,12 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 - (void)openLockManual {
     if(![User getAutoOpenLockSwitch]) return;
     if(![[RLBluetooth sharedBluetooth] isSupportBluetoothLow]) {
-        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"不支持低功耗蓝牙！", nil)];
+//        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"不支持低功耗蓝牙！", nil)];
 
         return;
     }
     if(![[RLBluetooth sharedBluetooth] bluetoothIsReady])  {
-        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"未开启蓝牙！", nil)];
+//        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"未开启蓝牙！", nil)];
 
         return;
     }
