@@ -12,6 +12,9 @@
 #import "BTLcmdRequest.h"
 #import "BTLcmdResponse.h"
 
+#pragma mark -
+#import "RLSecurityPolicy.h"
+
 static NSString *kDestServicesUUIDString = @"1910";
 static NSString *kDestCharacteristicUUIDString = @"fff2";
 
@@ -287,6 +290,7 @@ static RLBluetooth *_sharedBluetooth = nil;
     if(!peripheral || !request) return;
     RLService *service = [self serviceForUUIDString:kDestServicesUUIDString withPeripheral:peripheral];
     RLCharacteristic *characteristic = [self characteristicForUUIDString:kDestCharacteristicUUIDString withService:service];
+    request.peripheralVersion = peripheral.version;
     if(!characteristic) return;
     
     NSData *dataToWrite = nil;
@@ -302,7 +306,10 @@ static RLBluetooth *_sharedBluetooth = nil;
         }
             break;
         //开锁
-        case 0x02:
+        case 0x02: {
+            dataToWrite = [self dataToWriteWithPeripheralRequest:request];
+        }
+            break;
         case 0x03: {
             dataToWrite = [self dataToWriteWithPeripheralRequest:request];
         }
@@ -326,19 +333,80 @@ static RLBluetooth *_sharedBluetooth = nil;
     }
     
     if(!dataToWrite) return;
-    [self writeDataToCharacteristic:characteristic cmdCode:request.cmdCode cmdMode:request.cmdMode withDatas:dataToWrite];
+//    [self writeDataToCharacteristic:characteristic cmdCode:request.cmdCode cmdMode:request.cmdMode withDatas:dataToWrite];
+    [self writeDataToCharacteristicWithPeripheralRequest:request characteristic:characteristic withDatas:dataToWrite];
 }
 
 /*
     0->管理员
     1->非管理员
  */
-- (NSData *)dataToWriteWithPeripheralRequest:(RLPeripheralRequest *)request {
+- (NSData *)dataToWriteWithPeripheralRequestForVersion_01:(RLPeripheralRequest *)request {
     if(!request || request.cmdCode == 0x00) return nil;
     int len = 0;
     long long data = request.userPwd;
     
     Byte *dateData = nil;
+    
+    if(request.userType == 1) {
+        if(request.cmdCode == 0x02) {
+            request.cmdMode = 0x01; //非管理员
+            dateData = dateToBytes(&len, request.invalidDate.length? request.invalidDate: @"2015-12-18");
+        }
+        else { return nil; }
+    }
+    else { //管理员
+        if(request.cmdCode == 0x02) {
+            request.cmdMode = 0x00; //管理员
+        }
+        else {
+            request.cmdMode = 0x01;
+        }
+        dateData = dateNowToBytes(&len);
+        self.peripheralResponse = [[RLPeripheralResponse alloc] init];
+        self.peripheralResponse.timeData = [NSData dataWithBytes:dateData length:len];
+    }
+    
+    int dataSize = sizeof(data);
+    int size = dataSize+len;
+    Byte *tempData = calloc(size, sizeof(Byte));
+    append_bytes_to_bytes(tempData, dateData, len, (Byte *)&data, dataSize);
+    
+    NSData *writeData = [NSData dataWithBytes:tempData length:size];
+
+    free(tempData);
+    tempData = NULL;
+    
+    return writeData;
+}
+
+- (NSData *)dataToWriteWithPeripheralRequest:(RLPeripheralRequest *)request {
+    if(!request || request.cmdCode == 0x00) return nil;
+    
+    if(request.peripheralVersion <= kPeripheralVersion1) {
+        return [self dataToWriteWithPeripheralRequestForVersion_01:request];
+    }
+    
+    int len = 0, startDateLen = 0;
+    long long data = request.userPwd;
+    
+    Byte *dateData = nil;
+
+#pragma mark -
+    Byte *startDateBytes = NULL;
+//    request.startDate = @"2015-07-29 00:00:00";
+    if(request.cmdCode == 0x02) {
+        if(!request.startDate || request.startDate.length == 0) {
+            dateData = dateNowToBytes(&startDateLen);
+        }
+        else {
+            dateData = dateToBytes(&startDateLen, request.startDate);
+        }
+        startDateBytes = calloc(startDateLen, sizeof(Byte));
+        memcpy(startDateBytes, dateData, startDateLen);
+    }
+#pragma makr -
+    
     if(request.userType == 1) {
         if(request.cmdCode == 0x02) {
             request.cmdMode = 0x01; //非管理员
@@ -368,27 +436,84 @@ static RLBluetooth *_sharedBluetooth = nil;
 //        tempData[j] = temp[j-len];
 //    }
     
+//    int dataSize = sizeof(data);
+//    int size = dataSize+len;
+//    Byte *tempData = calloc(size, sizeof(Byte));
+//    append_bytes_to_bytes(tempData, dateData, len, (Byte *)&data, dataSize);
+    
+#pragma mark -
     int dataSize = sizeof(data);
-    int size = dataSize+len;
+    int size = dataSize+len + startDateLen;
     Byte *tempData = calloc(size, sizeof(Byte));
-    append_bytes_to_bytes(tempData, dateData, len, (Byte *)&data, dataSize);
 
-    NSData *writeData = [NSData dataWithBytes:tempData length:dataSize+len];
+    //起止时间
+    append_bytes_to_bytes(tempData, dateData, len, startDateBytes, startDateLen);
+    
+//        int i=0;
+//    for(; i<12; i++) {
+//        if(i%6 == 0) {
+//            NSLog(@"\n");
+//        }
+//        NSLog(@"%0x", tempData[i]);
+//    }
+//    for(int j=0; j<dataSize; j++) {
+//        Byte *bytes = (Byte *)&data;
+//        NSLog(@"%0x", bytes[j]);
+//    }
+    
+    //时间和管理员ID
+    append_bytes_to_bytes(tempData+len + startDateLen, (Byte *)&data, dataSize, NULL, 0);
+//    for(; i<size; i++) {
+//        NSLog(@"%0x", tempData[i]);
+//    }
+
+#pragma mark -
+
+    NSData *writeData = [NSData dataWithBytes:tempData length:size];
+    free(startDateBytes);
     free(tempData);
+    
+    startDateBytes = NULL;
+    tempData = NULL;
     
     return writeData;
 }
 
 #pragma mark -
-- (void)writeDataToCharacteristic:(RLCharacteristic *)characteristic cmdCode:(Byte)cmdCode cmdMode:(Byte)cmdMode withDatas:(NSData *)data {
+- (void)writeDataToCharacteristicWithPeripheralRequest:(RLPeripheralRequest *)request characteristic:(RLCharacteristic *)characteristic /*cmdCode:(Byte)cmdCode cmdMode:(Byte)cmdMode*/ withDatas:(NSData *)data {
+    
+    if(request.peripheralVersion <= kPeripheralVersion1) {
+        [self writeDataToCharacteristicForVersion_01:characteristic cmdCode:request.cmdCode cmdMode:request.cmdMode withDatas:data];
+    }
+    else {
+        [self writeDataToCharacteristic:characteristic cmdCode:request.cmdCode cmdMode:request.cmdMode withDatas:data needTea:YES];
+    }
+}
+
+- (void)writeDataToCharacteristicForVersion_01:(RLCharacteristic *)characteristic cmdCode:(Byte)cmdCode cmdMode:(Byte)cmdMode withDatas:(NSData *)data {
+    [self writeDataToCharacteristic:characteristic cmdCode:cmdCode cmdMode:cmdMode withDatas:data needTea:NO];
+}
+- (void)writeDataToCharacteristic:(RLCharacteristic *)characteristic cmdCode:(Byte)cmdCode cmdMode:(Byte)cmdMode withDatas:(NSData *)data needTea:(BOOL)needTea
+/*- (void)writeDataToCharacteristic:(RLCharacteristic *)characteristic cmdCode:(Byte)cmdCode cmdMode:(Byte)cmdMode withDatas:(NSData *)data*/ {
     if(characteristic.cbCharacteristic.properties == CBCharacteristicPropertyWrite || CBCharacteristicPropertyWriteWithoutResponse == characteristic.cbCharacteristic.properties) {
         
         union btl_cmd_mode mode = {cmdMode};
         struct btl_cmd cmd = get_cmd(cmdCode, mode);
+        
+#pragma mark -
+        NSData *teaData = nil;
+        Byte teaVKey = 0;
+        if(needTea) {
+            teaData = btlXXTEAByteEncryptDataWithFinalKey(data, &teaVKey);
+            cmd.btl_cmd_result.keep = teaVKey;
+        }
+        else
+            teaData = data;
+#pragma mark -
         cmd.btl_cmd_CRC = cmd_crc_check(&cmd);
         
-        cmd.btl_cmd_data = (Byte *)[data bytes];
-        cmd.btl_cmd_data_len = data.length;//sizeof(data);
+        cmd.btl_cmd_data = (Byte *)[teaData bytes];
+        cmd.btl_cmd_data_len = teaData.length;//sizeof(data);
         cmd.btl_cmd_CRC += cmd.btl_cmd_data_len;
         
         cmd.btl_cmd_CRC +=  bytes_crc_check(cmd.btl_cmd_data, cmd.btl_cmd_data_len);
@@ -538,7 +663,7 @@ static RLBluetooth *_sharedBluetooth = nil;
             //开锁
         case 0x02:
         case 0x03: {
-            dataToWrite = [self dataToWriteWithPeripheralRequest:request];
+            dataToWrite = [self btlCmdDataToWriteWithPeripheralRequest:request];
         }
             break;
         case 0x04:
@@ -570,6 +695,7 @@ static RLBluetooth *_sharedBluetooth = nil;
  1->非管理员
  */
 - (NSData *)btlCmdDataToWriteWithPeripheralRequest:(RLPeripheralRequest *)request {
+#if 0
     if(!request || request.cmdCode == 0x00) return nil;
     int len = 0;
     long long data = request.userPwd;
@@ -607,6 +733,9 @@ static RLBluetooth *_sharedBluetooth = nil;
     free(tempData);
     
     return writeData;
+#endif
+    
+    return [self dataToWriteWithPeripheralRequest:request];
 }
 
 - (void)btlCmdWriteDataToCharacteristic:(RLCharacteristic *)characteristic withCmdRequest:(BTLcmdRequest *)cmdRequest {

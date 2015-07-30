@@ -31,10 +31,12 @@ typedef NS_ENUM(NSInteger, KeyType) {
 @interface KeyModel : DeviceModel
 @property (nonatomic, assign) NSUInteger lockID;
 @property (nonatomic, assign) NSUInteger validCount;
+@property (nonatomic, strong) NSString *startDate; //开始日期
 @property (nonatomic, strong) NSString *invalidDate; //截至日期
 @property (nonatomic, assign) KeyStatus keyStatus;
 @property (nonatomic, assign) UserType userType;
 
+@property (nonatomic, assign) long long startTimeInterval;
 @property (nonatomic, assign) long long invalidTimeInterval;
 
 #pragma mark -

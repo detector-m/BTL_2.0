@@ -17,6 +17,7 @@ extern NSDictionary *keyEntityDictionaryFromKeyModel(KeyModel *key);
 @interface KeyEntity : NSManagedObject
 
 @property (nonatomic, retain) NSString * caption;
+@property (nonatomic, retain) NSString * startDate;
 @property (nonatomic, retain) NSString * endDate;
 @property (nonatomic, retain) NSNumber * keyID;
 @property (nonatomic, retain) NSNumber * lockID;

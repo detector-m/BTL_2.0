@@ -59,6 +59,7 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
         self.cbPeripheral = aPeripheral;
         self.cbPeripheral.delegate = self;
         self.manager = manager;
+//        self.version = [[self.name substringWithRange:NSMakeRange(PeripheralPreStr.length+2, 2)] integerValue];
     }
     return self;
 }

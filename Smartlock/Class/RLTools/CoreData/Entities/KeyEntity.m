@@ -25,6 +25,7 @@ NSDictionary *keyEntityDictionaryFromKeyModel(KeyModel *key) {
     [muDic setObject:key.name?:@"" forKey:@"name"];
     [muDic setObject:key.caption?:@"" forKey:@"caption"];
     [muDic setObject:key.ower?:@"" forKey:@"ownUser"];
+    [muDic setObject:key.startDate?:@"" forKey:@"startDate"];
     [muDic setObject:key.invalidDate?:@"" forKey:@"endDate"];
     
     LockEntity *lock = (LockEntity *)[[MyCoreDataManager sharedManager] insertRecordForTable:NSStringFromClass([LockEntity class]) attributes:lockEntityDictionaryFromLockModel(key.keyOwner)];
@@ -36,6 +37,7 @@ NSDictionary *keyEntityDictionaryFromKeyModel(KeyModel *key) {
 @implementation KeyEntity
 
 @dynamic caption;
+@dynamic startDate;
 @dynamic endDate;
 @dynamic keyID;
 @dynamic lockID;

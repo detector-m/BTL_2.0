@@ -29,6 +29,10 @@ extern NSData *decryptWithVariableKey(NSData *data, Byte *key);
 
 extern NSString *encryptedTokenToBase64(NSString *token, NSData *certificazteData);
 
+
+NSData *btlXXTEAByteEncryptDataWithFinalKey(NSData *data, Byte *variableKey);
+NSData *btlXXTEAByteDecryptDataWithFinalKey(NSData *data, Byte variableKey);
+
 @interface RLSecurityPolicy : NSObject
 
 @end

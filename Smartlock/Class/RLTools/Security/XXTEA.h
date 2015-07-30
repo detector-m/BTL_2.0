@@ -10,6 +10,10 @@
 
 #import "GTMBase64.h"
 
+extern void xxtea_byte_encrypt(uint8_t *v, uint32_t len, uint32_t *k);
+extern void xxtea_byte_decrypt(uint8_t *v, uint32_t len, uint32_t *k);
+
+
 #define XXTeaKeyLength (16)
 
 /**

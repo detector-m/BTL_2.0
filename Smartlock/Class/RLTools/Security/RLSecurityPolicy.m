@@ -116,6 +116,39 @@ NSString *encryptedTokenToBase64(NSString *token, NSData *certificazteData) {
     return [GTMBase64 stringByWebSafeEncodingData:data padded:NO];
 }
 
+#pragma mark -
+NSData *btlXXTEAByteEncryptDataWithFinalKey(NSData *data, Byte *variableKey) {
+    long long timeInterval = getTimestamp();
+    *variableKey = ((Byte *)&timeInterval)[0];
+    Byte key[16] = {0};
+    memcpy(key, finalKey, 16);
+    for(int i=0; i<16; i++) {
+        key[i] ^= *variableKey;
+    }
+    
+    uint32_t bytes_len = data.length;
+    uint8_t *bytes = (uint8_t *)malloc(bytes_len);
+    memcpy(bytes, data.bytes, data.length);
+    
+//    btea((uint32_t *)bytes, len, (uint32_t *)key);
+    xxtea_byte_encrypt(bytes, bytes_len, (uint32_t *)key);
+    return [NSData dataWithBytesNoCopy:bytes length:bytes_len];
+}
+
+NSData *btlXXTEAByteDecryptDataWithFinalKey(NSData *data, Byte variableKey) {
+    Byte key[16] = {0};
+    memcpy(key, finalKey, 16);
+    for(int i=0; i<16; i++) {
+        key[i] ^= variableKey;
+    }
+    
+    uint32_t bytes_len = (uint32_t)data.length;
+    uint8_t *bytes = (uint8_t *)malloc(bytes_len);
+    memcpy(bytes, data.bytes, bytes_len);
+    xxtea_byte_decrypt(bytes, bytes_len, (uint32_t *)key);
+    return [NSData dataWithBytesNoCopy:bytes length:bytes_len];
+}
+
 @implementation RLSecurityPolicy
 
 @end

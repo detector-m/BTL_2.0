@@ -21,14 +21,21 @@ static NSString *kInvalidDateString = @"1970-01-01";
         self.type = [parameters[@"keyType"] integerValue];
         self.userType = [parameters[@"userType"] integerValue];
         self.name = [parameters objectForKey:@"lockName"];
+        
+        long long timeStamp = [[parameters objectForKey:@"startTime"] longLongValue];
+        timeStamp /= 1000;
+        self.startTimeInterval = timeStamp;
+        NSString *timeString = dateStringFromTimestamp(timeStamp);
+        self.startDate = timeString;
+        
         if(self.type == kKeyTypeForever) {
             self.invalidDate = kForeverDateString;
         }
         else if(self.type == kKeyTypeDate) {
-            long long timeStamp = [[parameters objectForKey:@"validTime"] longLongValue];
+            timeStamp = [[parameters objectForKey:@"validTime"] longLongValue];
             timeStamp /= 1000;
             self.invalidTimeInterval = timeStamp;
-            NSString *timeString = dateStringFromTimestamp(timeStamp);
+            timeString = dateStringFromTimestamp(timeStamp);
             self.invalidDate = timeString;
         }
         else {
@@ -54,6 +61,7 @@ static NSString *kInvalidDateString = @"1970-01-01";
         self.lockID = [keyEntity.lockID integerValue];
         self.type = [keyEntity.type integerValue];
         self.status = [keyEntity.status integerValue];
+        self.startDate = [keyEntity startDate];
         self.invalidDate = [keyEntity endDate];
         self.caption = keyEntity.caption;
         self.name = keyEntity.name;
@@ -74,6 +82,7 @@ static NSString *kInvalidDateString = @"1970-01-01";
     [parameters setObject:[RLTypecast integerToString:self.lockID] forKey:@"bleLockId"];
     [parameters setObject:self.ower forKey:@"memberGid"];
     [parameters setObject:[RLTypecast integerToString:self.type] forKey:@"keyType"];
+//    [parameters setObject:[RLTypecast integerToString:self.validCount] forKey:@"startTime"] forKey:@"startTime"];
     [parameters setObject:[RLTypecast integerToString:self.validCount] forKey:@"validTime"];
     [parameters setObject:self.token forKey:@"accessToken"];
     
@@ -88,7 +97,7 @@ static NSString *kInvalidDateString = @"1970-01-01";
     else if(self.type == kKeyTypeDate) {
         long long time = timestampSince1970();
         
-        return self.invalidTimeInterval >= time;
+        return self.invalidTimeInterval >= time || self.startTimeInterval <= time;
     }
     return self.status != kKeyExpire && self.status != kKeyFreeze;
 }

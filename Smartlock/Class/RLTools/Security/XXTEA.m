@@ -23,6 +23,7 @@
 
 #import "XXTEA.h"
 
+#if 1
 typedef uint32_t xxtea_long;
 
 #define XXTEA_MX (z >> 5 ^ y << 2) + (y >> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z)
@@ -102,6 +103,46 @@ static char *xxtea_to_byte_array(xxtea_long *data, xxtea_long len, int include_l
     result[n] = '\0';
     *ret_len = n;
     return result;
+}
+#endif
+
+#define XXTEA_BTYPE_MX (z >> 5 ^ y << 2) + (y >> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z)
+#define XXTEA_BTYPE_DELTA 0x9e3779b9
+
+void xxtea_byte_encrypt(uint8_t *v, uint32_t len, uint32_t *k) {
+    uint32_t n = len - 1;
+    uint8_t z = v[n], y = v[0], p, q = 6 + 52 / (n + 1), sum = 0, e;
+    if (n < 1) {
+        return;
+    }
+    while (0 < q--) {
+        sum += XXTEA_BTYPE_DELTA;
+        e = sum >> 2 & 3;
+        for (p = 0; p < n; p++) {
+            y = v[p + 1];
+            z = v[p] += XXTEA_BTYPE_MX;
+        }
+        y = v[0];
+        z = v[n] += XXTEA_BTYPE_MX;
+    }
+}
+
+void xxtea_byte_decrypt(uint8_t *v, uint32_t len, uint32_t *k) {
+    uint32_t n = len - 1;
+    uint8_t z = v[n], y = v[0], p, q = 6 + 52 / (n + 1), sum = q * XXTEA_BTYPE_DELTA, e;
+    if (n < 1) {
+        return;
+    }
+    while (sum != 0) {
+        e = sum >> 2 & 3;
+        for (p = n; p > 0; p--) {
+            z = v[p - 1];
+            y = v[p] -= XXTEA_BTYPE_MX;
+        }
+        z = v[n];
+        y = v[0] -= XXTEA_BTYPE_MX;
+        sum -= XXTEA_BTYPE_DELTA;
+    }
 }
 
 

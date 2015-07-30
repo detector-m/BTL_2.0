@@ -77,12 +77,14 @@
 @property (nonatomic, assign) BOOL isMainVC;
 
 @property (atomic, assign) BOOL isOpenLockNow;
+
+@property (nonatomic, assign) BOOL isNeedPop;
 @end
 
 @implementation MainVC
 
 - (void)dealloc {
-    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockManualNoResponseHandler) object:nil];
+    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockNoResponseHandler) object:nil];
     
     [self.lockList removeAllObjects], self.lockList = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -118,6 +120,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _isNeedPop = YES;
     
     [User sharedUser].isLogined = YES;
     
@@ -161,7 +165,7 @@
 
 - (void)setupNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applictionWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
@@ -173,6 +177,7 @@
 
 #pragma mark -
 - (void)applictionWillEnterForeground:(id)sender {
+    _isNeedPop = YES;
     if(![[RLBluetooth sharedBluetooth] isSupportBluetoothLow]) {
         [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"不支持低功耗蓝牙！", nil)];
         
@@ -184,23 +189,22 @@
         return;
     }
 }
-//
-//- (void)applictionDidEnterBackground:(id)sender {
-////    [self cancelAutoOpenlockTimer];
-//}
+
+- (void)applictionDidEnterBackground:(id)sender {
+    _isNeedPop = NO;
+}
 
 - (void)applictionDidBecomeActive {
     if(self.isMainVC) {
-        [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockManualNoResponseHandler) object:nil];
+        [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockNoResponseHandler) object:nil];
         [[RLBluetooth sharedBluetooth] scanPeripheralsWithCompletionBlock:nil];
         [self createAndScheduleAutoOpenlockTimer];
     }
 }
 
 - (void)applictionWillResignActive {
-    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockManualNoResponseHandler) object:nil];
+    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockNoResponseHandler) object:nil];
     [self cancelAutoOpenlockTimer];
-
 }
 
 #pragma mark ----------- network status changed
@@ -417,18 +421,18 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 }
 
 - (void)clickSendKeyBtn:(UIButton *)button {
-    BOOL isAdmin = NO;
-    for(KeyModel *key in self.lockList) {
-        if(key.userType == 0) {
-            isAdmin = YES;
-            break;
-        }
-    }
-    
-    if(!isAdmin) {
-        [RLHUD hudAlertWarningWithBody:NSLocalizedString(@"你并非管理员！", nil)];
-        return;
-    }
+//    BOOL isAdmin = NO;
+//    for(KeyModel *key in self.lockList) {
+//        if(key.userType == 0) {
+//            isAdmin = YES;
+//            break;
+//        }
+//    }
+//    
+//    if(!isAdmin) {
+//        [RLHUD hudAlertWarningWithBody:NSLocalizedString(@"你并非管理员！", nil)];
+//        return;
+//    }
     SendKeyVC *vc = [[SendKeyVC alloc] init];
     vc.title = NSLocalizedString(@"发送钥匙", nil);
     [self.navigationController pushViewController:vc animated:YES];
@@ -532,37 +536,38 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
  *
  *  @param characteristic characteristic
  */
-- (void)updateLockTimeWithCharacteristic:(RLCharacteristic *)characteristic withKey:(KeyModel *)key {
-    if(!(key.userType == kUserTypeAdmin))
-        return;
-    int len = 0;
-    long long data = key.keyOwner.pwd;
-    Byte *dateData = dateNowToBytes(&len);
-    self.dateData = [NSData dataWithBytes:dateData length:len];
-    int size = sizeof(data)+len;
-    Byte *tempData = calloc(size, sizeof(Byte));
-    memcpy(tempData, dateData, len);
-    
-    Byte *temp = (Byte *)&(data);
-    for(NSInteger j = len; j<size; j++) {
-        tempData[j] = temp[j-len];
-    }
-    
-    NSData *writeData = [NSData dataWithBytes:tempData length:size];
-    free(tempData);
-    
-    Byte cmdMode = 0x01; //0x01->设置 0x00->读取
-    
-    [[RLBluetooth sharedBluetooth] writeDataToCharacteristic:characteristic cmdCode:0x03 cmdMode:cmdMode withDatas:writeData];
-}
 
-- (void)readLockPowerWithCharacteristic:(RLCharacteristic *)characteristic withKey:(KeyModel *)key {
-    long long data = key.keyOwner.pwd;
-    NSData *writeData = [NSData dataWithBytes:&data length:sizeof(long long)];
-    Byte cmdMode = 0x00; //0x01->设置 0x00->读取
-    
-    [[RLBluetooth sharedBluetooth] writeDataToCharacteristic:characteristic cmdCode:0x06 cmdMode:cmdMode withDatas:writeData];
-}
+//- (void)updateLockTimeWithCharacteristic:(RLCharacteristic *)characteristic withKey:(KeyModel *)key {
+//    if(!(key.userType == kUserTypeAdmin))
+//        return;
+//    int len = 0;
+//    long long data = key.keyOwner.pwd;
+//    Byte *dateData = dateNowToBytes(&len);
+//    self.dateData = [NSData dataWithBytes:dateData length:len];
+//    int size = sizeof(data)+len;
+//    Byte *tempData = calloc(size, sizeof(Byte));
+//    memcpy(tempData, dateData, len);
+//    
+//    Byte *temp = (Byte *)&(data);
+//    for(NSInteger j = len; j<size; j++) {
+//        tempData[j] = temp[j-len];
+//    }
+//    
+//    NSData *writeData = [NSData dataWithBytes:tempData length:size];
+//    free(tempData);
+//    
+//    Byte cmdMode = 0x01; //0x01->设置 0x00->读取
+//    
+//    [[RLBluetooth sharedBluetooth] writeDataToCharacteristic:characteristic cmdCode:0x03 cmdMode:cmdMode withDatas:writeData];
+//}
+//
+//- (void)readLockPowerWithCharacteristic:(RLCharacteristic *)characteristic withKey:(KeyModel *)key {
+//    long long data = key.keyOwner.pwd;
+//    NSData *writeData = [NSData dataWithBytes:&data length:sizeof(long long)];
+//    Byte cmdMode = 0x00; //0x01->设置 0x00->读取
+//    
+//    [[RLBluetooth sharedBluetooth] writeDataToCharacteristic:characteristic cmdCode:0x06 cmdMode:cmdMode withDatas:writeData];
+//}
 
 #pragma mark -
 - (void)openLockAnimation:(UIButton *)button {
@@ -596,6 +601,20 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 }
 
 #pragma mark －
+- (void)noResponseHandlerForOpenLock {
+    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockNoResponseHandler) object:nil];
+    [self performSelector:@selector(openLockNoResponseHandler) withObject:nil afterDelay:1.5f];
+}
+
+- (void)openLockNoResponseHandler {
+    if(![User getAutoOpenLockSwitch]) {
+        self.isOpenLockNow = NO;
+    }
+    else {
+        self.openLockBtn.userInteractionEnabled = YES;
+    }
+    
+}
 
 - (void)openLockWithPeripherals:(NSArray *)peripherals success:(void (^)(RLPeripheralResponse *peripheralRes))success failure:(void (^) (NSArray *peripherals, NSError *error))failure {
     __weak __typeof(self)weakSelf = self;
@@ -616,9 +635,15 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         RLPeripheralRequest *perRequest = [[RLPeripheralRequest alloc] init];
         perRequest.cmdCode = 0x02;
         perRequest.userPwd = key.keyOwner.pwd;
+        perRequest.userType = key.userType;
+        perRequest.startDate = key.startDate;
+        perRequest.invalidDate = key.invalidDate;
         
+        [self noResponseHandlerForOpenLock];
         [[RLBluetooth sharedBluetooth] connectPeripheralThanHandlePeripheral:peripheral withPeripheralRequest:perRequest connectionCompletion:^(NSError *error) {
             if(error) {
+                [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockNoResponseHandler) object:nil];
+
                 if(failure) {
                     failure(peripherals, error);
                 }
@@ -627,18 +652,23 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
             
         } notifyCompletion:^(NSError *error) {
             if(error) {
+                [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockNoResponseHandler) object:nil];
+
                 if(failure) {
                     failure(peripherals, error);
                 }
                 return ;
             }
         } onUpdateData:^(RLPeripheralResponse *peripheralRes, NSError *error) {
+            [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockNoResponseHandler) object:nil];
+
             if(error) {
                 if(failure) {
                     failure(peripherals, error);
                 }
                 return ;
             }
+
             if(peripheralRes.result == 0x00) {
                 [weakSelf addOpenLockRecordWithKey:key];
             }
@@ -653,6 +683,8 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     }
     
     if(failure) {
+        [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockNoResponseHandler) object:nil];
+
         failure(peripherals, nil);
     }
 }
@@ -660,82 +692,7 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 - (void)openLockWithSuccess:(void (^)(RLPeripheralResponse *peripheralRes))success failure:(void (^) (NSArray *peripherals, NSError *error))failure {
     if(![[RLBluetooth sharedBluetooth] isSupportBluetoothLow]) return;
     if(![[RLBluetooth sharedBluetooth] bluetoothIsReady]) return;
-#if 1
-//    [[RLBluetooth sharedBluetooth] scanPeripheralsWithCompletionBlock:^(NSArray *peripherals) {
-//        if(!peripherals.count) {
-//            if(failure) {
-//                failure(nil, nil);
-//            }
-//            
-//            return ;
-//        }
-//        
-//        for(KeyModel *key in weakSelf.lockList) {
-//            if(![key isValid]) {
-//                continue;
-//            }
-//            
-//            RLPeripheral *peripheral = [[RLBluetooth sharedBluetooth] peripheralForName:key.keyOwner.address];
-//            
-//            RLPeripheralRequest *perRequest = [[RLPeripheralRequest alloc] init];
-//            perRequest.cmdCode = 0x02;
-//            perRequest.userPwd = key.keyOwner.pwd;
-//            
-//            [[RLBluetooth sharedBluetooth] connectPeripheralThanHandlePeripheral:peripheral withPeripheralRequest:perRequest connectionCompletion:^(NSError *error) {
-//                if(error) {
-//                    if(failure) {
-//                        failure(peripherals, error);
-//                    }
-//                    return ;
-//                }
-//                
-//            } notifyCompletion:^(NSError *error) {
-//                if(error) {
-//                    if(failure) {
-//                        failure(peripherals, error);
-//                    }
-//                    return ;
-//                }
-//            } onUpdateData:^(RLPeripheralResponse *peripheralRes, NSError *error) {
-//                if(error) {
-//                    if(failure) {
-//                        failure(peripherals, error);
-//                    }
-//                    return ;
-//                }
-//                if(peripheralRes.result == 0x00) {
-//                    [weakSelf addOpenLockRecordWithKey:key];
-//                    
-//                    [RLHUD hudAlertSuccessWithBody:NSLocalizedString(@"开门成功！", nil)];
-//
-//                }
-//                else /*if(peripheralRes.result == 0x02)*/ {
-//                    [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"请重新设置管理员！", nil)];
-//                }
-//                
-//                if(peripheralRes.powerCode == 0x01) {
-//                    [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"电池电压过低，请更换电池！", nil)];
-//                }
-//                
-//                if(peripheralRes.updateTimeCode == 0x01) {
-//                    
-//                }
-//                
-//                
-//                if(success) {
-//                    success(peripheralRes);
-//                }
-//                
-//            } withDisconnect:nil];
-//            
-//            if(peripheral) return;
-//        }
-//        
-//        if(failure) {
-//            failure(peripherals, nil);
-//        }
-//    }];
-    
+
     NSArray *peripherals = [RLBluetooth sharedBluetooth].manager.peripherals;
     if(!peripherals.count) {
         [[RLBluetooth sharedBluetooth] scanPeripheralsWithCompletionBlock:^(NSArray *tempPeripherals) {
@@ -753,68 +710,8 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     }
     
     [self openLockWithPeripherals:peripherals success:success failure:failure];
-#else
-    [[RLBluetooth sharedBluetooth] scanPeripheralsWithCompletionBlock:^(NSArray *peripherals) {
-        if(!peripherals.count) {
-            if(failure) {
-                failure(nil, nil);
-            }
-            
-            return ;
-        }
-        
-        for(KeyModel *key in weakSelf.lockList) {
-            if(![key isValid]) {
-                continue;
-            }
-            
-            RLPeripheral *peripheral = [[RLBluetooth sharedBluetooth] peripheralForName:key.keyOwner.address];
-            
-            RLPeripheralRequest *perRequest = [[RLPeripheralRequest alloc] init];
-            perRequest.cmdCode = 0x02;
-            perRequest.userPwd = key.keyOwner.pwd;
-            
-            [[RLBluetooth sharedBluetooth] btlConnectPeripheralThanHandlePeripheral:peripheral withPeripheralRequest:perRequest connectionCompletion:^(NSError *error) {
-                if(error) {
-                    if(failure) {
-                        failure(peripherals, error);
-                    }
-                    return ;
-                }
-                
-            } notifyCompletion:^(NSError *error) {
-                if(error) {
-                    if(failure) {
-                        failure(peripherals, error);
-                    }
-                    return ;
-                }
-            } onUpdateData:^(RLPeripheralResponse *peripheralRes, NSError *error) {
-                if(error) {
-                    if(failure) {
-                        failure(peripherals, error);
-                    }
-                    return ;
-                }
-                if(peripheralRes.result == 0x00) {
-                    [weakSelf addOpenLockRecordWithKey:key];
-                }
-                
-                if(success) {
-                    success(peripheralRes);
-                }
-                
-            } withDisconnect:nil];
-            
-            if(peripheral) return;
-        }
-        
-        if(failure) {
-            failure(peripherals, nil);
-        }
-    }];
-#endif
 }
+
 - (void)openLock {
     __weak __typeof(self)weakSelf = self;
     if(self.isOpenLockNow) return;
@@ -827,6 +724,10 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
                 if([User getVoiceSwitch]) return ;
                 AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
                 [[SoundManager sharedManager] playSound:@"DoorOpened.mp3" looping:NO];
+            }
+            else if(peripheralRes.result == 0x0b) {
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
+                weakSelf.isOpenLockNow = NO;
             }
             else /*if(peripheralRes.result == 0x02)*/ {
                 [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"请重新设置管理员！", nil)];
@@ -844,64 +745,65 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         });
         
     } failure:^(NSArray *peripherals, NSError *error) {
-        if(!peripherals) {
-            if(error) {
-                dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(!peripherals) {
+                if(error) {
                     [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"连接出错!", nil)];
-                });
+                }
             }
-        }
-        else {
-            if(peripherals.count == 0) {
-                dispatch_async(dispatch_get_main_queue(), ^{
+            else {
+                if(peripherals.count == 0) {
                     [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
-
-                });
+                }
+                else if(peripherals.count > 0) {
+                    if(weakSelf.isOpenLockNow && weakSelf.isNeedPop) {
+                        weakSelf.isNeedPop = NO;
+                        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
+                    }
+                }
             }
-            else if(peripherals.count > 0) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
-                });
-            }
-        }
-        weakSelf.isOpenLockNow = NO;
+            
+            weakSelf.isOpenLockNow = NO;
+        });
     }];
 }
 
-- (void)noResponseHandlerForOpenLockManual {
-    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockManualNoResponseHandler) object:nil];
-    [self performSelector:@selector(openLockManualNoResponseHandler) withObject:nil afterDelay:3.0f];
-}
-
-- (void)openLockManualNoResponseHandler {
-    self.openLockBtn.userInteractionEnabled = YES;
-}
+//- (void)noResponseHandlerForOpenLockManual {
+//    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockManualNoResponseHandler) object:nil];
+//    [self performSelector:@selector(openLockManualNoResponseHandler) withObject:nil afterDelay:3.0f];
+//}
+//
+//- (void)openLockManualNoResponseHandler {
+//    self.openLockBtn.userInteractionEnabled = YES;
+//}
 - (void)openLockManual {
     if(![User getAutoOpenLockSwitch]) return;
     if(![[RLBluetooth sharedBluetooth] isSupportBluetoothLow]) {
-//        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"不支持低功耗蓝牙！", nil)];
-
         return;
     }
     if(![[RLBluetooth sharedBluetooth] bluetoothIsReady])  {
-//        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"未开启蓝牙！", nil)];
-
         return;
     }
     __weak __typeof(self)weakSelf = self;
     self.openLockBtn.userInteractionEnabled = NO;
-    [self noResponseHandlerForOpenLockManual];
     [self openLockWithSuccess:^(RLPeripheralResponse *peripheralRes) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockManualNoResponseHandler) object:nil];
-
-            [weakSelf openLockAnimation:weakSelf.openLockBtn];
+            weakSelf.openLockBtn.userInteractionEnabled = YES;
+            
             if(peripheralRes.result == 0x00) {
+                [weakSelf openLockAnimation:weakSelf.openLockBtn];
+
                 [RLHUD hudAlertSuccessWithBody:NSLocalizedString(@"开门成功！", nil)];
 
                 if([User getVoiceSwitch]) return ;
                 AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
                 [[SoundManager sharedManager] playSound:@"DoorOpened.mp3" looping:NO];
+            }
+            else if(peripheralRes.result == 0x0b) {
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"钥匙还未到开锁期限！", nil)];
+            }
+            else {
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"请重新设置管理员！", nil)];
             }
             
             if(peripheralRes.powerCode == 0x01) {
@@ -914,33 +816,22 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         });
         
     } failure:^(NSArray *peripherals, NSError *error) {
-        [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockManualNoResponseHandler) object:nil];
-
+        dispatch_async(dispatch_get_main_queue(), ^{
         if(!peripherals) {
             if(error) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"连接出错!", nil)];
-                });
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"连接出错!", nil)];
             }
             else
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
-                });
-
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
         }
         else {
             if(peripherals.count == 0) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
-                });
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
             }
             else if(peripherals.count > 0) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
-                });
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
             }
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
             weakSelf.openLockBtn.userInteractionEnabled = YES;
         });
     }];
@@ -996,7 +887,7 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     self.isBannersLoading = NO;
     [RLHUD hideProgress];
 }
-- (void) webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     DLog(@"error=%@", error);
     self.isBannersLoaded = NO;
     self.isBannersLoading = NO;

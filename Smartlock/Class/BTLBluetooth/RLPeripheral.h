@@ -12,6 +12,11 @@
 #import "RLCharacteristic.h"
 
 #define PeripheralPreStr @"YJLOCK"
+
+typedef NS_ENUM(int, PeripheralVersion) {
+    kPeripheralVersion1 = 0x01,
+    kPeripheralVersionCount
+};
 /*----------------------------------------------------*/
 #pragma mark - Callback types 
 typedef void (^RLPeripheralConnectionCallback)(NSError *error);
@@ -37,6 +42,8 @@ typedef void (^RLperipheralRSSIValueCallback)(NSNumber *RSSI, NSError *error);;
 @property (nonatomic, assign) NSInteger RSSI;
 
 @property (nonatomic, strong) NSDictionary *advertisingData;
+
+@property (nonatomic, assign) PeripheralVersion version;
 /*----------------------------------------------------*/
 
 /*----------------------------------------------------*/
