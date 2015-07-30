@@ -99,7 +99,9 @@
     
     self.messageBadgeNumber = [[MyCoreDataManager sharedManager] objectsCountWithKey:@"isRead" contains:@NO withTablename:NSStringFromClass([Message class])];
 
-    self.navigationController.navigationBarHidden = YES;
+    [UIView animateWithDuration:0.1 animations:^{
+        self.navigationController.navigationBarHidden = YES;
+    }];
     [self setBackButtonHide:YES];
     [self loadBannersRequest];
     
