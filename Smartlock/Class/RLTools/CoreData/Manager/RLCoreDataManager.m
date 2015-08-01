@@ -8,6 +8,9 @@
 
 #import "RLCoreDataManager.h"
 
+static NSString *kCoredataVersion = @"";//@"2.0";
+static NSString *kCoreDataOldVersion = @"";
+
 @interface RLCoreDataManager ()
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSManagedObjectModel *managedObjectModel;
@@ -64,6 +67,24 @@
     return sharedObject;
 }
 
++ (void)removeOldVersionSqlite {
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    if([version floatValue] < 2.0) return;
+    
+    NSURL *applicationDocumentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    
+    NSArray  *files = [[NSFileManager defaultManager]  contentsOfDirectoryAtPath:applicationDocumentsDirectory.path error:nil];
+    NSString *nString = [NSString stringWithFormat:@"%@%@.", NSStringFromClass([self class]), kCoreDataOldVersion];
+    NSString *eString = @".sqlite";
+    
+    for(NSString *fileName in files) {
+        if([fileName hasPrefix:nString] && [fileName containsString:eString]) {
+            NSURL *storeURL = [applicationDocumentsDirectory URLByAppendingPathComponent:fileName];
+            [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+        }
+    }
+}
 #pragma mark -
 - (instancetype)init {
     if(self = [super init]) {
@@ -81,11 +102,17 @@
     
     //initializing persistentstorecoordinator with managedObjectModel
     NSURL *applicationDocumentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-    NSURL *storeURL = [applicationDocumentsDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@.sqlite", NSStringFromClass([self class]), _identifier]];
+    NSURL *storeURL = [applicationDocumentsDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@.%@.sqlite", NSStringFromClass([self class]), kCoredataVersion, _identifier]];
+    
+#if 1
+    NSDictionary *optionsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],
+                                       NSMigratePersistentStoresAutomaticallyOption, [NSNumber numberWithBool:YES],
+                                       NSInferMappingModelAutomaticallyOption, nil];
+#endif
     
     NSError *error = nil;
     self.persistentSotoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
-    if(![self.persistentSotoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+    if(![self.persistentSotoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:optionsDictionary error:&error]) {
         NSLog(@"PersistentStore Error: %@, %@", error, [error userInfo]);
         [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
         abort();

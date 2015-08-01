@@ -95,7 +95,8 @@
 
 //    [self securityTest];
 //    return YES;
-    
+//    [MyCoreDataManager removeOldVersionSqlite];
+
 #pragma mark - webview url cache
     CustomURLCache *urlCache = [[CustomURLCache alloc] initWithMemoryCapacity:20 * 1024 * 1024 diskCapacity:200 * 1024 * 1024 diskPath:nil cacheTime:60*24*60*7];
     [CustomURLCache setSharedURLCache:urlCache];

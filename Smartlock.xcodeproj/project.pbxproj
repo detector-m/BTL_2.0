@@ -756,6 +756,7 @@
 		960A23FB1B05EFAD002111E3 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Message.m; path = Smartlock/Class/RLTools/CoreData/Entities/Message.m; sourceTree = SOURCE_ROOT; };
 		960A24001B073CFD002111E3 /* MoreDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreDetailVC.h; sourceTree = "<group>"; };
 		960A24011B073CFD002111E3 /* MoreDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreDetailVC.m; sourceTree = "<group>"; };
+		960DE8BA1B6C96E100DFECA9 /* Smartlock 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Smartlock 2.xcdatamodel"; sourceTree = "<group>"; };
 		9611080D1B393BF10033E45F /* HUDCheckmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HUDCheckmark.png; sourceTree = "<group>"; };
 		9611080E1B393BF10033E45F /* HUDCheckmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HUDCheckmark@2x.png"; sourceTree = "<group>"; };
 		9611080F1B393BF10033E45F /* HUDCheckmark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HUDCheckmark@3x.png"; sourceTree = "<group>"; };
@@ -3648,9 +3649,10 @@
 		960236FB1AEF6A5C005996E0 /* Smartlock.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				960DE8BA1B6C96E100DFECA9 /* Smartlock 2.xcdatamodel */,
 				960236FC1AEF6A5C005996E0 /* Smartlock.xcdatamodel */,
 			);
-			currentVersion = 960236FC1AEF6A5C005996E0 /* Smartlock.xcdatamodel */;
+			currentVersion = 960DE8BA1B6C96E100DFECA9 /* Smartlock 2.xcdatamodel */;
 			path = Smartlock.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

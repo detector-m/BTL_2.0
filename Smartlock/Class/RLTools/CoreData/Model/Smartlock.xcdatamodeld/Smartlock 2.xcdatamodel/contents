@@ -7,6 +7,7 @@
         <attribute name="lockID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ownUser" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="startDate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="useCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -48,7 +49,7 @@
         <attribute name="phoneNumber" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="KeyEntity" positionX="-110" positionY="251" width="128" height="210"/>
+        <element name="KeyEntity" positionX="-110" positionY="251" width="128" height="225"/>
         <element name="LockEntity" positionX="-360" positionY="287" width="128" height="178"/>
         <element name="Message" positionX="-261" positionY="-36" width="128" height="178"/>
         <element name="OpenLockRecord" positionX="-110" positionY="45" width="128" height="105"/>

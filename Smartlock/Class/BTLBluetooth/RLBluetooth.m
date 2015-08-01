@@ -18,6 +18,8 @@
 static NSString *kDestServicesUUIDString = @"1910";
 static NSString *kDestCharacteristicUUIDString = @"fff2";
 
+static NSString *kDefaultForeverDateString = @"2099-12-31";
+
 @interface RLBluetooth ()
 @property (nonatomic, readwrite, strong) RLCentralManager *manager;
 
@@ -351,7 +353,7 @@ static RLBluetooth *_sharedBluetooth = nil;
     if(request.userType == 1) {
         if(request.cmdCode == 0x02) {
             request.cmdMode = 0x01; //非管理员
-            dateData = dateToBytes(&len, request.invalidDate.length? request.invalidDate: @"2015-12-18");
+            dateData = dateToBytes(&len, request.invalidDate.length? request.invalidDate: kDefaultForeverDateString);
         }
         else { return nil; }
     }
@@ -411,7 +413,7 @@ static RLBluetooth *_sharedBluetooth = nil;
     if(request.userType == 1) {
         if(/*request.cmdCode*/requestCmdCode == 0x02) {
             request.cmdMode = 0x01; //非管理员
-            dateData = dateToBytes(&len, request.invalidDate.length? request.invalidDate: @"2015-12-18");
+            dateData = dateToBytes(&len, request.invalidDate.length? request.invalidDate: kDefaultForeverDateString);
         }
         else { return nil; }
     }
