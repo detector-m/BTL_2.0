@@ -57,4 +57,6 @@ union cmd_cmdFlag {
 
 - (void)setCmdData:(NSData *)data;
 - (NSData *)cmdData;
+
+- (void)setCmdFlag:(Byte)cmdFlag;
 @end

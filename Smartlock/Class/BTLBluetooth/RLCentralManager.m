@@ -202,7 +202,7 @@
             rlPeripheral.RSSI = (rlPeripheral.RSSI + [RSSI integerValue]) / 2;
         }
         rlPeripheral.advertisingData = advertisementData;
-        rlPeripheral.version = [[advertisementData[@"kCBAdvDataLocalName"] substringWithRange:NSMakeRange(PeripheralPreStr.length+2, 2)] integerValue];
+        rlPeripheral.version = (PeripheralVersion)[[advertisementData[@"kCBAdvDataLocalName"] substringWithRange:NSMakeRange(PeripheralPreStr.length+2, 2)] integerValue];
     });
     
 }

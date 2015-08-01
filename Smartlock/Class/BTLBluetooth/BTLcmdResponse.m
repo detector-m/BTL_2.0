@@ -14,7 +14,7 @@ static Byte BL_responseData[240] = {0};
 - (instancetype)initWithcmdResponseData:(NSData *)cmdResData {
     if(self = [super init]) {
         Byte *bytes = (Byte *)cmdResData.bytes;
-        int length = cmdResData.length;
+        int length = (int)cmdResData.length;
         if(bytes) {
             int i=0;
             _cmd_ST = bytes[i++];

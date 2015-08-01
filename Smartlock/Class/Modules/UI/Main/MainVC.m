@@ -43,6 +43,7 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 @property (nonatomic, strong) UIButton *openLockBtn;
+//@property (nonatomic, strong) UIButton *clockLockBtn;
 @property (nonatomic, strong) UIButton *cupidBtn;
 @property (nonatomic, strong) UIImageView *arrow;
 
@@ -79,6 +80,8 @@
 @property (atomic, assign) BOOL isOpenLockNow;
 
 @property (nonatomic, assign) BOOL isNeedPop;
+
+@property (nonatomic, assign) Byte openLockCmdCode;
 @end
 
 @implementation MainVC
@@ -107,6 +110,7 @@
     
     [self createAndScheduleAutoOpenlockTimer];
     self.isMainVC = YES;
+    _openLockCmdCode = 0x02; //普通开门
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -245,7 +249,7 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 }
 
 - (NSURLRequest *)requestForBanners:(NSString *)aUrl {
-    DLog(@"%@", aUrl);
+//    DLog(@"%@", aUrl);
     aUrl = [aUrl stringByAppendingString:[NSString stringWithFormat:@"?accessToken=%@", encryptedTokenToBase64([User sharedUser].sessionToken, [User sharedUser].certificazte)]];
     NSURL *newsUrl = [NSURL URLWithString:[aUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:newsUrl];
@@ -289,6 +293,10 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         [self.cupidBtn setImage:[UIImage imageNamed:@"Cupid.png"] forState:UIControlStateNormal];
         [self.scrollView addSubview:self.cupidBtn];
         
+#pragma mark -
+        [self.cupidBtn addTarget:self action:@selector(clickCupidBtn:) forControlEvents:UIControlEventTouchUpInside];
+#pragma mark -
+        
         frame = self.cupidBtn.frame;
         self.arrow = [[UIImageView alloc] initWithFrame:CGRectMake(frame.origin.x+3, frame.origin.y+46, frame.size.width/2, frame.size.height/2)];
         self.arrow.image = [UIImage imageNamed:@"Arrow.png"];
@@ -304,6 +312,7 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         [self.openLockBtn addTarget:self action:@selector(clickOpenLockBtn:) forControlEvents:UIControlEventTouchUpInside];
         [self.scrollView addSubview:self.openLockBtn];
         [self.scrollView bringSubviewToFront:self.arrow];
+        
         
 //        heightOffset += self.openLockBtn.frame.size.height + 20;
         heightOffset = self.scrollView.frame.size.height - 100;
@@ -412,7 +421,20 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     }];
 }
 
+- (void)clickCupidBtn:(UIButton *)button{
+    if(![User getAutoOpenLockSwitch]) return;
+    if([User getOpenLockTypeSwitch]) { //常开常闭模式 // 关门
+        _openLockCmdCode = 0x52;
+        [self clockLockManual];
+    }
+}
+
 - (void)clickOpenLockBtn:(UIButton *)button {
+    if(![User getAutoOpenLockSwitch]) return;
+    _openLockCmdCode = 0x02;
+    if([User getOpenLockTypeSwitch]) { //常开常闭模式
+        _openLockCmdCode = 0x42;
+    }
     [self openLockManual];
 }
 
@@ -605,7 +627,7 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 #pragma mark －
 - (void)noResponseHandlerForOpenLock {
     [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockNoResponseHandler) object:nil];
-    [self performSelector:@selector(openLockNoResponseHandler) withObject:nil afterDelay:1.5f];
+    [self performSelector:@selector(openLockNoResponseHandler) withObject:nil afterDelay:6.0f];
 }
 
 - (void)openLockNoResponseHandler {
@@ -614,8 +636,10 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     }
     else {
         self.openLockBtn.userInteractionEnabled = YES;
+        if([User getOpenLockTypeSwitch]) { //常开常闭
+            self.cupidBtn.userInteractionEnabled = YES;
+        }
     }
-    
 }
 
 - (void)openLockWithPeripherals:(NSArray *)peripherals success:(void (^)(RLPeripheralResponse *peripheralRes))success failure:(void (^) (NSArray *peripherals, NSError *error))failure {
@@ -635,7 +659,7 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
             [[SoundManager sharedManager] playSound:@"SoundOperator.mp3" looping:NO];
         }
         RLPeripheralRequest *perRequest = [[RLPeripheralRequest alloc] init];
-        perRequest.cmdCode = 0x02;
+        perRequest.cmdCode = _openLockCmdCode;
         perRequest.userPwd = key.keyOwner.pwd;
         perRequest.userType = key.userType;
         perRequest.startDate = key.startDate;
@@ -720,64 +744,16 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     self.isOpenLockNow = YES;
     [self openLockWithSuccess:^(RLPeripheralResponse *peripheralRes) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if(peripheralRes.result == 0x00) {
-                [weakSelf openLockAnimation:weakSelf.openLockBtn];
-                [RLHUD hudAlertSuccessWithBody:NSLocalizedString(@"开门成功！", nil)];
-                if([User getVoiceSwitch]) return ;
-                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-                [[SoundManager sharedManager] playSound:@"DoorOpened.mp3" looping:NO];
-            }
-            else if(peripheralRes.result == 0x0b) {
-                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
-                weakSelf.isOpenLockNow = NO;
-            }
-            else /*if(peripheralRes.result == 0x02)*/ {
-                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"请重新设置管理员！", nil)];
-                
-                weakSelf.isOpenLockNow = NO;
-            }
-            
-            if(peripheralRes.powerCode == 0x01) {
-                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"电池电压过低，请更换电池！", nil)];
-            }
-            
-            if(peripheralRes.updateTimeCode == 0x01) {
-                
-            }
+            [weakSelf openLockSuccessWithPeripheralRes:peripheralRes];
         });
         
     } failure:^(NSArray *peripherals, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if(!peripherals) {
-                if(error) {
-                    [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"连接出错!", nil)];
-                }
-            }
-            else {
-                if(peripherals.count == 0) {
-                    [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
-                }
-                else if(peripherals.count > 0) {
-                    if(weakSelf.isOpenLockNow && weakSelf.isNeedPop) {
-                        weakSelf.isNeedPop = NO;
-                        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
-                    }
-                }
-            }
-            
-            weakSelf.isOpenLockNow = NO;
+            [weakSelf openLockFailedWithPeripherals:peripherals error:error];
         });
     }];
 }
 
-//- (void)noResponseHandlerForOpenLockManual {
-//    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockManualNoResponseHandler) object:nil];
-//    [self performSelector:@selector(openLockManualNoResponseHandler) withObject:nil afterDelay:3.0f];
-//}
-//
-//- (void)openLockManualNoResponseHandler {
-//    self.openLockBtn.userInteractionEnabled = YES;
-//}
 - (void)openLockManual {
     if(![User getAutoOpenLockSwitch]) return;
     if(![[RLBluetooth sharedBluetooth] isSupportBluetoothLow]) {
@@ -790,51 +766,32 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     self.openLockBtn.userInteractionEnabled = NO;
     [self openLockWithSuccess:^(RLPeripheralResponse *peripheralRes) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.openLockBtn.userInteractionEnabled = YES;
-            
-            if(peripheralRes.result == 0x00) {
-                [weakSelf openLockAnimation:weakSelf.openLockBtn];
-
-                [RLHUD hudAlertSuccessWithBody:NSLocalizedString(@"开门成功！", nil)];
-
-                if([User getVoiceSwitch]) return ;
-                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-                [[SoundManager sharedManager] playSound:@"DoorOpened.mp3" looping:NO];
-            }
-            else if(peripheralRes.result == 0x0b) {
-                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"钥匙还未到开锁期限！", nil)];
-            }
-            else {
-                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"请重新设置管理员！", nil)];
-            }
-            
-            if(peripheralRes.powerCode == 0x01) {
-                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"电池电压过低，请更换电池！", nil)];
-            }
-            
-            if(peripheralRes.updateTimeCode == 0x01) {
-                
-            }
+            [weakSelf openLockSuccessWithPeripheralRes:peripheralRes];
         });
         
     } failure:^(NSArray *peripherals, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-        if(!peripherals) {
-            if(error) {
-                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"连接出错!", nil)];
-            }
-            else
-                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
-        }
-        else {
-            if(peripherals.count == 0) {
-                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
-            }
-            else if(peripherals.count > 0) {
-                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
-            }
-        }
-            weakSelf.openLockBtn.userInteractionEnabled = YES;
+            [weakSelf openLockFailedWithPeripherals:peripherals error:error];
+        });
+    }];
+}
+
+- (void)clockLockManual {
+    if(![User getAutoOpenLockSwitch] || ![User getOpenLockTypeSwitch]) return;
+    if(![[RLBluetooth sharedBluetooth] isSupportBluetoothLow] || ![[RLBluetooth sharedBluetooth] bluetoothIsReady]) {
+        return;
+    }
+    
+    __weak __typeof(self)weakSelf = self;
+    self.cupidBtn.userInteractionEnabled = NO;
+    [self openLockWithSuccess:^(RLPeripheralResponse *peripheralRes) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf openLockSuccessWithPeripheralRes:peripheralRes];
+        });
+        
+    } failure:^(NSArray *peripherals, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf openLockFailedWithPeripherals:peripherals error:error];
         });
     }];
 }
@@ -863,6 +820,209 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         [self.autoOpenlockTimer invalidate];
         self.autoOpenlockTimer = nil;
     });
+}
+
+/*
+ 0.表示成功
+ 1.设置失败
+ 2.ID校验失败
+ 3.命令有误
+ 4.子命令有误
+ 5.保留位数据有误
+ 6.设置管理员按键未按下或按下时间不足
+ 7.开锁按键未按下或者设置按键已经按下
+ 8.校验失败
+ 9.数据无效
+ a.门是开着状态
+ b.钥匙过期
+ c.钥匙未到启用时间
+ */
+
+#pragma mark -
+- (void)openLockSuccessWithPeripheralRes:(RLPeripheralResponse *)peripheralRes {
+    if(![User getAutoOpenLockSwitch])
+        self.isOpenLockNow = NO;
+    else  {
+        self.openLockBtn.userInteractionEnabled = YES;
+        if([User getOpenLockTypeSwitch]) {
+            self.cupidBtn.userInteractionEnabled = YES;
+        }
+    }
+    
+    if(peripheralRes.result == 0x00) {
+        self.isOpenLockNow = YES;
+        [self openLockAnimation:self.openLockBtn];
+        if(peripheralRes.cmdCode == 0x52 || _openLockCmdCode == 0x52) {
+            [RLHUD hudAlertSuccessWithBody:NSLocalizedString(@"关门成功！", nil)];
+        }
+        else {
+            [RLHUD hudAlertSuccessWithBody:NSLocalizedString(@"开门成功！", nil)];
+        }
+        if([User getVoiceSwitch]) return ;
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        [[SoundManager sharedManager] playSound:@"DoorOpened.mp3" looping:NO];
+    }
+    else if(peripheralRes.result == 0x0a) {
+        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"门已是开着状态！", nil)];
+    }
+    else if(peripheralRes.result == 0x0b || peripheralRes.result == 0x0c) {
+        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
+        return;
+    }
+    else /*if(peripheralRes.result == 0x02)*/ {
+        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"请重新设置管理员！", nil)];
+//        if(peripheralRes.result == 0x08) {
+//            if(![User getAutoOpenLockSwitch]) {
+////                [self noResponseHandlerForOpenLock];
+//
+//                self.isOpenLockNow = YES;
+//            }
+//        }
+        
+        return;
+    }
+    
+    if(peripheralRes.powerCode == 0x01) {
+        [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"电池电压过低，请更换电池！", nil)];
+    }
+    
+    if(peripheralRes.updateTimeCode == 0x01) {
+        
+    }
+
+#if 0
+    // 自动
+    if(![User getAutoOpenLockSwitch]) {
+        if(peripheralRes.result == 0x00) {
+            [self openLockAnimation:self.openLockBtn];
+            [RLHUD hudAlertSuccessWithBody:NSLocalizedString(@"开门成功！", nil)];
+            if([User getVoiceSwitch]) return ;
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+            [[SoundManager sharedManager] playSound:@"DoorOpened.mp3" looping:NO];
+        }
+        else if(peripheralRes.result == 0x0b) {
+            [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
+            self.isOpenLockNow = NO;
+        }
+        else /*if(peripheralRes.result == 0x02)*/ {
+            [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"请重新设置管理员！", nil)];
+            
+            self.isOpenLockNow = NO;
+        }
+        
+        if(peripheralRes.powerCode == 0x01) {
+            [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"电池电压过低，请更换电池！", nil)];
+        }
+        
+        if(peripheralRes.updateTimeCode == 0x01) {
+            
+        }
+    }
+    else {
+        self.openLockBtn.userInteractionEnabled = YES;
+        
+        if(peripheralRes.result == 0x00) {
+            [self openLockAnimation:self.openLockBtn];
+            
+            [RLHUD hudAlertSuccessWithBody:NSLocalizedString(@"开门成功！", nil)];
+            
+            if([User getVoiceSwitch]) return ;
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+            [[SoundManager sharedManager] playSound:@"DoorOpened.mp3" looping:NO];
+        }
+        else if(peripheralRes.result == 0x0b) {
+            [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
+        }
+        else {
+            [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"请重新设置管理员！", nil)];
+        }
+        
+        if(peripheralRes.powerCode == 0x01) {
+            [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"电池电压过低，请更换电池！", nil)];
+        }
+        
+        if(peripheralRes.updateTimeCode == 0x01) {
+            
+        }
+    }
+#endif
+}
+
+- (void)openLockFailedWithPeripherals:(NSArray *)peripherals error:(NSError *)error {
+    self.isOpenLockNow = NO;
+    self.openLockBtn.userInteractionEnabled = YES;
+    if([User getOpenLockTypeSwitch]) {
+        self.cupidBtn.userInteractionEnabled = YES;
+    }
+
+    if(!peripherals) {
+        if(error) {
+            [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"连接出错!", nil)];
+            return;
+        }
+        
+        if([User getAutoOpenLockSwitch]) { //手动开锁
+            [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
+        }
+    }
+    else {
+        if(peripherals.count == 0) {
+            [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
+            
+            return;
+        }
+        
+        if(![User getAutoOpenLockSwitch]) { //自动开锁
+            if(self.isOpenLockNow && self.isNeedPop) {
+                self.isNeedPop = NO;
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
+            }
+        }
+        else {
+            [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
+        }
+    }
+    
+#if 0
+    if(![User getAutoOpenLockSwitch]) {
+        if(!peripherals) {
+            if(error) {
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"连接出错!", nil)];
+            }
+        }
+        else {
+            if(peripherals.count == 0) {
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
+            }
+            else if(peripherals.count > 0) {
+                if(self.isOpenLockNow && self.isNeedPop) {
+                    self.isNeedPop = NO;
+                    [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
+                }
+            }
+        }
+        
+        self.isOpenLockNow = NO;
+    }
+    else {
+        if(!peripherals) {
+            if(error) {
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"连接出错!", nil)];
+            }
+            else
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
+        }
+        else {
+            if(peripherals.count == 0) {
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用设备!", nil)];
+            }
+            else if(peripherals.count > 0) {
+                [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
+            }
+        }
+        self.openLockBtn.userInteractionEnabled = YES;
+    }
+#endif
 }
 
 #pragma mark - UIWebViewDelegate

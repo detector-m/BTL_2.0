@@ -126,7 +126,7 @@ NSData *btlXXTEAByteEncryptDataWithFinalKey(NSData *data, Byte *variableKey) {
         key[i] ^= *variableKey;
     }
     
-    uint32_t bytes_len = data.length;
+    uint32_t bytes_len = (uint32_t)data.length;
     uint8_t *bytes = (uint8_t *)malloc(bytes_len);
     memcpy(bytes, data.bytes, data.length);
     

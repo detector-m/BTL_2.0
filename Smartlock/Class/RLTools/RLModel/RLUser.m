@@ -11,6 +11,7 @@
 
 NSString *kVoiceSwitchKey = @"voiceSwitchKey";
 NSString *kAutoOpenlockSwitchKey = @"autoOpenlockSwitchKey";
+NSString *kOpenlockTypeSwitchKey = @"openlockTypeSwitchKey";
 
 #pragma mark -
 
@@ -169,6 +170,26 @@ NSString *kAutoOpenlockSwitchKey = @"autoOpenlockSwitchKey";
         return;
     
     [userDefault setObject:[NSNumber numberWithBool:on] forKey:kAutoOpenlockSwitchKey];
+    [userDefault synchronize];
+}
+
++ (BOOL)getOpenLockTypeSwitch {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSNumber *aSwitch = [userDefault objectForKey:kOpenlockTypeSwitchKey];
+    if(aSwitch == nil)
+        return NO;
+    
+    return aSwitch.boolValue;
+}
++ (void)setOpenLockTypeSwitch:(BOOL)on {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSNumber *aSwitch = [userDefault objectForKey:kOpenlockTypeSwitchKey];
+    if(aSwitch == nil) {
+    }
+    else if(on == aSwitch.boolValue)
+        return;
+    
+    [userDefault setObject:[NSNumber numberWithBool:on] forKey:kOpenlockTypeSwitchKey];
     [userDefault synchronize];
 }
 @end

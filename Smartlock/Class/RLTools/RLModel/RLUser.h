@@ -44,4 +44,7 @@ typedef NS_ENUM(NSInteger, GenderType) {
 
 + (BOOL)getAutoOpenLockSwitch;
 + (void)setAutoOpenLockSwitch:(BOOL)on;
+
++ (BOOL)getOpenLockTypeSwitch;
++ (void)setOpenLockTypeSwitch:(BOOL)on;
 @end

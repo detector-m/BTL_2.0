@@ -295,7 +295,7 @@ static RLBluetooth *_sharedBluetooth = nil;
     
     NSData *dataToWrite = nil;
     
-    switch (request.cmdCode) {
+    switch (request.cmdCode & 0x0f) {
         //设置管理员
         case 0x01: {
             long long userPwd = timestampSince1970();//[NSDate timeIntervalSinceReferenceDate]*1000;
@@ -392,10 +392,11 @@ static RLBluetooth *_sharedBluetooth = nil;
     
     Byte *dateData = nil;
 
-#pragma mark -
+#pragma mark - tea for datas
     Byte *startDateBytes = NULL;
 //    request.startDate = @"2015-07-29 00:00:00";
-    if(request.cmdCode == 0x02) {
+    Byte requestCmdCode = request.cmdCode & 0x0f;
+    if(/*request.cmdCode*/requestCmdCode == 0x02) {
         if(!request.startDate || request.startDate.length == 0) {
             dateData = dateNowToBytes(&startDateLen);
         }
@@ -405,17 +406,17 @@ static RLBluetooth *_sharedBluetooth = nil;
         startDateBytes = calloc(startDateLen, sizeof(Byte));
         memcpy(startDateBytes, dateData, startDateLen);
     }
-#pragma makr -
+#pragma makr - tea for datas
     
     if(request.userType == 1) {
-        if(request.cmdCode == 0x02) {
+        if(/*request.cmdCode*/requestCmdCode == 0x02) {
             request.cmdMode = 0x01; //非管理员
             dateData = dateToBytes(&len, request.invalidDate.length? request.invalidDate: @"2015-12-18");
         }
         else { return nil; }
     }
     else { //管理员
-        if(request.cmdCode == 0x02) {
+        if(/*request.cmdCode*/requestCmdCode == 0x02) {
             request.cmdMode = 0x00; //管理员
         }
         else {
@@ -501,6 +502,7 @@ static RLBluetooth *_sharedBluetooth = nil;
         struct btl_cmd cmd = get_cmd(cmdCode, mode);
         
 #pragma mark -
+        //加密
         NSData *teaData = nil;
         Byte teaVKey = 0;
         if(needTea) {
@@ -510,13 +512,12 @@ static RLBluetooth *_sharedBluetooth = nil;
         else
             teaData = data;
 #pragma mark -
-        cmd.btl_cmd_CRC = cmd_crc_check(&cmd);
         
         cmd.btl_cmd_data = (Byte *)[teaData bytes];
         cmd.btl_cmd_data_len = teaData.length;//sizeof(data);
-        cmd.btl_cmd_CRC += cmd.btl_cmd_data_len;
         
-        cmd.btl_cmd_CRC +=  bytes_crc_check(cmd.btl_cmd_data, cmd.btl_cmd_data_len);
+        cmd.btl_cmd_CRC = cmd_crc_check(&cmd);
+//        cmd.btl_cmd_CRC = cmd_crc_check(&cmd)+1;
         
         cmd.btl_cmd_fixation_len = get_cmd_fixationLen();
         NSInteger len = cmd.btl_cmd_data_len + cmd.btl_cmd_fixation_len;
@@ -524,8 +525,25 @@ static RLBluetooth *_sharedBluetooth = nil;
         Byte *bytes = calloc(len, sizeof(Byte));
         
         wrapp_cmd_to_bytes(&cmd, bytes);
+
+#pragma mark - test crc
+#if 0
+        Byte testCrc = 0x00;
+        int testI = 0;
+        for(; testI<len-2; testI++) {
+            testCrc += bytes[testI];
+        }
         
-        int i;
+        if(cmd.btl_cmd_CRC == testCrc) {
+            NSLog(@"----------------------------%x, %x", cmd.btl_cmd_CRC, testCrc);
+        }
+        else {
+            NSLog(@"----------------------------%x, %x", cmd.btl_cmd_CRC, testCrc);
+        }
+#endif
+#pragma mark - test crc
+
+        int i = 0;
         
 #ifdef DEBUG
         NSMutableString *str = [NSMutableString stringWithString:@""];
@@ -535,6 +553,7 @@ static RLBluetooth *_sharedBluetooth = nil;
         
         DLog(@"str = %@", str);
 #endif
+        
 #if 0
         NSInteger packages = len/BluetoothPackageSize + (len%BluetoothPackageSize ? 1 : 0);
         for(i = 0; i<packages; i++) {
@@ -557,11 +576,13 @@ static RLBluetooth *_sharedBluetooth = nil;
     peripheralRe.cmdCode = cmdResponse.btl_cmd_code;
     peripheralRe.result = cmdResponse.btl_cmd_result.result;
     
-    if(peripheralRe.cmdCode == 0x01) {
+    Byte cmdCode_ = (peripheralRe.cmdCode & 0x0f);
+    
+    if(cmdCode_ == 0x01) {
         peripheralRe.userPwd = self.peripheralResponse.userPwd;
     }
     
-    if(peripheralRe.cmdCode == 0x02) {
+    if(cmdCode_ == 0x02) {
         Byte powerCode = cmdResponse.btl_cmd_data[1];
         Byte updateTimeCode = cmdResponse.btl_cmd_data[0];
         
@@ -570,7 +591,7 @@ static RLBluetooth *_sharedBluetooth = nil;
         peripheralRe.timeData = self.peripheralResponse.timeData;
     }
     
-    if(peripheralRe.cmdCode == 0x03) {
+    if(cmdCode_ == 0x03) {
         peripheralRe.timeData = self.peripheralResponse.timeData;
     }
     
@@ -650,7 +671,7 @@ static RLBluetooth *_sharedBluetooth = nil;
     
     NSData *dataToWrite = nil;
     
-    switch (request.cmdCode) {
+    switch (/*request.cmdCode*/request.cmdCode & 0x0f) {
             //设置管理员
         case 0x01: {
             long long userPwd = timestampSince1970();//[NSDate timeIntervalSinceReferenceDate]*1000;
@@ -686,7 +707,19 @@ static RLBluetooth *_sharedBluetooth = nil;
     
     if(!dataToWrite) return;
     BTLcmdRequest *cmdRequest = [[BTLcmdRequest alloc] initWithCmdCode:request.cmdCode withCmdMode:request.cmdMode];
-    [cmdRequest setCmdData:dataToWrite];
+    
+    NSData *teaData = nil;
+    Byte teaVKey = 0;
+    
+    if(request.peripheralVersion <= kPeripheralVersion1) {
+        teaData = dataToWrite;
+    }
+    else {
+        teaData = btlXXTEAByteEncryptDataWithFinalKey(dataToWrite, &teaVKey);
+        [cmdRequest setCmdFlag:teaVKey];
+    }
+    
+    [cmdRequest setCmdData:teaData];
     [self btlCmdWriteDataToCharacteristic:characteristic withCmdRequest:cmdRequest];
 }
 
@@ -695,50 +728,11 @@ static RLBluetooth *_sharedBluetooth = nil;
  1->非管理员
  */
 - (NSData *)btlCmdDataToWriteWithPeripheralRequest:(RLPeripheralRequest *)request {
-#if 0
-    if(!request || request.cmdCode == 0x00) return nil;
-    int len = 0;
-    long long data = request.userPwd;
-    
-    Byte *dateData = nil;
-    if(request.userType == 1) {
-        if(request.cmdCode == 0x02) {
-            request.cmdMode = 0x01; //非管理员
-            dateData = btlCmdDateToBytes(&len, request.invalidDate.length? request.invalidDate: @"2015-12-18");
-        }
-        else { return nil; }
-    }
-    else { //管理员
-        if(request.cmdCode == 0x02) {
-            request.cmdMode = 0x00; //管理员
-        }
-        else {
-            request.cmdMode = 0x01;
-        }
-        dateData = btlCmdDateNowToBytes(&len);
-        self.peripheralResponse = [[RLPeripheralResponse alloc] init];
-        self.peripheralResponse.timeData = [NSData dataWithBytes:dateData length:len];
-    }
-    
-    int size = sizeof(data)+len;
-    Byte *tempData = calloc(size, sizeof(Byte));
-    memcpy(tempData, dateData, len);
-    
-    Byte *temp = (Byte *)&(data);
-    for(NSInteger j = len; j<size; j++) {
-        tempData[j] = temp[j-len];
-    }
-    
-    NSData *writeData = [NSData dataWithBytes:tempData length:size];
-    free(tempData);
-    
-    return writeData;
-#endif
-    
     return [self dataToWriteWithPeripheralRequest:request];
 }
 
 - (void)btlCmdWriteDataToCharacteristic:(RLCharacteristic *)characteristic withCmdRequest:(BTLcmdRequest *)cmdRequest {
+    
     if(characteristic.cbCharacteristic.properties == CBCharacteristicPropertyWrite || CBCharacteristicPropertyWriteWithoutResponse == characteristic.cbCharacteristic.properties) {
         [cmdRequest cmdCRCCheck];
         [characteristic writeValue:cmdRequest.toData completion:nil];
@@ -754,11 +748,13 @@ static RLBluetooth *_sharedBluetooth = nil;
     peripheralRe.cmdCode = [cmdResponse cmd_code];
     peripheralRe.result = [cmdResponse cmd_cmdResponseResult];
     
-    if(peripheralRe.cmdCode == 0x01) {
+    Byte cmdCode_ = (peripheralRe.cmdCode & 0x0f);
+
+    if(cmdCode_ == 0x01) {
         peripheralRe.userPwd = self.peripheralResponse.userPwd;
     }
     
-    if(peripheralRe.cmdCode == 0x02) {
+    if(cmdCode_ == 0x02) {
         Byte powerCode = ((Byte *)[[cmdResponse cmdData] bytes])[1];//cmdResponse.data[1];
         Byte updateTimeCode = ((Byte *)[[cmdResponse cmdData] bytes])[0];
         
@@ -767,7 +763,7 @@ static RLBluetooth *_sharedBluetooth = nil;
         peripheralRe.timeData = self.peripheralResponse.timeData;
     }
     
-    if(peripheralRe.cmdCode == 0x03) {
+    if(cmdCode_ == 0x03) {
         peripheralRe.timeData = self.peripheralResponse.timeData;
     }
     

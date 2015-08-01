@@ -109,6 +109,11 @@ Byte *btlCmdDateNowToBytes(int * const len) {
     return _cmd_data;
 }
 
+
+- (void)setCmdFlag:(Byte)cmdFlag {
+    _cmd_cmdFlag.cmd_keep = cmdFlag;
+}
+
 - (Byte)cmdCRCCheck {
     Byte crc = 0x00;
     
