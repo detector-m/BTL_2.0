@@ -13,6 +13,8 @@
 #import "DeviceManager.h"
 #import "RLColor.h"
 
+#import "SendKeyWithABVC.h"
+
 @implementation KeysOfLockVC
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -21,6 +23,7 @@
 }
 
 - (void)setupRightItem {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"发送钥匙" style:UIBarButtonItemStylePlain target:self action:@selector(clickedRightItem:)];
 }
 
 - (void)setupLongPressGesture {
@@ -29,6 +32,13 @@
 
 - (void)reloadTableData {
     // do nothing
+}
+
+- (void)clickedRightItem:(UIBarButtonItem *)item {
+    SendKeyWithABVC *vc = [[SendKeyWithABVC alloc] init];
+    vc.filterItems = self.table.datas;
+    vc.title = NSLocalizedString(@"发送钥匙", nil);
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark -

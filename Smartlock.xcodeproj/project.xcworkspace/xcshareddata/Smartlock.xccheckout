@@ -10,8 +10,6 @@
 	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>08885BCCBE916B6BE3CACC29B33A59E95A22E022</key>
-		<string>github.com:riven-m/BTL_2.0.git</string>
 		<key>9c3bc202-7c40-ff4d-a5bb-208097759062++1439</key>
 		<string>svn://211.157.146.151/ios/YJBlueLock2.0</string>
 		<key>9c3bc202-7c40-ff4d-a5bb-208097759062++5326</key>
@@ -21,8 +19,6 @@
 	<string>Smartlock.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>08885BCCBE916B6BE3CACC29B33A59E95A22E022</key>
-		<string>../..</string>
 		<key>9c3bc202-7c40-ff4d-a5bb-208097759062++1439</key>
 		<string>../..</string>
 		<key>9c3bc202-7c40-ff4d-a5bb-208097759062++5326</key>
@@ -40,7 +36,7 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>08885BCCBE916B6BE3CACC29B33A59E95A22E022</string>
+	<string>9c3bc202-7c40-ff4d-a5bb-208097759062++1439</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -55,7 +51,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>08885BCCBE916B6BE3CACC29B33A59E95A22E022</string>
+			<string>9c3bc202-7c40-ff4d-a5bb-208097759062++1439</string>
 			<key>IDESourceControlWCCName</key>
 			<string>YJBlueLock2.0</string>
 		</dict>

@@ -202,6 +202,21 @@
 		960A23F61B01A5C9002111E3 /* DefaultListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 960A23F51B01A5C9002111E3 /* DefaultListCell.m */; };
 		960A23FC1B05EFAD002111E3 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 960A23FB1B05EFAD002111E3 /* Message.m */; };
 		960A24021B073CFD002111E3 /* MoreDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 960A24011B073CFD002111E3 /* MoreDetailVC.m */; };
+		960DE8E71B73028E00DFECA9 /* pinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8C91B73028E00DFECA9 /* pinyin.m */; };
+		960DE8E81B73028E00DFECA9 /* NSThread+RHBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8CE1B73028E00DFECA9 /* NSThread+RHBlockAdditions.m */; };
+		960DE8E91B73028E00DFECA9 /* RHAddressBook-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 960DE8CF1B73028E00DFECA9 /* RHAddressBook-Info.plist */; };
+		960DE8EA1B73028E00DFECA9 /* RHAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8D21B73028E00DFECA9 /* RHAddressBook.m */; };
+		960DE8EB1B73028E00DFECA9 /* RHAddressBookGeoResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8D51B73028E00DFECA9 /* RHAddressBookGeoResult.m */; };
+		960DE8EC1B73028E00DFECA9 /* RHAddressBookSharedServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8D71B73028E00DFECA9 /* RHAddressBookSharedServices.m */; };
+		960DE8ED1B73028E00DFECA9 /* RHAddressBookThreadMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8D91B73028E00DFECA9 /* RHAddressBookThreadMain.m */; };
+		960DE8EE1B73028E00DFECA9 /* RHGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8DC1B73028E00DFECA9 /* RHGroup.m */; };
+		960DE8EF1B73028E00DFECA9 /* RHMultiValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8DE1B73028E00DFECA9 /* RHMultiValue.m */; };
+		960DE8F01B73028E00DFECA9 /* RHPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8E01B73028E00DFECA9 /* RHPerson.m */; };
+		960DE8F11B73028E00DFECA9 /* RHRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8E31B73028E00DFECA9 /* RHRecord.m */; };
+		960DE8F21B73028E00DFECA9 /* RHSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8E61B73028E00DFECA9 /* RHSource.m */; };
+		960DE8F51B73081E00DFECA9 /* RLABViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8F41B73081E00DFECA9 /* RLABViewController.m */; };
+		960DE8F81B733E7D00DFECA9 /* RLTableCellButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8F71B733E7D00DFECA9 /* RLTableCellButton.m */; };
+		960DE8FB1B734A8000DFECA9 /* SendKeyWithABVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8FA1B734A8000DFECA9 /* SendKeyWithABVC.m */; };
 		961108121B393BF10033E45F /* HUDCheckmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 9611080D1B393BF10033E45F /* HUDCheckmark.png */; };
 		961108131B393BF10033E45F /* HUDCheckmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9611080E1B393BF10033E45F /* HUDCheckmark@2x.png */; };
 		961108141B393BF10033E45F /* HUDCheckmark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9611080F1B393BF10033E45F /* HUDCheckmark@3x.png */; };
@@ -757,6 +772,41 @@
 		960A24001B073CFD002111E3 /* MoreDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreDetailVC.h; sourceTree = "<group>"; };
 		960A24011B073CFD002111E3 /* MoreDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreDetailVC.m; sourceTree = "<group>"; };
 		960DE8BA1B6C96E100DFECA9 /* Smartlock 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Smartlock 2.xcdatamodel"; sourceTree = "<group>"; };
+		960DE8C91B73028E00DFECA9 /* pinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pinyin.m; sourceTree = "<group>"; };
+		960DE8CA1B73028E00DFECA9 /* pinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinyin.h; sourceTree = "<group>"; };
+		960DE8CC1B73028E00DFECA9 /* AddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressBook.h; sourceTree = "<group>"; };
+		960DE8CD1B73028E00DFECA9 /* NSThread+RHBlockAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSThread+RHBlockAdditions.h"; sourceTree = "<group>"; };
+		960DE8CE1B73028E00DFECA9 /* NSThread+RHBlockAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSThread+RHBlockAdditions.m"; sourceTree = "<group>"; };
+		960DE8CF1B73028E00DFECA9 /* RHAddressBook-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RHAddressBook-Info.plist"; sourceTree = "<group>"; };
+		960DE8D01B73028E00DFECA9 /* RHAddressBook-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RHAddressBook-Prefix.pch"; sourceTree = "<group>"; };
+		960DE8D11B73028E00DFECA9 /* RHAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHAddressBook.h; sourceTree = "<group>"; };
+		960DE8D21B73028E00DFECA9 /* RHAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RHAddressBook.m; sourceTree = "<group>"; };
+		960DE8D31B73028E00DFECA9 /* RHAddressBook_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHAddressBook_Private.h; sourceTree = "<group>"; };
+		960DE8D41B73028E00DFECA9 /* RHAddressBookGeoResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHAddressBookGeoResult.h; sourceTree = "<group>"; };
+		960DE8D51B73028E00DFECA9 /* RHAddressBookGeoResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RHAddressBookGeoResult.m; sourceTree = "<group>"; };
+		960DE8D61B73028E00DFECA9 /* RHAddressBookSharedServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHAddressBookSharedServices.h; sourceTree = "<group>"; };
+		960DE8D71B73028E00DFECA9 /* RHAddressBookSharedServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RHAddressBookSharedServices.m; sourceTree = "<group>"; };
+		960DE8D81B73028E00DFECA9 /* RHAddressBookThreadMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHAddressBookThreadMain.h; sourceTree = "<group>"; };
+		960DE8D91B73028E00DFECA9 /* RHAddressBookThreadMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RHAddressBookThreadMain.m; sourceTree = "<group>"; };
+		960DE8DA1B73028E00DFECA9 /* RHARCSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHARCSupport.h; sourceTree = "<group>"; };
+		960DE8DB1B73028E00DFECA9 /* RHGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHGroup.h; sourceTree = "<group>"; };
+		960DE8DC1B73028E00DFECA9 /* RHGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RHGroup.m; sourceTree = "<group>"; };
+		960DE8DD1B73028E00DFECA9 /* RHMultiValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHMultiValue.h; sourceTree = "<group>"; };
+		960DE8DE1B73028E00DFECA9 /* RHMultiValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RHMultiValue.m; sourceTree = "<group>"; };
+		960DE8DF1B73028E00DFECA9 /* RHPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHPerson.h; sourceTree = "<group>"; };
+		960DE8E01B73028E00DFECA9 /* RHPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RHPerson.m; sourceTree = "<group>"; };
+		960DE8E11B73028E00DFECA9 /* RHPersonLabels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHPersonLabels.h; sourceTree = "<group>"; };
+		960DE8E21B73028E00DFECA9 /* RHRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHRecord.h; sourceTree = "<group>"; };
+		960DE8E31B73028E00DFECA9 /* RHRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RHRecord.m; sourceTree = "<group>"; };
+		960DE8E41B73028E00DFECA9 /* RHRecord_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHRecord_Private.h; sourceTree = "<group>"; };
+		960DE8E51B73028E00DFECA9 /* RHSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHSource.h; sourceTree = "<group>"; };
+		960DE8E61B73028E00DFECA9 /* RHSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RHSource.m; sourceTree = "<group>"; };
+		960DE8F31B73081E00DFECA9 /* RLABViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLABViewController.h; sourceTree = "<group>"; };
+		960DE8F41B73081E00DFECA9 /* RLABViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLABViewController.m; sourceTree = "<group>"; };
+		960DE8F61B733E7D00DFECA9 /* RLTableCellButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLTableCellButton.h; sourceTree = "<group>"; };
+		960DE8F71B733E7D00DFECA9 /* RLTableCellButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLTableCellButton.m; sourceTree = "<group>"; };
+		960DE8F91B734A8000DFECA9 /* SendKeyWithABVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendKeyWithABVC.h; sourceTree = "<group>"; };
+		960DE8FA1B734A8000DFECA9 /* SendKeyWithABVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendKeyWithABVC.m; sourceTree = "<group>"; };
 		9611080D1B393BF10033E45F /* HUDCheckmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HUDCheckmark.png; sourceTree = "<group>"; };
 		9611080E1B393BF10033E45F /* HUDCheckmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HUDCheckmark@2x.png"; sourceTree = "<group>"; };
 		9611080F1B393BF10033E45F /* HUDCheckmark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HUDCheckmark@3x.png"; sourceTree = "<group>"; };
@@ -2087,6 +2137,58 @@
 			path = Message;
 			sourceTree = "<group>";
 		};
+		960DE8BB1B72FBA700DFECA9 /* AddressBook */ = {
+			isa = PBXGroup;
+			children = (
+				960DE8C81B73028E00DFECA9 /* pinyin */,
+				960DE8CB1B73028E00DFECA9 /* RHAddressBook */,
+			);
+			path = AddressBook;
+			sourceTree = "<group>";
+		};
+		960DE8C81B73028E00DFECA9 /* pinyin */ = {
+			isa = PBXGroup;
+			children = (
+				960DE8C91B73028E00DFECA9 /* pinyin.m */,
+				960DE8CA1B73028E00DFECA9 /* pinyin.h */,
+			);
+			path = pinyin;
+			sourceTree = "<group>";
+		};
+		960DE8CB1B73028E00DFECA9 /* RHAddressBook */ = {
+			isa = PBXGroup;
+			children = (
+				960DE8CC1B73028E00DFECA9 /* AddressBook.h */,
+				960DE8CD1B73028E00DFECA9 /* NSThread+RHBlockAdditions.h */,
+				960DE8CE1B73028E00DFECA9 /* NSThread+RHBlockAdditions.m */,
+				960DE8CF1B73028E00DFECA9 /* RHAddressBook-Info.plist */,
+				960DE8D01B73028E00DFECA9 /* RHAddressBook-Prefix.pch */,
+				960DE8D11B73028E00DFECA9 /* RHAddressBook.h */,
+				960DE8D21B73028E00DFECA9 /* RHAddressBook.m */,
+				960DE8D31B73028E00DFECA9 /* RHAddressBook_Private.h */,
+				960DE8D41B73028E00DFECA9 /* RHAddressBookGeoResult.h */,
+				960DE8D51B73028E00DFECA9 /* RHAddressBookGeoResult.m */,
+				960DE8D61B73028E00DFECA9 /* RHAddressBookSharedServices.h */,
+				960DE8D71B73028E00DFECA9 /* RHAddressBookSharedServices.m */,
+				960DE8D81B73028E00DFECA9 /* RHAddressBookThreadMain.h */,
+				960DE8D91B73028E00DFECA9 /* RHAddressBookThreadMain.m */,
+				960DE8DA1B73028E00DFECA9 /* RHARCSupport.h */,
+				960DE8DB1B73028E00DFECA9 /* RHGroup.h */,
+				960DE8DC1B73028E00DFECA9 /* RHGroup.m */,
+				960DE8DD1B73028E00DFECA9 /* RHMultiValue.h */,
+				960DE8DE1B73028E00DFECA9 /* RHMultiValue.m */,
+				960DE8DF1B73028E00DFECA9 /* RHPerson.h */,
+				960DE8E01B73028E00DFECA9 /* RHPerson.m */,
+				960DE8E11B73028E00DFECA9 /* RHPersonLabels.h */,
+				960DE8E21B73028E00DFECA9 /* RHRecord.h */,
+				960DE8E31B73028E00DFECA9 /* RHRecord.m */,
+				960DE8E41B73028E00DFECA9 /* RHRecord_Private.h */,
+				960DE8E51B73028E00DFECA9 /* RHSource.h */,
+				960DE8E61B73028E00DFECA9 /* RHSource.m */,
+			);
+			path = RHAddressBook;
+			sourceTree = "<group>";
+		};
 		961108541B3D07F50033E45F /* WeakTimer */ = {
 			isa = PBXGroup;
 			children = (
@@ -2297,6 +2399,8 @@
 				96BD79101AB40AF700CAF7A4 /* RLBaseTableViewController.m */,
 				9613F0001B2EBAE000632912 /* RLTableViewController.h */,
 				9613F0011B2EBAE000632912 /* RLTableViewController.m */,
+				960DE8F31B73081E00DFECA9 /* RLABViewController.h */,
+				960DE8F41B73081E00DFECA9 /* RLABViewController.m */,
 			);
 			path = RLViewControllers;
 			sourceTree = "<group>";
@@ -2310,6 +2414,8 @@
 				96DA3EA91ACA941500FAD340 /* RLImageTextField.m */,
 				96DA3EBD1ACB8C3900FAD340 /* RLTitleTextField.h */,
 				96DA3EBE1ACB8C3900FAD340 /* RLTitleTextField.m */,
+				960DE8F61B733E7D00DFECA9 /* RLTableCellButton.h */,
+				960DE8F71B733E7D00DFECA9 /* RLTableCellButton.m */,
 			);
 			path = RLViews;
 			sourceTree = "<group>";
@@ -2441,6 +2547,7 @@
 		96BD799F1ABFE8D500CAF7A4 /* RLTools */ = {
 			isa = PBXGroup;
 			children = (
+				960DE8BB1B72FBA700DFECA9 /* AddressBook */,
 				961108541B3D07F50033E45F /* WeakTimer */,
 				969DFD631B32A2EF0057D0BE /* WebCache */,
 				9613EFEA1B2BCC7800632912 /* Security */,
@@ -2471,6 +2578,8 @@
 				96C7E74B1ADBB2C500F27732 /* LockDevicesVC.m */,
 				9689234D1B0F272E00B3CBFE /* KeysOfLockVC.h */,
 				9689234E1B0F272E00B3CBFE /* KeysOfLockVC.m */,
+				960DE8F91B734A8000DFECA9 /* SendKeyWithABVC.h */,
+				960DE8FA1B734A8000DFECA9 /* SendKeyWithABVC.m */,
 				960A23B81AFCB6AD002111E3 /* AddDeviceVC.h */,
 				960A23B91AFCB6AD002111E3 /* AddDeviceVC.m */,
 				96C7E74C1ADBB2C500F27732 /* MainVC.h */,
@@ -3037,6 +3146,7 @@
 				96DA3EA71ACA8DCD00FAD340 /* LoginIcon@3x.png in Resources */,
 				96FC5AFE1B16C7070076767B /* SetupNav.png in Resources */,
 				96DA3EA51ACA8DCD00FAD340 /* LoginIcon.png in Resources */,
+				960DE8E91B73028E00DFECA9 /* RHAddressBook-Info.plist in Resources */,
 				96002BE01B16FB4D0072CF05 /* KeyIcon@3x.png in Resources */,
 				96DA3EA61ACA8DCD00FAD340 /* LoginIcon@2x.png in Resources */,
 				961108211B3B9FB90033E45F /* Settings@3x.png in Resources */,
@@ -3078,6 +3188,8 @@
 				96DA44071AD6577400FAD340 /* AFURLConnectionOperation.m in Sources */,
 				96C7E7B71ADD33EA00F27732 /* LockModel.m in Sources */,
 				969DFD6A1B32A2EF0057D0BE /* CustomURLCache.m in Sources */,
+				960DE8F81B733E7D00DFECA9 /* RLTableCellButton.m in Sources */,
+				960DE8EB1B73028E00DFECA9 /* RHAddressBookGeoResult.m in Sources */,
 				96DA44081AD6577400FAD340 /* AFHTTPSessionManager.m in Sources */,
 				960236BE1AEE1627005996E0 /* XMPPMessageArchiving_Message_CoreDataObject.m in Sources */,
 				96BD79081AB4024900CAF7A4 /* RLBaseTableView.m in Sources */,
@@ -3114,6 +3226,7 @@
 				9602369E1AEE1627005996E0 /* XMPPvCardCoreDataStorage.m in Sources */,
 				96DA443B1AD75CC600FAD340 /* RLLogin.m in Sources */,
 				96FC5ADD1B146C3F0076767B /* SCLAlertViewResponder.m in Sources */,
+				960DE8EC1B73028E00DFECA9 /* RHAddressBookSharedServices.m in Sources */,
 				960236BA1AEE1627005996E0 /* XMPPCapsResourceCoreDataStorageObject.m in Sources */,
 				96DA449C1AD8B6A800FAD340 /* RegisterModel.m in Sources */,
 				9602369F1AEE1627005996E0 /* XMPPvCardCoreDataStorageObject.m in Sources */,
@@ -3176,6 +3289,7 @@
 				960236A71AEE1627005996E0 /* XMPPvCardTempModule.m in Sources */,
 				960236611AEE1627005996E0 /* XMPPAnonymousAuthentication.m in Sources */,
 				96DA440C1AD6577400FAD340 /* AFURLRequestSerialization.m in Sources */,
+				960DE8EA1B73028E00DFECA9 /* RHAddressBook.m in Sources */,
 				9689234C1B0F0FAD00B3CBFE /* SubTitleListCell.m in Sources */,
 				960236D71AEE1627005996E0 /* NSXMLElement+XEP_0335.m in Sources */,
 				960236A51AEE1627005996E0 /* XMPPvCardTempEmail.m in Sources */,
@@ -3200,8 +3314,10 @@
 				960236841AEE1627005996E0 /* XMPPRosterMemoryStorage.m in Sources */,
 				960A23F31B01A3D8002111E3 /* MoreVC.m in Sources */,
 				96DA44101AD6577400FAD340 /* UIAlertView+AFNetworking.m in Sources */,
+				960DE8F21B73028E00DFECA9 /* RHSource.m in Sources */,
 				960236791AEE1627005996E0 /* XMPPIncomingFileTransfer.m in Sources */,
 				9602368F1AEE1627005996E0 /* XMPPRoomCoreDataStorage.m in Sources */,
+				960DE8FB1B734A8000DFECA9 /* SendKeyWithABVC.m in Sources */,
 				960236CB1AEE1627005996E0 /* XMPPPing.m in Sources */,
 				96DA44291AD66DC100FAD340 /* RLColor.m in Sources */,
 				960236C61AEE1627005996E0 /* XMPPBlocking.m in Sources */,
@@ -3226,6 +3342,8 @@
 				9613EFFD1B2C00ED00632912 /* RLSecurityPolicy.m in Sources */,
 				960236621AEE1627005996E0 /* XMPPDeprecatedDigestAuthentication.m in Sources */,
 				96DA44301AD670EC00FAD340 /* RLLocation.m in Sources */,
+				960DE8EF1B73028E00DFECA9 /* RHMultiValue.m in Sources */,
+				960DE8F11B73028E00DFECA9 /* RHRecord.m in Sources */,
 				9611081B1B3A9FD40033E45F /* SystemSettingVC.m in Sources */,
 				960236831AEE1627005996E0 /* XMPPResourceMemoryStorageObject.m in Sources */,
 				96C7E7511ADBB2C500F27732 /* MainVC.m in Sources */,
@@ -3245,6 +3363,7 @@
 				96C7E7AE1ADD31ED00F27732 /* DeviceModel.m in Sources */,
 				96DA3EBF1ACB8C3900FAD340 /* RLTitleTextField.m in Sources */,
 				96BD79111AB40AF700CAF7A4 /* RLBaseTableViewController.m in Sources */,
+				960DE8ED1B73028E00DFECA9 /* RHAddressBookThreadMain.m in Sources */,
 				960236D11AEE1627005996E0 /* XMPPMessage+XEP_0224.m in Sources */,
 				960236AB1AEE1627005996E0 /* XMPPIQ+XEP_0060.m in Sources */,
 				960A23B61AFCB169002111E3 /* NotificationMessage.m in Sources */,
@@ -3258,6 +3377,7 @@
 				9602366A1AEE1627005996E0 /* NSNumber+XMPP.m in Sources */,
 				960236911AEE1627005996E0 /* XMPPRoomOccupantCoreDataStorageObject.m in Sources */,
 				960236D41AEE1627005996E0 /* NSXMLElement+XEP_0297.m in Sources */,
+				960DE8E71B73028E00DFECA9 /* pinyin.m in Sources */,
 				960236A41AEE1627005996E0 /* XMPPvCardTempBase.m in Sources */,
 				9674393A1B5F2F3100661F17 /* RLBluetooth.m in Sources */,
 				960A23AF1AFC9712002111E3 /* NotificationMessageVC.m in Sources */,
@@ -3271,6 +3391,7 @@
 				96DA44471AD768F500FAD340 /* Login.m in Sources */,
 				960236761AEE1627005996E0 /* XMPPBandwidthMonitor.m in Sources */,
 				960A23DD1B00A768002111E3 /* TimeCell.m in Sources */,
+				960DE8F51B73081E00DFECA9 /* RLABViewController.m in Sources */,
 				960236A61AEE1627005996E0 /* XMPPvCardTempLabel.m in Sources */,
 				96C7E7BA1ADD33F900F27732 /* KeyModel.m in Sources */,
 				960236B21AEE1627005996E0 /* XMPPDateTimeProfiles.m in Sources */,
@@ -3289,10 +3410,12 @@
 				9613F0081B31122F00632912 /* AboutVC.m in Sources */,
 				96DA44441AD7652700FAD340 /* RLRequest.m in Sources */,
 				960236C01AEE1627005996E0 /* XMPPMessageArchiving.m in Sources */,
+				960DE8EE1B73028E00DFECA9 /* RHGroup.m in Sources */,
 				96C7E7B41ADD321B00F27732 /* DeviceManager.m in Sources */,
 				9613EFDF1B27E7BC00632912 /* DeviceUser.m in Sources */,
 				96BD78AE1AAFD0DC00CAF7A4 /* AppDelegate.m in Sources */,
 				960236AA1AEE1627005996E0 /* XMPPResultSet.m in Sources */,
+				960DE8E81B73028E00DFECA9 /* NSThread+RHBlockAdditions.m in Sources */,
 				96DA448D1AD7C4CE00FAD340 /* MBProgressHUD.m in Sources */,
 				96EED5821AC005E5000E53C0 /* BaseTableVC.m in Sources */,
 				960236DB1AEE1627005996E0 /* XMPPIDTracker.m in Sources */,
@@ -3346,6 +3469,7 @@
 				96BD78AB1AAFD0DC00CAF7A4 /* main.m in Sources */,
 				96C7E7A81ADD315400F27732 /* DeviceRequest.m in Sources */,
 				960236AE1AEE1627005996E0 /* XMPPIQ+XEP_0066.m in Sources */,
+				960DE8F01B73028E00DFECA9 /* RHPerson.m in Sources */,
 				960236C91AEE1627005996E0 /* XMPPStreamManagement.m in Sources */,
 				960236EC1AEE1627005996E0 /* DDXMLNode.m in Sources */,
 				960A23E31B00AB87002111E3 /* TextBubbleView.m in Sources */,

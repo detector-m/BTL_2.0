@@ -45,6 +45,7 @@
 #import "LockEntity.h"
 
 #import "RLSecurityPolicy.h"
+#import "RLABViewController.h"
 /*************************************/
 #endif
 
@@ -78,17 +79,23 @@
 //    NSLog(@"%s", data);
 //    NSLog(@"%@", enData);
     
-    Byte xx = 0;
-    long long time = getTimestamp();
-//    NSData *data = [[NSString stringWithFormat:@"12345abcdF"] dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *data = [NSData dataWithBytes:(unsigned char *)&time length:sizeof(long long)];
-    NSLog(@"%@", data);
-    NSData *enData = btlXXTEAByteEncryptDataWithFinalKey(data, &xx);
-    NSLog(@"%@", enData);
-    NSData *tt = btlXXTEAByteDecryptDataWithFinalKey(enData, xx);
-    NSLog(@"%@", tt);
-    NSString *string = [[NSString alloc] initWithData:btlXXTEAByteDecryptDataWithFinalKey(enData, xx) encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", string);
+//    Byte xx = 0;
+//    long long time = getTimestamp();
+////    NSData *data = [[NSString stringWithFormat:@"12345abcdF"] dataUsingEncoding:NSUTF8StringEncoding];
+//    NSData *data = [NSData dataWithBytes:(unsigned char *)&time length:sizeof(long long)];
+//    NSLog(@"%@", data);
+//    NSData *enData = btlXXTEAByteEncryptDataWithFinalKey(data, &xx);
+//    NSLog(@"%@", enData);
+//    NSData *tt = btlXXTEAByteDecryptDataWithFinalKey(enData, xx);
+//    NSLog(@"%@", tt);
+//    NSString *string = [[NSString alloc] initWithData:btlXXTEAByteDecryptDataWithFinalKey(enData, xx) encoding:NSUTF8StringEncoding];
+//    NSLog(@"%@", string);
+    
+    
+    RLBaseNavigationController *nav = [RLBaseNavigationController new];
+    [nav pushViewController:[[RLABViewController alloc] init] animated:NO];
+    self.window.rootViewController = nav;
+    [self.window makeKeyAndVisible];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

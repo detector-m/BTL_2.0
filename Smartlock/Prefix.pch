@@ -13,6 +13,7 @@
 
 #ifdef __OBJC__
 #import <Foundation/Foundation.h>
+#import "RHARCSupport.h"
 #endif
 #import "AppDelegate.h"
 #import "RLDebug.h"

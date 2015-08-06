@@ -8,6 +8,7 @@
 
 #import "SubTitleListCell.h"
 #import "RLColor.h"
+#import "RLTableCellButton.h"
 
 #define ButtonWidth 60
 #define ButtonHeight 35
@@ -37,14 +38,14 @@
                 tempView = [[UIView alloc] initWithFrame:CGRectMake(240, 7, TimeLabelWidth, TimeLabelHeight)];
                 tempView.backgroundColor = [UIColor clearColor];
             }
-            else if(self.contentAccessoryViewClass == [UILabel class]) {
-                tempView = [[UILabel alloc] initWithFrame:CGRectMake(240, 7, TimeLabelWidth, TimeLabelHeight)];
+            else if([self.contentAccessoryViewClass isSubclassOfClass:[UILabel class]] ||  self.contentAccessoryViewClass  == [UILabel class]) {
+                tempView = [[self.contentAccessoryViewClass alloc] initWithFrame:CGRectMake(240, 7, TimeLabelWidth, TimeLabelHeight)];
                 ((UILabel *)tempView).textAlignment = NSTextAlignmentCenter;
                 ((UILabel *)tempView).font = [UIFont systemFontOfSize:13];
                 ((UILabel *)tempView).backgroundColor = [UIColor clearColor];
             }
-            else if(self.contentAccessoryViewClass == [UIButton class]) {
-                tempView = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            else if([self.contentAccessoryViewClass isSubclassOfClass:[UIButton class]] ||  self.contentAccessoryViewClass == [UIButton class]) {
+                tempView = [self.contentAccessoryViewClass buttonWithType:UIButtonTypeRoundedRect];
                 tempView.frame = CGRectMake(240, 7, ButtonWidth, ButtonHeight);
                 UIButton *button = (UIButton *)tempView;
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -119,7 +120,7 @@
     xOffset = self.imageView.frame.origin.x + self.imageView.frame.size.width - Space;
     self.badgeLabel.frame = CGRectMake(xOffset, 2, BadgeLabelWidth, BadgeLabelHeight);
     
-    if(self.contentAccessoryViewClass == [UIButton class]) {
+    if([self.contentAccessoryViewClass isSubclassOfClass:[UIButton class]] || self.contentAccessoryViewClass == [UIButton class]) {
         xOffset = contentWidth - Space - ButtonWidth;
         width = ButtonWidth;
         height = ButtonHeight;
