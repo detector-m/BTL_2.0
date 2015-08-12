@@ -9,5 +9,7 @@
 #import "WebViewVC.h"
 
 @interface SendKeyVC : WebViewVC
-
+//@property (nonatomic, assign)
+@property (nonatomic, strong) NSString *phone;
+@property (nonatomic, strong) NSString *lockID;
 @end

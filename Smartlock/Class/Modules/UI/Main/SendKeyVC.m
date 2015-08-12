@@ -12,13 +12,26 @@
 #import "RLSecurityPolicy.h"
 
 @implementation SendKeyVC
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        NSString *requestUrl = [NSString stringWithFormat:@"/bleLock/initSendKey.jhtml?accessToken=%@", encryptedTokenToBase64([User sharedUser].sessionToken, [User sharedUser].certificazte)/*[User sharedUser].sessionToken*/];
-        self.url = [kRLHTTPAPIBaseURLString stringByAppendingString:requestUrl];
+//- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+//    if(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+//        NSString *requestUrl = [NSString stringWithFormat:@"/bleLock/initSendKey.jhtml?accessToken=%@", encryptedTokenToBase64([User sharedUser].sessionToken, [User sharedUser].certificazte)/*[User sharedUser].sessionToken*/];
+//        self.url = [kRLHTTPAPIBaseURLString stringByAppendingString:requestUrl];
+//    }
+//    
+//    return self;
+//}
+
+- (void)viewDidLoad {
+    NSString *requestUrl = [NSString stringWithFormat:@"/bleLock/initSendKey.jhtml?accessToken=%@", encryptedTokenToBase64([User sharedUser].sessionToken, [User sharedUser].certificazte)/*[User sharedUser].sessionToken*/];
+    if(self.lockID.length) {
+        requestUrl = [requestUrl stringByAppendingFormat:@"&bleLockId=%@", self.lockID];
     }
+    if(self.phone.length) {
+        requestUrl = [requestUrl stringByAppendingFormat:@"&mobile=%@", self.phone];
+    }
+    self.url = [kRLHTTPAPIBaseURLString stringByAppendingString:requestUrl];
     
-    return self;
+    [super viewDidLoad];
 }
 
 @end

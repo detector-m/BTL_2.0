@@ -202,6 +202,13 @@
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
+                UIViewController *loginVC = ((AppDelegate *)([UIApplication sharedApplication].delegate)).window.rootViewController;
+                
+                if([loginVC isKindOfClass:[UINavigationController class]]) {
+                    if([[loginVC.childViewControllers firstObject] isKindOfClass:[LoginVC class]]) {
+                        return;
+                    }
+                }
                 [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"用户名或密码错误！", nil)];
 
             });

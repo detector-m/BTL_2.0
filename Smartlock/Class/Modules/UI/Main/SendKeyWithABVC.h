@@ -9,5 +9,5 @@
 #import "RLABViewController.h"
 
 @interface SendKeyWithABVC : RLABViewController
-
+@property (nonatomic, assign) NSUInteger lockId;
 @end

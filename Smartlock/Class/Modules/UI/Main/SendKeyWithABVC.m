@@ -12,6 +12,8 @@
 #import "RLColor.h"
 #import "KeyModel.h"
 
+#import "SendKeyVC.h"
+
 #import "RHAddressBook.h"
 #import "RHPerson.h"
 
@@ -99,5 +101,27 @@
 
 - (void)clickCellBtn:(RLTableCellButton *)button {
     NSIndexPath *indexPath = button.indexPath;
+    
+    NSString *alpha     = [_sectionTitles objectAtIndex:indexPath.section];
+    NSArray *alphaArray = [_abDictionary objectForKey:alpha];
+    RHPerson *person    = [alphaArray objectAtIndex:indexPath.row];
+    person.firstNamePhonetic = @"";
+    NSString *phone = [person.phoneNumbers valueAtIndex:0];
+    
+    NSString *lockIDString = [RLTypecast integerToString:self.lockId];
+    
+    SendKeyVC *vc = [[SendKeyVC alloc] init];
+    vc.lockID = lockIDString;
+    
+    if([phone hasPrefix:@"+"]) {
+        phone = [phone substringFromIndex:4];
+    }
+    phone = [phone stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    if(![phone isMobile]) {
+        phone = nil;
+    }
+    vc.phone = phone;
+    
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

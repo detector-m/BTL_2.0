@@ -36,6 +36,7 @@
 
 - (void)clickedRightItem:(UIBarButtonItem *)item {
     SendKeyWithABVC *vc = [[SendKeyWithABVC alloc] init];
+    vc.lockId = self.lockId;
     vc.filterItems = self.table.datas;
     vc.title = NSLocalizedString(@"发送钥匙", nil);
     [self.navigationController pushViewController:vc animated:YES];

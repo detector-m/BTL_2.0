@@ -45,10 +45,12 @@ NSString * const kWaitingTitle = @"Waiting... ⌛️";
         
         __block MBProgressHUD *HUD = [self getMBAlertHUDWithTitle:nil andDetails:body];
         
-        HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HUDCheckmark.png"]];
-        
         // Set custom view mode
-        HUD.mode = MBProgressHUDModeCustomView;
+//        HUD.mode = MBProgressHUDModeCustomView;
+        HUD.mode = MBProgressHUDModeText;
+        
+//        HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HUDCheckmark.png"]];
+
         HUD.square = YES;
         
         [HUD showAnimated:YES whileExecutingBlock:^{
@@ -68,11 +70,10 @@ NSString * const kWaitingTitle = @"Waiting... ⌛️";
         [self hideAllOldAlertHUD];
         
         __block MBProgressHUD *HUD = [self getMBAlertHUDWithTitle:nil andDetails:body];
-        
-        HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HUDErrormark.png"]];
-        
-        // Set custom view mode
-        HUD.mode = MBProgressHUDModeCustomView;
+ 
+//        HUD.mode = MBProgressHUDModeCustomView;
+        HUD.mode = MBProgressHUDModeText;
+//        HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HUDErrormark.png"]];
         
         [HUD showAnimated:YES whileExecutingBlock:^{
             [self HUDAlertTask];
@@ -102,7 +103,6 @@ NSString * const kWaitingTitle = @"Waiting... ⌛️";
             HUD = nil;
         }];
     });
-    
 }
 + (void)hudAlertWarningWithBody:(NSString *)body dimissBlock:(DismissBlock)block {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -118,7 +118,6 @@ NSString * const kWaitingTitle = @"Waiting... ⌛️";
             }
             HUD = nil;
         }];
-
     });
 }
 + (void)hudAlertInfoWithBody:(NSString *)body dimissBlock:(DismissBlock)block {

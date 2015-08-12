@@ -217,6 +217,7 @@
 		960DE8F51B73081E00DFECA9 /* RLABViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8F41B73081E00DFECA9 /* RLABViewController.m */; };
 		960DE8F81B733E7D00DFECA9 /* RLTableCellButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8F71B733E7D00DFECA9 /* RLTableCellButton.m */; };
 		960DE8FB1B734A8000DFECA9 /* SendKeyWithABVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE8FA1B734A8000DFECA9 /* SendKeyWithABVC.m */; };
+		960DE9321B7873D900DFECA9 /* BannerDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 960DE9311B7873D900DFECA9 /* BannerDetailVC.m */; };
 		961108121B393BF10033E45F /* HUDCheckmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 9611080D1B393BF10033E45F /* HUDCheckmark.png */; };
 		961108131B393BF10033E45F /* HUDCheckmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9611080E1B393BF10033E45F /* HUDCheckmark@2x.png */; };
 		961108141B393BF10033E45F /* HUDCheckmark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9611080F1B393BF10033E45F /* HUDCheckmark@3x.png */; };
@@ -807,6 +808,8 @@
 		960DE8F71B733E7D00DFECA9 /* RLTableCellButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLTableCellButton.m; sourceTree = "<group>"; };
 		960DE8F91B734A8000DFECA9 /* SendKeyWithABVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendKeyWithABVC.h; sourceTree = "<group>"; };
 		960DE8FA1B734A8000DFECA9 /* SendKeyWithABVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendKeyWithABVC.m; sourceTree = "<group>"; };
+		960DE9301B7873D900DFECA9 /* BannerDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerDetailVC.h; sourceTree = "<group>"; };
+		960DE9311B7873D900DFECA9 /* BannerDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerDetailVC.m; sourceTree = "<group>"; };
 		9611080D1B393BF10033E45F /* HUDCheckmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HUDCheckmark.png; sourceTree = "<group>"; };
 		9611080E1B393BF10033E45F /* HUDCheckmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HUDCheckmark@2x.png"; sourceTree = "<group>"; };
 		9611080F1B393BF10033E45F /* HUDCheckmark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HUDCheckmark@3x.png"; sourceTree = "<group>"; };
@@ -2608,6 +2611,8 @@
 				960A23F21B01A3D8002111E3 /* MoreVC.m */,
 				960A24001B073CFD002111E3 /* MoreDetailVC.h */,
 				960A24011B073CFD002111E3 /* MoreDetailVC.m */,
+				960DE9301B7873D900DFECA9 /* BannerDetailVC.h */,
+				960DE9311B7873D900DFECA9 /* BannerDetailVC.m */,
 				961108191B3A9FD40033E45F /* SystemSettingVC.h */,
 				9611081A1B3A9FD40033E45F /* SystemSettingVC.m */,
 			);
@@ -3293,6 +3298,7 @@
 				9689234C1B0F0FAD00B3CBFE /* SubTitleListCell.m in Sources */,
 				960236D71AEE1627005996E0 /* NSXMLElement+XEP_0335.m in Sources */,
 				960236A51AEE1627005996E0 /* XMPPvCardTempEmail.m in Sources */,
+				960DE9321B7873D900DFECA9 /* BannerDetailVC.m in Sources */,
 				960236AF1AEE1627005996E0 /* XMPPMessage+XEP_0066.m in Sources */,
 				9602368B1AEE1627005996E0 /* XMPPIQ+LastActivity.m in Sources */,
 				960236D81AEE1627005996E0 /* DDList.m in Sources */,
