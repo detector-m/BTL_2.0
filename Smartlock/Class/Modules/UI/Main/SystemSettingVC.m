@@ -123,15 +123,16 @@
     UIView *lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 0.5)];
     lineview.backgroundColor = [UIColor lightGrayColor];
     
-    CGFloat height = 150;
+    CGFloat height = 165;
     self.footerForTableView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, height)];
     self.footerForTableView.backgroundColor = [UIColor clearColor];
     frame = self.footerForTableView.frame;
     UILabel *licenceLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, frame.size.width-10, height)];
     licenceLabel.numberOfLines = 0;
     licenceLabel.textAlignment = NSTextAlignmentLeft;
-    licenceLabel.text = @"开锁模式为自动时：\n\t1 打开APP登陆并进入APP主界面  \n\t2 触摸锁设备开关 ，后将自动开锁；\n开锁模式为手动时：\n\t1 打开APP登陆并进入APP主界面   \n\t2 点击APP主界面开锁图标  \n\t3 触摸锁设备开关 ，后将自动开锁  \n\t4 当手动开锁模式时，可选择家用开锁类型，或者常开常闭类型";
+    licenceLabel.text = @"开锁模式为自动时：\n\t1 打开APP登陆并进入APP主界面  \n\t2 触摸锁设备开关 ，后将自动开锁；\n开锁模式为手动时：\n\t1 打开APP登陆并进入APP主界面   \n\t2 点击APP主界面开锁图标  \n\t3 触摸锁设备开关 ，后将自动开锁  \n\t4 当手动开锁模式时，可选择家用开锁类型，或者常开常闭类型，开关打开为家用型，关闭时为常开常闭。";
     licenceLabel.font = [UIFont systemFontOfSize:13];
+    licenceLabel.textColor = [UIColor blueColor];
     [self.footerForTableView addSubview:licenceLabel];
     [self.footerForTableView addSubview:lineview];
     return self.footerForTableView;

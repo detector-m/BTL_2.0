@@ -288,6 +288,10 @@ static RLBluetooth *_sharedBluetooth = nil;
     }];
 }
 
+- (void)updateTimeToPeripheral:(RLPeripheral *)peripheral request:(RLPeripheralRequest *)request {
+    [self handlePeripheralRequestDataWithPeripheral:peripheral request:request];
+}
+
 - (void)handlePeripheralRequestDataWithPeripheral:(RLPeripheral *)peripheral request:(RLPeripheralRequest *)request  {
     if(!peripheral || !request) return;
     RLService *service = [self serviceForUUIDString:kDestServicesUUIDString withPeripheral:peripheral];
@@ -312,8 +316,15 @@ static RLBluetooth *_sharedBluetooth = nil;
             dataToWrite = [self dataToWriteWithPeripheralRequest:request];
         }
             break;
+            
         case 0x03: {
-            dataToWrite = [self dataToWriteWithPeripheralRequest:request];
+            long long userPwd = request.userPwd;
+            int len = 0;
+            Byte *dateBytes = dateNowToBytes(&len);
+            NSMutableData *dateData = [NSMutableData dataWithBytes:dateBytes length:len];
+            NSData *userPwdData = [NSData dataWithBytes:&userPwd length:sizeof(userPwd)];
+            [dateData appendData:userPwdData];
+            dataToWrite = dateData;
         }
             break;
         case 0x04:

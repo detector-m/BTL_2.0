@@ -239,6 +239,10 @@
 		9613EFFD1B2C00ED00632912 /* RLSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9613EFFC1B2C00ED00632912 /* RLSecurityPolicy.m */; };
 		9613F0021B2EBAE000632912 /* RLTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9613F0011B2EBAE000632912 /* RLTableViewController.m */; };
 		9613F0081B31122F00632912 /* AboutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9613F0071B31122F00632912 /* AboutVC.m */; };
+		961546161B7DBEF0006C1C5C /* NormalCloseDisable.png in Resources */ = {isa = PBXBuildFile; fileRef = 961546121B7DBEF0006C1C5C /* NormalCloseDisable.png */; };
+		961546171B7DBEF0006C1C5C /* NormalCloseEnable.png in Resources */ = {isa = PBXBuildFile; fileRef = 961546131B7DBEF0006C1C5C /* NormalCloseEnable.png */; };
+		961546181B7DBEF0006C1C5C /* NormalOpenDisable.png in Resources */ = {isa = PBXBuildFile; fileRef = 961546141B7DBEF0006C1C5C /* NormalOpenDisable.png */; };
+		961546191B7DBEF0006C1C5C /* NormalOpenEnable.png in Resources */ = {isa = PBXBuildFile; fileRef = 961546151B7DBEF0006C1C5C /* NormalOpenEnable.png */; };
 		965D60771B12E28800F076BD /* KeyEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 965D60761B12E28800F076BD /* KeyEntity.m */; };
 		965D607A1B12E28900F076BD /* LockEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 965D60791B12E28900F076BD /* LockEntity.m */; };
 		967439201B5F2D1900661F17 /* SoundOperator.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9674391F1B5F2D1900661F17 /* SoundOperator.mp3 */; };
@@ -841,6 +845,10 @@
 		9613F0011B2EBAE000632912 /* RLTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLTableViewController.m; sourceTree = "<group>"; };
 		9613F0061B31122F00632912 /* AboutVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutVC.h; sourceTree = "<group>"; };
 		9613F0071B31122F00632912 /* AboutVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutVC.m; sourceTree = "<group>"; };
+		961546121B7DBEF0006C1C5C /* NormalCloseDisable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NormalCloseDisable.png; path = Smartlock/Resources/Main/NormalCloseDisable.png; sourceTree = SOURCE_ROOT; };
+		961546131B7DBEF0006C1C5C /* NormalCloseEnable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NormalCloseEnable.png; path = Smartlock/Resources/Main/NormalCloseEnable.png; sourceTree = SOURCE_ROOT; };
+		961546141B7DBEF0006C1C5C /* NormalOpenDisable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NormalOpenDisable.png; path = Smartlock/Resources/Main/NormalOpenDisable.png; sourceTree = SOURCE_ROOT; };
+		961546151B7DBEF0006C1C5C /* NormalOpenEnable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NormalOpenEnable.png; path = Smartlock/Resources/Main/NormalOpenEnable.png; sourceTree = SOURCE_ROOT; };
 		965D60751B12E28800F076BD /* KeyEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyEntity.h; sourceTree = "<group>"; };
 		965D60761B12E28800F076BD /* KeyEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyEntity.m; sourceTree = "<group>"; };
 		965D60781B12E28900F076BD /* LockEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockEntity.h; sourceTree = "<group>"; };
@@ -2515,6 +2523,10 @@
 		96BD79981ABFE64A00CAF7A4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				961546121B7DBEF0006C1C5C /* NormalCloseDisable.png */,
+				961546131B7DBEF0006C1C5C /* NormalCloseEnable.png */,
+				961546141B7DBEF0006C1C5C /* NormalOpenDisable.png */,
+				961546151B7DBEF0006C1C5C /* NormalOpenEnable.png */,
 				96002BF11B1C3F230072CF05 /* Voice */,
 				96FC5AE21B16C0290076767B /* More */,
 				960A23E71B00C5B3002111E3 /* Message */,
@@ -3100,6 +3112,7 @@
 				960A23CC1AFDDD16002111E3 /* Refresh@3x.png in Resources */,
 				96002BE61B16FD660072CF05 /* MessageAvater@3x.png in Resources */,
 				96BD78E41AAFED4900CAF7A4 /* Localizable.strings in Resources */,
+				961546181B7DBEF0006C1C5C /* NormalOpenDisable.png in Resources */,
 				960236ED1AEE1627005996E0 /* build-libidn.sh in Resources */,
 				96DA3EB41ACAB82D00FAD340 /* Password.png in Resources */,
 				96DA3EB61ACAB82D00FAD340 /* Password@3x.png in Resources */,
@@ -3110,6 +3123,7 @@
 				96002BF41B1C3F240072CF05 /* DoorOpened.mp3 in Resources */,
 				960237551AF75416005996E0 /* Cupid@2x.png in Resources */,
 				96DA3EB31ACAB82D00FAD340 /* Account@3x.png in Resources */,
+				961546191B7DBEF0006C1C5C /* NormalOpenEnable.png in Resources */,
 				960237511AF75416005996E0 /* Arrow.png in Resources */,
 				960A23BF1AFCB993002111E3 /* Bluetooth@2x.png in Resources */,
 				96EED57A1ABFEFB5000E53C0 /* Unlock.png in Resources */,
@@ -3119,6 +3133,7 @@
 				960A23D81B00A6B3002111E3 /* ReceiverBg.png in Resources */,
 				96DA3EC91ACBD66100FAD340 /* Phone@3x.png in Resources */,
 				96002BF51B1C3F240072CF05 /* ReceiveMessage.mp3 in Resources */,
+				961546161B7DBEF0006C1C5C /* NormalCloseDisable.png in Resources */,
 				9602375C1AF7745A005996E0 /* MainBackground@3x.jpeg in Resources */,
 				96BD78B41AAFD0DC00CAF7A4 /* Main.storyboard in Resources */,
 				960A23C01AFCB993002111E3 /* Bluetooth@3x.png in Resources */,
@@ -3128,6 +3143,7 @@
 				96002BE41B16FD660072CF05 /* MessageAvater.png in Resources */,
 				96AB245F1ADE45490021C19C /* btnCheck.png in Resources */,
 				961108201B3B9FB90033E45F /* Settings@2x.png in Resources */,
+				961546171B7DBEF0006C1C5C /* NormalCloseEnable.png in Resources */,
 				9611081F1B3B9FB90033E45F /* Settings.png in Resources */,
 				9613EFE71B2ABC1700632912 /* Voice.png in Resources */,
 				96FC5AFA1B16C7070076767B /* About@3x.png in Resources */,

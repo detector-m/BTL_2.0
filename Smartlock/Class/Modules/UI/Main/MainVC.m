@@ -54,7 +54,9 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 @property (nonatomic, strong) UIButton *openLockBtn;
-@property (nonatomic, strong) UIButton *closeLockBtn;
+//@property (nonatomic, strong) UIButton *closeLockBtn;
+@property (nonatomic, strong) UIButton *normallyOpenLockBtn;
+@property (nonatomic, strong) UIButton *normallyCloseLockBtn;
 @property (nonatomic, strong) UIButton *cupidBtn;
 @property (nonatomic, strong) UIImageView *arrow;
 
@@ -106,10 +108,20 @@
     [super viewWillAppear:animated];
     
     if([User getAutoOpenLockSwitch] && [User getOpenLockTypeSwitch]) {
-        self.closeLockBtn.hidden = NO;
+//        self.closeLockBtn.hidden = NO;
+        self.normallyOpenLockBtn.enabled = YES;
+        self.normallyCloseLockBtn.enabled = YES;
+        
+        self.normallyOpenLockBtn.hidden = NO;
+        self.normallyCloseLockBtn.hidden = NO;
     }
     else {
-        self.closeLockBtn.hidden = YES;
+//        self.closeLockBtn.hidden = YES;
+        self.normallyOpenLockBtn.enabled = NO;
+        self.normallyCloseLockBtn.enabled = NO;
+        
+        self.normallyOpenLockBtn.hidden = YES;
+        self.normallyCloseLockBtn.hidden = YES;
     }
 }
 
@@ -292,7 +304,13 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 - (void)setupMainView {
     if(!self.scrollView) {
         CGRect frame = self.view.frame;
-        CGFloat heightOffset = BannerViewHeight+self.bannersView.frame.origin.y+22;
+        CGFloat heightOffset = BannerViewHeight+self.bannersView.frame.origin.y+2;
+        if([UIScreen mainScreen].bounds.size.height > 480) {
+            heightOffset += 55;
+        }
+//        if(!([User getAutoOpenLockSwitch] && [User getOpenLockTypeSwitch])) {
+//            heightOffset += 20;
+//        }
         
         self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, heightOffset, frame.size.width, frame.size.height-heightOffset)];
         self.scrollView.contentSize = CGSizeMake(frame.size.width, self.scrollView.frame.size.height);
@@ -332,6 +350,7 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 /**
  * 关门
  **/
+#if 0
         heightOffset = self.cupidBtn.frame.origin.y + self.openLockBtn.frame.size.height;
         self.closeLockBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         self.closeLockBtn.frame = CGRectMake(frame.size.width-LockSize, heightOffset-7, LockSize, LockSize+10);
@@ -342,6 +361,33 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         if([User getAutoOpenLockSwitch] && [User getOpenLockTypeSwitch]) {
             self.closeLockBtn.hidden = NO;
         }
+        
+        [self.scrollView bringSubviewToFront:self.arrow];
+#endif
+        
+//normallyOpenLockBtn;
+//normallyCloseLockBtn;
+        heightOffset += self.openLockBtn.frame.size.height-2;
+        
+        self.normallyOpenLockBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.normallyOpenLockBtn.frame = CGRectMake(frame.size.width/2-LockSize-10 , heightOffset, 66, 38);
+        [self.normallyOpenLockBtn setImage:[UIImage imageNamed:@"NormalOpenDisable.png"] forState:UIControlStateDisabled];
+        [self.normallyOpenLockBtn setImage:[UIImage imageNamed:@"NormalOpenEnable.png"] forState:UIControlStateNormal];
+        [self.normallyOpenLockBtn addTarget:self action:@selector(clickNormallyOpenLockBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [self.scrollView addSubview:self.normallyOpenLockBtn];
+        self.normallyOpenLockBtn.enabled = NO;
+        
+        self.normallyCloseLockBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.normallyCloseLockBtn.frame = CGRectMake(frame.size.width/2-LockSize-10 + 66 + 10, heightOffset, 66, 38);
+        [self.normallyCloseLockBtn setImage:[UIImage imageNamed:@"NormalCloseDisable.png"] forState:UIControlStateDisabled];
+        [self.normallyCloseLockBtn setImage:[UIImage imageNamed:@"NormalCloseEnable.png"] forState:UIControlStateNormal];
+        [self.normallyCloseLockBtn addTarget:self action:@selector(clickNormallyCloseLockBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [self.scrollView addSubview:self.normallyCloseLockBtn];
+        self.normallyCloseLockBtn.enabled = NO;
+        
+//        if([User getAutoOpenLockSwitch] && [User getOpenLockTypeSwitch]) {
+//            self.normallyCloseLockBtn.hidden = NO;
+//        }
         
         [self.scrollView bringSubviewToFront:self.arrow];
         
@@ -477,6 +523,23 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     }
 }
 
+- (void)clickNormallyOpenLockBtn:(UIButton *)button {
+    if(![User getAutoOpenLockSwitch]) return;
+    _openLockCmdCode = 0x02;
+    if([User getOpenLockTypeSwitch]) { //常开常闭模式
+        _openLockCmdCode = 0x42;
+        [self openLockManual];
+    }
+}
+
+- (void)clickNormallyCloseLockBtn:(UIButton *)button {
+    if(![User getAutoOpenLockSwitch]) return;
+    if([User getOpenLockTypeSwitch]) { //常开常闭模式 // 关门
+        _openLockCmdCode = 0x52;
+        [self closeLockManual];
+    }
+}
+
 - (void)clickMyDeviceBtn:(UIButton *)button {
     LockDevicesVC *vc = [LockDevicesVC new];
     vc.mainVC = self;
@@ -594,44 +657,6 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     }];
 }
 
-/**
- *  同步时间
- *
- *  @param characteristic characteristic
- */
-
-//- (void)updateLockTimeWithCharacteristic:(RLCharacteristic *)characteristic withKey:(KeyModel *)key {
-//    if(!(key.userType == kUserTypeAdmin))
-//        return;
-//    int len = 0;
-//    long long data = key.keyOwner.pwd;
-//    Byte *dateData = dateNowToBytes(&len);
-//    self.dateData = [NSData dataWithBytes:dateData length:len];
-//    int size = sizeof(data)+len;
-//    Byte *tempData = calloc(size, sizeof(Byte));
-//    memcpy(tempData, dateData, len);
-//    
-//    Byte *temp = (Byte *)&(data);
-//    for(NSInteger j = len; j<size; j++) {
-//        tempData[j] = temp[j-len];
-//    }
-//    
-//    NSData *writeData = [NSData dataWithBytes:tempData length:size];
-//    free(tempData);
-//    
-//    Byte cmdMode = 0x01; //0x01->设置 0x00->读取
-//    
-//    [[RLBluetooth sharedBluetooth] writeDataToCharacteristic:characteristic cmdCode:0x03 cmdMode:cmdMode withDatas:writeData];
-//}
-//
-//- (void)readLockPowerWithCharacteristic:(RLCharacteristic *)characteristic withKey:(KeyModel *)key {
-//    long long data = key.keyOwner.pwd;
-//    NSData *writeData = [NSData dataWithBytes:&data length:sizeof(long long)];
-//    Byte cmdMode = 0x00; //0x01->设置 0x00->读取
-//    
-//    [[RLBluetooth sharedBluetooth] writeDataToCharacteristic:characteristic cmdCode:0x06 cmdMode:cmdMode withDatas:writeData];
-//}
-
 #pragma mark -
 - (void)openLockAnimation:(UIButton *)button {
     button.userInteractionEnabled = NO;
@@ -677,7 +702,9 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         self.openLockBtn.userInteractionEnabled = YES;
         if([User getOpenLockTypeSwitch]) { //常开常闭
             self.cupidBtn.userInteractionEnabled = YES;
-            self.closeLockBtn.userInteractionEnabled = YES;
+//            self.closeLockBtn.userInteractionEnabled = YES;
+            self.normallyOpenLockBtn.userInteractionEnabled = YES;
+            self.normallyCloseLockBtn.userInteractionEnabled = YES;
         }
     }
 }
@@ -733,6 +760,9 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
             weakSelf.isPeripheralResponsed = YES;
             [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(openLockNoResponseHandler) object:nil];
 
+//            if(peripheralRes.cmdCode == 0x03) {
+//                return ;
+//            }
             if(error) {
                 if(failure) {
                     failure(peripherals, error);
@@ -747,6 +777,10 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
             if(success) {
                 success(peripheralRes);
             }
+            
+//            if(peripheralRes.updateTimeCode == 0x01) { //同步时间失败！
+//                [weakSelf updateLockTimeWithPeripheral:peripheral withKey:key];
+//            }
             
         } withDisconnect:nil];
         
@@ -812,7 +846,9 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     self.openLockBtn.userInteractionEnabled = NO;
     if([User getOpenLockTypeSwitch]) {
         self.cupidBtn.userInteractionEnabled = NO;
-        self.closeLockBtn.userInteractionEnabled = NO;
+//        self.closeLockBtn.userInteractionEnabled = NO;
+        self.normallyOpenLockBtn.userInteractionEnabled = NO;
+        self.normallyCloseLockBtn.userInteractionEnabled = NO;
     }
 #pragma mark -
 //    self.openLockBtn.userInteractionEnabled = NO;
@@ -840,7 +876,9 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     self.openLockBtn.userInteractionEnabled = NO;
     if([User getOpenLockTypeSwitch]) {
         self.cupidBtn.userInteractionEnabled = NO;
-        self.closeLockBtn.userInteractionEnabled = NO;
+//        self.closeLockBtn.userInteractionEnabled = NO;
+        self.normallyOpenLockBtn.userInteractionEnabled = NO;
+        self.normallyCloseLockBtn.userInteractionEnabled = NO;
     }
 #pragma mark -
 //    self.cupidBtn.userInteractionEnabled = NO;
@@ -906,7 +944,9 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         self.openLockBtn.userInteractionEnabled = YES;
         if([User getOpenLockTypeSwitch]) {
             self.cupidBtn.userInteractionEnabled = YES;
-            self.closeLockBtn.userInteractionEnabled = YES;
+//            self.closeLockBtn.userInteractionEnabled = YES;
+            self.normallyOpenLockBtn.userInteractionEnabled = YES;
+            self.normallyCloseLockBtn.userInteractionEnabled = YES;
         }
     }
     
@@ -920,6 +960,7 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
             [RLHUD hudAlertSuccessWithBody:NSLocalizedString(@"开门成功！", nil)];
         }
         if([User getVoiceSwitch]) return ;
+        if(peripheralRes.cmdCode == 0x52) return;
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
         [[SoundManager sharedManager] playSound:@"DoorOpened.mp3" looping:NO];
     }
@@ -947,9 +988,9 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"电池电压过低，请更换电池！", nil)];
     }
     
-    if(peripheralRes.updateTimeCode == 0x01) {
-        
-    }
+//    if(peripheralRes.updateTimeCode == 0x01) { //同步时间失败！
+//        [self updateLockTimeWithPeripheral:peripheral withKey:key];
+//    }
 }
 
 - (void)openLockFailedWithPeripherals:(NSArray *)peripherals error:(NSError *)error {
@@ -957,7 +998,9 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     self.openLockBtn.userInteractionEnabled = YES;
     if([User getOpenLockTypeSwitch]) {
         self.cupidBtn.userInteractionEnabled = YES;
-        self.closeLockBtn.userInteractionEnabled = YES;
+//        self.closeLockBtn.userInteractionEnabled = YES;
+        self.normallyOpenLockBtn.userInteractionEnabled = YES;
+        self.normallyCloseLockBtn.userInteractionEnabled = YES;
     }
 
     if(!peripherals) {
@@ -987,6 +1030,50 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
             [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"没有可用的钥匙！", nil)];
         }
     }
+}
+
+/**
+ *  同步时间
+ *
+ *  @param characteristic characteristic
+ */
+- (void)updateLockTimeWithPeripheral:(RLPeripheral *)peripheral withKey:(KeyModel *)key {
+#if 0
+    if(!(key.userType == kUserTypeAdmin))
+        return;
+    int len = 0;
+    long long data = key.keyOwner.pwd;
+    Byte *dateData = dateNowToBytes(&len);
+    self.dateData = [NSData dataWithBytes:dateData length:len];
+    int size = sizeof(data)+len;
+    Byte *tempData = calloc(size, sizeof(Byte));
+    memcpy(tempData, dateData, len);
+    
+    Byte *temp = (Byte *)&(data);
+    for(NSInteger j = len; j<size; j++) {
+        tempData[j] = temp[j-len];
+    }
+    
+    NSData *writeData = [NSData dataWithBytes:tempData length:size];
+    free(tempData);
+    
+    Byte cmdMode = 0x01; //0x01->设置 0x00->读取
+    
+    [[RLBluetooth sharedBluetooth] writeDataToCharacteristic:characteristic cmdCode:0x03 cmdMode:cmdMode withDatas:writeData];
+#endif
+    
+    if(!(key.userType == kUserTypeAdmin))
+        return;
+    
+    RLPeripheralRequest *perRequest = [[RLPeripheralRequest alloc] init];
+    perRequest.cmdCode = 0x03;
+    perRequest.cmdMode = 0x01; //0x01->设置 0x00->读取
+    perRequest.userPwd = key.keyOwner.pwd;
+    perRequest.userType = key.userType;
+    perRequest.startDate = key.startDate;
+    perRequest.invalidDate = key.invalidDate;
+
+    [[RLBluetooth sharedBluetooth] updateTimeToPeripheral:peripheral request:perRequest];
 }
 
 #pragma mark - UIWebViewDelegate

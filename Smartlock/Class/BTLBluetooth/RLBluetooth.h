@@ -42,6 +42,7 @@
 
 - (void)connectPeripheralThanHandlePeripheral:(RLPeripheral *)peripheral withPeripheralRequest:(RLPeripheralRequest *)peripheralRequest connectionCompletion:(void(^)(NSError *error))connectionCompletion notifyCompletion:(void(^)(NSError *error))notifyCompletion  onUpdateData:(void (^)(RLPeripheralResponse *peripheralRes, NSError *error))updateDataCallback withDisconnect:(void(^)(NSError *error))disconnectCallback;
 
+- (void)updateTimeToPeripheral:(RLPeripheral *)peripheral request:(RLPeripheralRequest *)request;
 #pragma mark -
 - (void)writeDataToCharacteristic:(RLCharacteristic *)characteristic cmdCode:(Byte)cmdCode cmdMode:(Byte)cmdMode withDatas:(NSData *)data needTea:(BOOL)needTea;
 

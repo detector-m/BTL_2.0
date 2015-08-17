@@ -61,7 +61,7 @@
             break;
             
         case -500: //服务器内部错误
-            [RLHUD hudAlertErrorWithBody:@"用户名或密码错误"];
+            [RLHUD hudAlertErrorWithBody:@"服务器正在检修，请稍后再试！"];
             break;
         default:
             
