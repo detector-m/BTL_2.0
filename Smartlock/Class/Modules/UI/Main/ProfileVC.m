@@ -12,6 +12,7 @@
 #import "ModifierVC.h"
 
 #import "Login.h"
+#import "VoiceSelectVC.h"
 
 #pragma mark -
 #import "XMPPManager.h"
@@ -40,13 +41,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = NSLocalizedString(@"我的资料", nil);
+    self.title = NSLocalizedString(@"我的", nil);
     [self setupBackItem:NSLocalizedString(@"取消", nil)];
     self.table.tableView.tableFooterView = self.footer;
     
     [self.table.datas addObject:@"昵称"];
     [self.table.datas addObject:@"账户名"];
     [self.table.datas addObject:@"更改密码"];
+    [self.table.datas addObject:@"我的声音"];
 }
 
 #pragma mark -
@@ -83,7 +85,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     switch (section) {
         case 0: return 2;
-        case 1: return 1;
+        case 1: return 2;
         default: return 0;
     }
 }
@@ -103,7 +105,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(NSString *)kCellIdentifier forIndexPath:indexPath];
     NSInteger index = [self indexForData:indexPath];
     cell.textLabel.text = [self.table.datas objectAtIndex:index];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     if(indexPath.section == 0) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
         if(indexPath.row == 0) {
             cell.detailTextLabel.text = [User sharedUser].nickname;
         }
@@ -130,12 +134,18 @@
             }
         }
             break;
-        case 1:
-        default:
-        {
-            ResetPasswordVC *vc = [[ResetPasswordVC alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
+        case 1: {
+            if(indexPath.row == 0) {
+                ResetPasswordVC *vc = [[ResetPasswordVC alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            else if(indexPath.row == 1) {
+                VoiceSelectVC *vc = [[VoiceSelectVC alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
         }
+            break;
+        default:
             break;
     }
 }

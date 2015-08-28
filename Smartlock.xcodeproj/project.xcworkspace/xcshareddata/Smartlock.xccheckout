@@ -29,8 +29,6 @@
 		<key>9c3bc202-7c40-ff4d-a5bb-208097759062++5326</key>
 		<string>svn://211.157.146.151</string>
 	</dict>
-	<key>IDESourceControlProjectURL</key>
-	<string>svn://211.157.146.151</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
@@ -47,7 +45,7 @@
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
+			<string>public.vcs.subversion</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>9c3bc202-7c40-ff4d-a5bb-208097759062++1439</string>
 			<key>IDESourceControlWCCName</key>
@@ -55,7 +53,7 @@
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.subversion</string>
+			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>9c3bc202-7c40-ff4d-a5bb-208097759062++1439</string>
 			<key>IDESourceControlWCCName</key>

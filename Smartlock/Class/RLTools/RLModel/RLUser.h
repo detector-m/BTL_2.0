@@ -47,4 +47,7 @@ typedef NS_ENUM(NSInteger, GenderType) {
 
 + (BOOL)getOpenLockTypeSwitch;
 + (void)setOpenLockTypeSwitch:(BOOL)on;
+
++ (void)setVoicePath:(NSString *)path;
++ (NSString *)getVoicePath;
 @end

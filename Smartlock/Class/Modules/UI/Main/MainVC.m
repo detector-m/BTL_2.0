@@ -17,6 +17,7 @@
 #import "NotificationMessageVC.h"
 #import "MoreVC.h"
 #import "BannerDetailVC.h"
+#import "SystemSettingVC.h"
 
 #pragma mark -
 #import "RLAlertLabel.h"
@@ -33,7 +34,7 @@
 #import "DeviceManager.h"
 #import "RecordManager.h"
 
-#warning 暂时以天使作为常开常闭的关门开关, 后续需要做调整
+//#warning 暂时以天使作为常开常闭的关门开关, 后续需要做调整
 /*
  **************************************************************
  **************************************************************
@@ -62,11 +63,13 @@
 
 @property (nonatomic, strong) UIButton *myDeviceBtn;
 @property (nonatomic, strong) UIButton *sendKeyBtn;
-@property (nonatomic, strong) UIButton *profileBtn;
+@property (nonatomic, strong) UIButton *settingBtn;
+
 @property (nonatomic, strong) UIButton *buyBtn;
 //@property (nonatomic, strong) UIButton *aboutBtn;
 @property (nonatomic, strong) UIButton *messageBtn;
-@property (nonatomic, strong) UIButton *moreBtn;
+//@property (nonatomic, strong) UIButton *moreBtn;
+@property (nonatomic, strong) UIButton *profileBtn;
 
 @property (nonatomic, strong) UILabel *messageBadgeLabel;
 
@@ -404,8 +407,11 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         [self.scrollView addSubview:self.sendKeyBtn];
         
         btnWidthOffset += 5+btnWidth;
-        self.profileBtn = [self buttonWithTitle:NSLocalizedString(@"我的资料", nil) selector:@selector(clickProfileBtn:) frame:CGRectMake(btnWidthOffset, heightOffset, btnWidth, btnHeight)];
-        [self.scrollView addSubview:self.profileBtn];
+//        self.profileBtn = [self buttonWithTitle:NSLocalizedString(@"我的资料", nil) selector:@selector(clickProfileBtn:) frame:CGRectMake(btnWidthOffset, heightOffset, btnWidth, btnHeight)];
+//        [self.scrollView addSubview:self.profileBtn];
+        self.settingBtn = [self buttonWithTitle:NSLocalizedString(@"系统设置", nil) selector:@selector(clickSettingBtn:) frame:CGRectMake(btnWidthOffset, heightOffset, btnWidth, btnHeight)];
+        [self.scrollView addSubview:self.settingBtn];
+
         
         heightOffset += btnHeight + 5;
         btnWidthOffset = 15;
@@ -431,8 +437,11 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         [self.messageBtn addSubview:self.messageBadgeLabel];
         
         btnWidthOffset += 5+btnWidth;
-        self.moreBtn = [self buttonWithTitle:NSLocalizedString(@"更多", nil) selector:@selector(clickMoreBtn:) frame:CGRectMake(btnWidthOffset, heightOffset, btnWidth, btnHeight)];
-        [self.scrollView addSubview:self.moreBtn];
+//        self.moreBtn = [self buttonWithTitle:NSLocalizedString(@"更多", nil) selector:@selector(clickMoreBtn:) frame:CGRectMake(btnWidthOffset, heightOffset, btnWidth, btnHeight)];
+//        [self.scrollView addSubview:self.moreBtn];
+        
+        self.profileBtn = [self buttonWithTitle:NSLocalizedString(@"我的", nil) selector:@selector(clickProfileBtn:) frame:CGRectMake(btnWidthOffset, heightOffset, btnWidth, btnHeight)];
+        [self.scrollView addSubview:self.profileBtn];
     }
 }
 
@@ -566,6 +575,11 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 
 - (void)clickProfileBtn:(UIButton *)button {
     ProfileVC *vc = [[ProfileVC alloc] initWithStyle:UITableViewStyleGrouped];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)clickSettingBtn:(UIButton *)button {
+    MoreVC *vc = [MoreVC new];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -962,7 +976,16 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         if([User getVoiceSwitch]) return ;
         if(peripheralRes.cmdCode == 0x52) return;
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-        [[SoundManager sharedManager] playSound:@"DoorOpened.mp3" looping:NO];
+        
+        NSString *path = [RLUser getVoicePath];
+        if(![RLUser getVoicePath] || path.length == 0) {
+            [[SoundManager sharedManager] playSound:@"DoorOpened.mp3" looping:NO];
+        }
+        else {
+            Sound *sound = [Sound soundWithContentsOfFile:[RLUser getVoicePath]];
+            [[SoundManager sharedManager] playSound:sound looping:NO];
+        }
+//        [[SoundManager sharedManager] playSound:@"DoorOpened.mp3" looping:NO];
     }
     else if(peripheralRes.result == 0x0a) {
         [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"门已是开着状态！", nil)];

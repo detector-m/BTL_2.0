@@ -13,6 +13,8 @@ NSString *kVoiceSwitchKey = @"voiceSwitchKey";
 NSString *kAutoOpenlockSwitchKey = @"autoOpenlockSwitchKey";
 NSString *kOpenlockTypeSwitchKey = @"openlockTypeSwitchKey";
 
+NSString *kVoicePathKey = @"voicePathKey";
+
 #pragma mark -
 
 @implementation RLUser
@@ -191,5 +193,19 @@ NSString *kOpenlockTypeSwitchKey = @"openlockTypeSwitchKey";
     
     [userDefault setObject:[NSNumber numberWithBool:on] forKey:kOpenlockTypeSwitchKey];
     [userDefault synchronize];
+}
+
++ (void)setVoicePath:(NSString *)path {
+    if(path && !path.length) return;
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:path forKey:kVoicePathKey];
+    [userDefault synchronize];
+}
+
++ (NSString *)getVoicePath {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *path = [userDefault objectForKey:kVoicePathKey];
+
+    return path;
 }
 @end

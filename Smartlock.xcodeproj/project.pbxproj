@@ -243,6 +243,13 @@
 		961546171B7DBEF0006C1C5C /* NormalCloseEnable.png in Resources */ = {isa = PBXBuildFile; fileRef = 961546131B7DBEF0006C1C5C /* NormalCloseEnable.png */; };
 		961546181B7DBEF0006C1C5C /* NormalOpenDisable.png in Resources */ = {isa = PBXBuildFile; fileRef = 961546141B7DBEF0006C1C5C /* NormalOpenDisable.png */; };
 		961546191B7DBEF0006C1C5C /* NormalOpenEnable.png in Resources */ = {isa = PBXBuildFile; fileRef = 961546151B7DBEF0006C1C5C /* NormalOpenEnable.png */; };
+		962E564F1B8E9ADD00B9DA6D /* IQAudioRecorderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E56481B8E9ADD00B9DA6D /* IQAudioRecorderController.m */; };
+		962E56501B8E9ADD00B9DA6D /* audio_record.png in Resources */ = {isa = PBXBuildFile; fileRef = 962E564A1B8E9ADD00B9DA6D /* audio_record.png */; };
+		962E56511B8E9ADD00B9DA6D /* audio_record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 962E564B1B8E9ADD00B9DA6D /* audio_record@2x.png */; };
+		962E56521B8E9ADD00B9DA6D /* SCSiriWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E564E1B8E9ADD00B9DA6D /* SCSiriWaveformView.m */; };
+		962E56581B8EBB7800B9DA6D /* AudioCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E56571B8EBB7800B9DA6D /* AudioCell.m */; };
+		962E565B1B8EE2A000B9DA6D /* AudioPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 962E56591B8EE2A000B9DA6D /* AudioPlay.png */; };
+		962E565C1B8EE2A000B9DA6D /* AudioStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 962E565A1B8EE2A000B9DA6D /* AudioStop.png */; };
 		965D60771B12E28800F076BD /* KeyEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 965D60761B12E28800F076BD /* KeyEntity.m */; };
 		965D607A1B12E28900F076BD /* LockEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 965D60791B12E28900F076BD /* LockEntity.m */; };
 		967439201B5F2D1900661F17 /* SoundOperator.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9674391F1B5F2D1900661F17 /* SoundOperator.mp3 */; };
@@ -263,6 +270,9 @@
 		9689234F1B0F272E00B3CBFE /* KeysOfLockVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9689234E1B0F272E00B3CBFE /* KeysOfLockVC.m */; };
 		9689236A1B10567D00B3CBFE /* OpenLockRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 968923691B10567D00B3CBFE /* OpenLockRecord.m */; };
 		9689236E1B105B6C00B3CBFE /* RecordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9689236D1B105B6C00B3CBFE /* RecordManager.m */; };
+		969125521B8B15EB007909E7 /* VoiceSelectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 969125511B8B15EB007909E7 /* VoiceSelectVC.m */; };
+		969125551B8C1338007909E7 /* AudioRecorderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 969125541B8C1338007909E7 /* AudioRecorderManager.m */; };
+		9691255D1B8C6A59007909E7 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9691255C1B8C6A59007909E7 /* FCFileManager.m */; };
 		969DFD601B3172EF0057D0BE /* AboutIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 969DFD5D1B3172EF0057D0BE /* AboutIcon.png */; };
 		969DFD611B3172EF0057D0BE /* AboutIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 969DFD5E1B3172EF0057D0BE /* AboutIcon@2x.png */; };
 		969DFD621B3172EF0057D0BE /* AboutIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 969DFD5F1B3172EF0057D0BE /* AboutIcon@3x.png */; };
@@ -849,6 +859,16 @@
 		961546131B7DBEF0006C1C5C /* NormalCloseEnable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NormalCloseEnable.png; path = Smartlock/Resources/Main/NormalCloseEnable.png; sourceTree = SOURCE_ROOT; };
 		961546141B7DBEF0006C1C5C /* NormalOpenDisable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NormalOpenDisable.png; path = Smartlock/Resources/Main/NormalOpenDisable.png; sourceTree = SOURCE_ROOT; };
 		961546151B7DBEF0006C1C5C /* NormalOpenEnable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NormalOpenEnable.png; path = Smartlock/Resources/Main/NormalOpenEnable.png; sourceTree = SOURCE_ROOT; };
+		962E56471B8E9ADD00B9DA6D /* IQAudioRecorderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAudioRecorderController.h; sourceTree = "<group>"; };
+		962E56481B8E9ADD00B9DA6D /* IQAudioRecorderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAudioRecorderController.m; sourceTree = "<group>"; };
+		962E564A1B8E9ADD00B9DA6D /* audio_record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audio_record.png; sourceTree = "<group>"; };
+		962E564B1B8E9ADD00B9DA6D /* audio_record@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audio_record@2x.png"; sourceTree = "<group>"; };
+		962E564D1B8E9ADD00B9DA6D /* SCSiriWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSiriWaveformView.h; sourceTree = "<group>"; };
+		962E564E1B8E9ADD00B9DA6D /* SCSiriWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSiriWaveformView.m; sourceTree = "<group>"; };
+		962E56561B8EBB7800B9DA6D /* AudioCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioCell.h; sourceTree = "<group>"; };
+		962E56571B8EBB7800B9DA6D /* AudioCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioCell.m; sourceTree = "<group>"; };
+		962E56591B8EE2A000B9DA6D /* AudioPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AudioPlay.png; sourceTree = "<group>"; };
+		962E565A1B8EE2A000B9DA6D /* AudioStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AudioStop.png; sourceTree = "<group>"; };
 		965D60751B12E28800F076BD /* KeyEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyEntity.h; sourceTree = "<group>"; };
 		965D60761B12E28800F076BD /* KeyEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyEntity.m; sourceTree = "<group>"; };
 		965D60781B12E28900F076BD /* LockEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockEntity.h; sourceTree = "<group>"; };
@@ -888,6 +908,12 @@
 		968923691B10567D00B3CBFE /* OpenLockRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenLockRecord.m; sourceTree = "<group>"; };
 		9689236C1B105B6C00B3CBFE /* RecordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordManager.h; sourceTree = "<group>"; };
 		9689236D1B105B6C00B3CBFE /* RecordManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordManager.m; sourceTree = "<group>"; };
+		969125501B8B15EB007909E7 /* VoiceSelectVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceSelectVC.h; sourceTree = "<group>"; };
+		969125511B8B15EB007909E7 /* VoiceSelectVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceSelectVC.m; sourceTree = "<group>"; };
+		969125531B8C1338007909E7 /* AudioRecorderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecorderManager.h; sourceTree = "<group>"; };
+		969125541B8C1338007909E7 /* AudioRecorderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecorderManager.m; sourceTree = "<group>"; };
+		9691255B1B8C6A59007909E7 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
+		9691255C1B8C6A59007909E7 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
 		969DFD5D1B3172EF0057D0BE /* AboutIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutIcon.png; path = Smartlock/Resources/Main/AboutIcon.png; sourceTree = SOURCE_ROOT; };
 		969DFD5E1B3172EF0057D0BE /* AboutIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AboutIcon@2x.png"; path = "Smartlock/Resources/Main/AboutIcon@2x.png"; sourceTree = SOURCE_ROOT; };
 		969DFD5F1B3172EF0057D0BE /* AboutIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AboutIcon@3x.png"; path = "Smartlock/Resources/Main/AboutIcon@3x.png"; sourceTree = SOURCE_ROOT; };
@@ -2232,6 +2258,35 @@
 			path = Security;
 			sourceTree = "<group>";
 		};
+		962E56461B8E9ADD00B9DA6D /* IQAudioRecorderController */ = {
+			isa = PBXGroup;
+			children = (
+				962E56471B8E9ADD00B9DA6D /* IQAudioRecorderController.h */,
+				962E56481B8E9ADD00B9DA6D /* IQAudioRecorderController.m */,
+				962E56491B8E9ADD00B9DA6D /* Resources */,
+				962E564C1B8E9ADD00B9DA6D /* SCSiriWaveformView */,
+			);
+			path = IQAudioRecorderController;
+			sourceTree = "<group>";
+		};
+		962E56491B8E9ADD00B9DA6D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				962E564A1B8E9ADD00B9DA6D /* audio_record.png */,
+				962E564B1B8E9ADD00B9DA6D /* audio_record@2x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		962E564C1B8E9ADD00B9DA6D /* SCSiriWaveformView */ = {
+			isa = PBXGroup;
+			children = (
+				962E564D1B8E9ADD00B9DA6D /* SCSiriWaveformView.h */,
+				962E564E1B8E9ADD00B9DA6D /* SCSiriWaveformView.m */,
+			);
+			path = SCSiriWaveformView;
+			sourceTree = "<group>";
+		};
 		967439231B5F2F3100661F17 /* BTLBluetooth */ = {
 			isa = PBXGroup;
 			children = (
@@ -2505,6 +2560,8 @@
 				9689234B1B0F0FAD00B3CBFE /* SubTitleListCell.m */,
 				960A23CD1B005474002111E3 /* ListCell.h */,
 				960A23CE1B005474002111E3 /* ListCell.m */,
+				962E56561B8EBB7800B9DA6D /* AudioCell.h */,
+				962E56571B8EBB7800B9DA6D /* AudioCell.m */,
 			);
 			path = UIUtils;
 			sourceTree = "<group>";
@@ -2523,6 +2580,8 @@
 		96BD79981ABFE64A00CAF7A4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				962E56591B8EE2A000B9DA6D /* AudioPlay.png */,
+				962E565A1B8EE2A000B9DA6D /* AudioStop.png */,
 				961546121B7DBEF0006C1C5C /* NormalCloseDisable.png */,
 				961546131B7DBEF0006C1C5C /* NormalCloseEnable.png */,
 				961546141B7DBEF0006C1C5C /* NormalOpenDisable.png */,
@@ -2562,6 +2621,7 @@
 		96BD799F1ABFE8D500CAF7A4 /* RLTools */ = {
 			isa = PBXGroup;
 			children = (
+				962E56461B8E9ADD00B9DA6D /* IQAudioRecorderController */,
 				960DE8BB1B72FBA700DFECA9 /* AddressBook */,
 				961108541B3D07F50033E45F /* WeakTimer */,
 				969DFD631B32A2EF0057D0BE /* WebCache */,
@@ -2627,6 +2687,8 @@
 				960DE9311B7873D900DFECA9 /* BannerDetailVC.m */,
 				961108191B3A9FD40033E45F /* SystemSettingVC.h */,
 				9611081A1B3A9FD40033E45F /* SystemSettingVC.m */,
+				969125501B8B15EB007909E7 /* VoiceSelectVC.h */,
+				969125511B8B15EB007909E7 /* VoiceSelectVC.m */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -2864,6 +2926,8 @@
 		96DA441E1AD66DC100FAD340 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				9691255B1B8C6A59007909E7 /* FCFileManager.h */,
+				9691255C1B8C6A59007909E7 /* FCFileManager.m */,
 				96DA441F1AD66DC100FAD340 /* RLColor.h */,
 				96DA44201AD66DC100FAD340 /* RLColor.m */,
 				96DA44211AD66DC100FAD340 /* RLImage.h */,
@@ -2949,6 +3013,8 @@
 			children = (
 				96EED85E1AC15DBB000E53C0 /* SoundManager.h */,
 				96EED85F1AC15DBB000E53C0 /* SoundManager.m */,
+				969125531B8C1338007909E7 /* AudioRecorderManager.h */,
+				969125541B8C1338007909E7 /* AudioRecorderManager.m */,
 			);
 			path = SoundManager;
 			sourceTree = "<group>";
@@ -3108,10 +3174,12 @@
 				96EED5771ABFEFB5000E53C0 /* Lock.png in Resources */,
 				960A23ED1B00C5B3002111E3 /* ListAvater@3x.png in Resources */,
 				969DFD621B3172EF0057D0BE /* AboutIcon@3x.png in Resources */,
+				962E56511B8E9ADD00B9DA6D /* audio_record@2x.png in Resources */,
 				960A23D91B00A6B3002111E3 /* ReceiverBg@2x.png in Resources */,
 				960A23CC1AFDDD16002111E3 /* Refresh@3x.png in Resources */,
 				96002BE61B16FD660072CF05 /* MessageAvater@3x.png in Resources */,
 				96BD78E41AAFED4900CAF7A4 /* Localizable.strings in Resources */,
+				962E565B1B8EE2A000B9DA6D /* AudioPlay.png in Resources */,
 				961546181B7DBEF0006C1C5C /* NormalOpenDisable.png in Resources */,
 				960236ED1AEE1627005996E0 /* build-libidn.sh in Resources */,
 				96DA3EB41ACAB82D00FAD340 /* Password.png in Resources */,
@@ -3124,6 +3192,7 @@
 				960237551AF75416005996E0 /* Cupid@2x.png in Resources */,
 				96DA3EB31ACAB82D00FAD340 /* Account@3x.png in Resources */,
 				961546191B7DBEF0006C1C5C /* NormalOpenEnable.png in Resources */,
+				962E565C1B8EE2A000B9DA6D /* AudioStop.png in Resources */,
 				960237511AF75416005996E0 /* Arrow.png in Resources */,
 				960A23BF1AFCB993002111E3 /* Bluetooth@2x.png in Resources */,
 				96EED57A1ABFEFB5000E53C0 /* Unlock.png in Resources */,
@@ -3162,6 +3231,7 @@
 				96FC5AF91B16C7070076767B /* About@2x.png in Resources */,
 				961108121B393BF10033E45F /* HUDCheckmark.png in Resources */,
 				9602366C1AEE1627005996E0 /* copying.txt in Resources */,
+				962E56501B8E9ADD00B9DA6D /* audio_record.png in Resources */,
 				9613EFE91B2ABC1700632912 /* Voice@3x.png in Resources */,
 				96AB24601ADE45490021C19C /* btnCheck@2x.png in Resources */,
 				96DA3EA71ACA8DCD00FAD340 /* LoginIcon@3x.png in Resources */,
@@ -3277,6 +3347,7 @@
 				960236701AEE1627005996E0 /* XMPPJID.m in Sources */,
 				9602366D1AEE1627005996E0 /* XMPPConstants.m in Sources */,
 				9674393B1B5F2F3100661F17 /* RLCentralManager.m in Sources */,
+				962E56521B8E9ADD00B9DA6D /* SCSiriWaveformView.m in Sources */,
 				960236E21AEE1627005996E0 /* DDFileLogger.m in Sources */,
 				960A23A61AF89BA9002111E3 /* ProfileVC.m in Sources */,
 				96DA442D1AD66DC100FAD340 /* RLUtilitiesMethods.m in Sources */,
@@ -3313,9 +3384,11 @@
 				960DE8EA1B73028E00DFECA9 /* RHAddressBook.m in Sources */,
 				9689234C1B0F0FAD00B3CBFE /* SubTitleListCell.m in Sources */,
 				960236D71AEE1627005996E0 /* NSXMLElement+XEP_0335.m in Sources */,
+				9691255D1B8C6A59007909E7 /* FCFileManager.m in Sources */,
 				960236A51AEE1627005996E0 /* XMPPvCardTempEmail.m in Sources */,
 				960DE9321B7873D900DFECA9 /* BannerDetailVC.m in Sources */,
 				960236AF1AEE1627005996E0 /* XMPPMessage+XEP_0066.m in Sources */,
+				962E56581B8EBB7800B9DA6D /* AudioCell.m in Sources */,
 				9602368B1AEE1627005996E0 /* XMPPIQ+LastActivity.m in Sources */,
 				960236D81AEE1627005996E0 /* DDList.m in Sources */,
 				960236851AEE1627005996E0 /* XMPPUserMemoryStorageObject.m in Sources */,
@@ -3340,6 +3413,7 @@
 				960236791AEE1627005996E0 /* XMPPIncomingFileTransfer.m in Sources */,
 				9602368F1AEE1627005996E0 /* XMPPRoomCoreDataStorage.m in Sources */,
 				960DE8FB1B734A8000DFECA9 /* SendKeyWithABVC.m in Sources */,
+				969125521B8B15EB007909E7 /* VoiceSelectVC.m in Sources */,
 				960236CB1AEE1627005996E0 /* XMPPPing.m in Sources */,
 				96DA44291AD66DC100FAD340 /* RLColor.m in Sources */,
 				960236C61AEE1627005996E0 /* XMPPBlocking.m in Sources */,
@@ -3410,6 +3484,7 @@
 				96DA44501AD79E2400FAD340 /* LoginRequest.m in Sources */,
 				960236DA1AEE1627005996E0 /* RFImageToDataTransformer.m in Sources */,
 				9674393D1B5F2F3100661F17 /* RLDate.m in Sources */,
+				969125551B8C1338007909E7 /* AudioRecorderManager.m in Sources */,
 				96DA44471AD768F500FAD340 /* Login.m in Sources */,
 				960236761AEE1627005996E0 /* XMPPBandwidthMonitor.m in Sources */,
 				960A23DD1B00A768002111E3 /* TimeCell.m in Sources */,
@@ -3451,6 +3526,7 @@
 				9602369D1AEE1627005996E0 /* XMPPvCardAvatarCoreDataStorageObject.m in Sources */,
 				9674393E1B5F2F3100661F17 /* RLPeripheral.m in Sources */,
 				960236BB1AEE1627005996E0 /* XMPPCapabilities.m in Sources */,
+				962E564F1B8E9ADD00B9DA6D /* IQAudioRecorderController.m in Sources */,
 				960236931AEE1627005996E0 /* XMPPRoomHybridStorage.m in Sources */,
 				960236BD1AEE1627005996E0 /* XMPPMessageArchiving_Contact_CoreDataObject.m in Sources */,
 				9674393F1B5F2F3100661F17 /* RLPeripheralRequest.m in Sources */,
