@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = NSLocalizedString(@"更多", nil);
+    self.title = NSLocalizedString(@"设置", nil);
     
     self.table.tableView.rowHeight = 60.0f;
     

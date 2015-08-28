@@ -7,6 +7,7 @@
 //
 
 #import "BannerDetailVC.h"
+#import "CustomURLCache.h"
 
 @interface BannerDetailVC ()
 
@@ -16,6 +17,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+- (void)loadRequest {
+    if(!self.isWebViewLoaded && !self.isWebViewLoading) {
+        self.isWebViewLoading = YES;
+        [self.webView loadRequest:[self requestForWebContent:self.url]];
+    }
+}
+
+- (NSURLRequest *)requestForWebContent:(NSString *)aUrl {
+    NSURL *destUrl = [NSURL URLWithString:[aUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:destUrl];
+    if(!request.URL.absoluteString.length)
+        [[CustomURLCache sharedURLCache] removeCachedResponseForRequest:request];
+    return request;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {

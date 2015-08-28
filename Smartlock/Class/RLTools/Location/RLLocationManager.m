@@ -49,7 +49,7 @@
         self.locManager.desiredAccuracy = kCLLocationAccuracyBest;
         self.locManager.distanceFilter = 5.0f;
         self.location = [[RLLocation alloc] init];
-        self.location.city = @"yichun";
+        self.location.city = @"宜春市";
 //        [self startUpdatingLocation];
         
         self.geocoder = [[CLGeocoder alloc] init];
@@ -101,7 +101,7 @@
 //            [blockGeocoder cancelGeocode];
             [weakSelf stopUpdatingLocation];
             blockLocation.country = @"中国";
-            blockLocation.city = @"宜春";
+            blockLocation.city = @"宜春市";
             return ;
         }
         

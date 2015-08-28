@@ -38,6 +38,12 @@
 
 @implementation ProfileVC
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.table.tableView reloadData];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -114,6 +120,21 @@
         else {
             cell.detailTextLabel.text = [User sharedUser].phone;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+    }
+    
+    if(indexPath.section == 1) {
+        if(indexPath.row == 1) {
+            
+            NSString *path = [RLUser getVoicePath];
+            if(![RLUser getVoicePath] || path.length == 0) {
+                cell.detailTextLabel.text = @"默认";
+            }
+            else {
+                NSArray *array = [path componentsSeparatedByString:@"/"];
+                if(array.count == 0) return cell;
+                cell.detailTextLabel.text = [array lastObject];
+            }
         }
     }
     

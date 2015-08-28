@@ -28,6 +28,7 @@
 @protocol IQAudioRecorderControllerDelegate <UINavigationControllerDelegate>
 
 -(void)audioRecorderController:(IQAudioRecorderController*)controller didFinishWithAudioAtPath:(NSString*)filePath;
+-(void)audioRecorderController:(IQAudioRecorderController*)controller didFinishWithAudioAtPath:(NSString*)filePath withFileName:(NSString *)fileName;
 -(void)audioRecorderControllerDidCancel:(IQAudioRecorderController*)controller;
 
 @end

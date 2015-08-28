@@ -56,7 +56,7 @@
     
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *displayname = [infoDictionary objectForKey:@"CFBundleDisplayName"];
-    self.title = displayname;//NSLocalizedString(@"永家科技", nil);
+    self.title = displayname;
     [self.backgroundImage removeFromSuperview];
     [self setupForDismissKeyboard];
     
@@ -85,43 +85,7 @@
     self.password.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.password.layer.borderWidth = 0.5f;
     [self.view addSubview:self.password];
-    
-#if 0
-    heightOffset += self.password.frame.size.height + 5;
-    widthOffset = (frame.size.width-100-widthOffset);
-    self.forgetPWButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.forgetPWButton.frame = CGRectMake(widthOffset, heightOffset, 100, 30);
-    [self.forgetPWButton setTitle:NSLocalizedString(@"Forget PW?", nil) forState:UIControlStateNormal];
-    [self.forgetPWButton addTarget:self action:@selector(clickedForgetPWButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.forgetPWButton];
-    
-    heightOffset += self.forgetPWButton.frame.size.height+3;
-    widthOffset = 40;
-    self.loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.loginButton.frame = CGRectMake(widthOffset, heightOffset, frame.size.width-widthOffset*2, 35);
-    [self.loginButton setTitle:NSLocalizedString(@"Login", nil) forState:UIControlStateNormal];
-    [self.loginButton addTarget:self action:@selector(clickedLoginButton) forControlEvents:UIControlEventTouchUpInside];
-    self.loginButton.backgroundColor = [RLColor colorWithHex:ButtonBackgroundColor];
-    self.loginButton.layer.cornerRadius = 6;
-    [self.view addSubview:self.loginButton];
-    
-    heightOffset += self.loginButton.frame.size.height + 50;
-    self.registerLabel = [UILabel new];
-    self.registerLabel.frame = CGRectMake(frame.size.width/2-100, heightOffset, 200, 30);
-    self.registerLabel.textAlignment = NSTextAlignmentCenter;
-    self.registerLabel.textColor = [UIColor whiteColor];
-    self.registerLabel.text = NSLocalizedString(@"当前没有账号？", nil);
-    [self.view addSubview:self.registerLabel];
-    
-    heightOffset += self.registerLabel.frame.size.height + 1;
-    self.registerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.registerButton.frame = CGRectMake(frame.size.width/2-65, heightOffset, 130, 35);
-    [self.registerButton setTitle:NSLocalizedString(@"注    册", nil) forState:UIControlStateNormal];
-    self.registerButton.backgroundColor = [RLColor colorWithHex:ButtonBackgroundColor];
-    self.registerButton.layer.cornerRadius = 6;
-    [self.registerButton addTarget:self action:@selector(clickedRegisterButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.registerButton];
-#else
+
     heightOffset += self.password.frame.size.height + 20;
     widthOffset = 25;
     self.loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -146,7 +110,6 @@
     [self.registerButton setTitle:NSLocalizedString(@"注册用户", nil) forState:UIControlStateNormal];
     [self.registerButton addTarget:self action:@selector(clickedRegisterButton) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.registerButton];
-#endif
     
     [self addNotifications];
 }

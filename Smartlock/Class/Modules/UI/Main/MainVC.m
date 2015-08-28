@@ -34,6 +34,7 @@
 #import "DeviceManager.h"
 #import "RecordManager.h"
 
+#if 0
 //#warning 暂时以天使作为常开常闭的关门开关, 后续需要做调整
 /*
  **************************************************************
@@ -45,6 +46,7 @@
  **************************************************************
  **************************************************************
  */
+#endif
 
 @interface MainVC () <UIWebViewDelegate>
 
@@ -165,7 +167,6 @@
     
     [self setBackButtonHide:YES];
 
-//    self.title = NSLocalizedString(@"yongjiakeji", nil);
     self.title = @"";
     
     [self setupBLCentralManaer];
@@ -188,7 +189,7 @@
 }
 
 - (void)setupBackground {
-    self.view.backgroundColor = [RLColor colorWithHex:0x253640];
+    self.view.backgroundColor = [RLColor colorWithHexString:@"#0099cc"];//[RLColor colorWithHex:0x253640];
     self.backgroundImage.image = [UIImage imageNamed:@"MainBackground.jpeg"];
 }
 
@@ -450,7 +451,7 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
     button.backgroundColor = [RLColor colorWithHex:0x81D4EA];//[UIColor colorWithRed:0.25 green:0.25 blue:0.25 alpha:0.5];
     button.frame = frame;
     [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:[RLColor colorWithHex:0x000000 alpha:0.8]/*[RLColor colorWithHex:0xF2E9AE alpha:0.9]*/ forState:UIControlStateNormal];
+    [button setTitleColor:[RLColor colorWithHex:0x000000 alpha:0.9]/*[RLColor colorWithHex:0xF2E9AE alpha:0.9]*/ forState:UIControlStateNormal];
     button.layer.cornerRadius = 5.0f;
     [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
     
@@ -556,18 +557,6 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 }
 
 - (void)clickSendKeyBtn:(UIButton *)button {
-//    BOOL isAdmin = NO;
-//    for(KeyModel *key in self.lockList) {
-//        if(key.userType == 0) {
-//            isAdmin = YES;
-//            break;
-//        }
-//    }
-//    
-//    if(!isAdmin) {
-//        [RLHUD hudAlertWarningWithBody:NSLocalizedString(@"你并非管理员！", nil)];
-//        return;
-//    }
     SendKeyVC *vc = [[SendKeyVC alloc] init];
     vc.title = NSLocalizedString(@"发送钥匙", nil);
     [self.navigationController pushViewController:vc animated:YES];

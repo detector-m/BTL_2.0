@@ -182,7 +182,8 @@
     if(indexPath.row == _selectedIndex) return;
     
     if(indexPath.row == 0) {
-        [RLUser setVoicePath:[[NSBundle mainBundle] pathForResource:@"DoorOpened.mp3" ofType:nil]];
+//        [RLUser setVoicePath:[[NSBundle mainBundle] pathForResource:@"DoorOpened.mp3" ofType:nil]];
+        [RLUser setVoicePath:nil];
     }
     else {
         [RLUser setVoicePath:voiceRecordPathWithFileName(self.table.datas[indexPath.row])];
@@ -215,12 +216,20 @@
     }
 }
 
--(void)audioRecorderController:(IQAudioRecorderController *)controller didFinishWithAudioAtPath:(NSString*)filePath {
+- (void)audioRecorderController:(IQAudioRecorderController *)controller didFinishWithAudioAtPath:(NSString *)filePath withFileName:(NSString *)fileName {
     NSData *data = [NSData dataWithContentsOfFile:filePath];
-
-    if(data.length) {
-        createVoiceRecordWithName(voiceRecordName(), data);
+    
+    if(data.length && fileName.length) {
+        createVoiceRecordWithName(fileName, data);
     }
+}
+
+-(void)audioRecorderController:(IQAudioRecorderController *)controller didFinishWithAudioAtPath:(NSString*)filePath {
+//    NSData *data = [NSData dataWithContentsOfFile:filePath];
+//    
+//    if(data.length && filePath.length) {
+//        createVoiceRecordWithName(voiceRecordName(), data);
+//    }
 }
 
 -(void)audioRecorderControllerDidCancel:(IQAudioRecorderController *)controller {

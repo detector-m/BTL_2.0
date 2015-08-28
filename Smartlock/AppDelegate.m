@@ -55,54 +55,7 @@
 
 @implementation AppDelegate
 
-- (void)securityTest {
-//    NSData *tempData = [[NSString stringWithFormat:@"12345abcdF"] dataUsingEncoding:NSUTF8StringEncoding];
-//    NSData *decryptWithVariableKey(NSData *data, Byte *key);
-//    NSData *enData = encryptStringWithFinalKey(@"12345675432334abcAABDEFASDf");
-//    NSLog(@"%@", enData);
-//    NSString *string = [[NSString alloc] initWithData:decryptWithFinalKey(enData) encoding:NSUTF8StringEncoding];
-//    NSLog(@"%@", string);
-    
-//    NSData *data = [[NSString stringWithFormat:@"12345abcdF"] dataUsingEncoding:NSUTF8StringEncoding];
-//    uint8_t data[] = {0x51, 0x05, 0x97, 0x47, 0xd7, 0xe9, 0x05, 0xfc, 0xb0, 0xda, 0x00};//"12345AbcdefaDD";
-//    uint8_t finalKey[16] = {0xDB,0x8F,0xBB,0x54,0xCA,0x77,0x0C,0x7A,0xEF,0x9F,0x41,0xE2,0xBF,0xFF,0x57,0x40};
-//    NSLog(@"%s", data);
-//    int i = strlen(data);
-//    NSData *enData = [NSData dataWithBytes:data length:i];
-//    NSLog(@"%@", enData);
-//
-//    xxtea_byte_encrypt(data, i, (uint32_t *)finalKey);
-//    enData = [NSData dataWithBytes:data length:i];
-//    NSLog(@"%@", enData);
-    
-//    xxtea_byte_decrypt(data, 10, (uint32_t *)finalKey);
-//    NSLog(@"%s", data);
-//    NSLog(@"%@", enData);
-    
-//    Byte xx = 0;
-//    long long time = getTimestamp();
-////    NSData *data = [[NSString stringWithFormat:@"12345abcdF"] dataUsingEncoding:NSUTF8StringEncoding];
-//    NSData *data = [NSData dataWithBytes:(unsigned char *)&time length:sizeof(long long)];
-//    NSLog(@"%@", data);
-//    NSData *enData = btlXXTEAByteEncryptDataWithFinalKey(data, &xx);
-//    NSLog(@"%@", enData);
-//    NSData *tt = btlXXTEAByteDecryptDataWithFinalKey(enData, xx);
-//    NSLog(@"%@", tt);
-//    NSString *string = [[NSString alloc] initWithData:btlXXTEAByteDecryptDataWithFinalKey(enData, xx) encoding:NSUTF8StringEncoding];
-//    NSLog(@"%@", string);
-    
-    
-    RLBaseNavigationController *nav = [RLBaseNavigationController new];
-    [nav pushViewController:[[RLABViewController alloc] init] animated:NO];
-    self.window.rootViewController = nav;
-    [self.window makeKeyAndVisible];
-}
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-//    [self securityTest];
-//    return YES;
-//    [MyCoreDataManager removeOldVersionSqlite];
 
 #pragma mark - webview url cache
     CustomURLCache *urlCache = [[CustomURLCache alloc] initWithMemoryCapacity:20 * 1024 * 1024 diskCapacity:200 * 1024 * 1024 diskPath:nil cacheTime:60*24*60*7];

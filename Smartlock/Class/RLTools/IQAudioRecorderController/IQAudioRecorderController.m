@@ -163,7 +163,7 @@
     _tipLabel.font = [UIFont systemFontOfSize:16];
     _tipLabel.textAlignment = NSTextAlignmentCenter;
     _tipLabel.textColor = [UIColor colorWithWhite:1 alpha:0.8];
-    _tipLabel.text = @"注意喔! 录制时间最长为10s钟哦~o~";
+    _tipLabel.text = @"注意喔! 录制时间最长为5s钟哦~o~";
     [self.view addSubview:_tipLabel];
     
     _navigationTitle = NSLocalizedString(@"录制声音", nil);
@@ -300,7 +300,7 @@
         [musicFlowView updateWithLevel:normalizedValue];
         
         self.navigationItem.title = [NSString timeStringForTimeInterval:_audioRecorder.currentTime];
-        if(((NSInteger)(_audioRecorder.currentTime)) % 60 >= 10) {
+        if(((NSInteger)(_audioRecorder.currentTime)) % 60 >= 5) {
             [self recordingButtonAction:_recordButton];
         }
     }
@@ -384,15 +384,39 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)doneAction:(UIBarButtonItem*)item
-{
-    if ([self.delegate respondsToSelector:@selector(audioRecorderController:didFinishWithAudioAtPath:)])
+- (void)showAlertView {
+    SCLAlertView *alert = [[SCLAlertView alloc] init];
+    
+    UITextField *txt = [alert addTextField:@"请输入"];
+    __weak __typeof(self)weakSelf = self;
+    [alert addButton:NSLocalizedString(@"确定", nil) actionBlock:^(void) {
+        NSString *txtStr = [txt.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"@／：；（）¥「」＂、[]{}#%-*+=_\\|~＜＞$€^•'@#$%^&*()_+'\""];
+        txtStr = [txtStr stringByTrimmingCharactersInSet:set];
+        if(!txtStr || txtStr.length == 0)
+            return;
+        
+        [weakSelf finishAudioRecorder:txtStr];
+    }];
+    
+    [alert showEdit:self.parentViewController title:NSLocalizedString(@"请输入录音文件名", nil) subTitle:nil closeButtonTitle:NSLocalizedString(@"取消", nil) duration:0.0f];
+}
+
+- (void)finishAudioRecorder:(NSString *)name {
+    if ([self.delegate respondsToSelector:@selector(audioRecorderController:didFinishWithAudioAtPath:withFileName:)])
     {
         IQAudioRecorderController *controller = (IQAudioRecorderController*)[self navigationController];
-        [self.delegate audioRecorderController:controller didFinishWithAudioAtPath:_recordingFilePath];
+//        [self.delegate audioRecorderController:controller didFinishWithAudioAtPath:name];
+        [self.delegate audioRecorderController:controller didFinishWithAudioAtPath:_recordingFilePath withFileName:name];
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
+
+}
+
+-(void)doneAction:(UIBarButtonItem*)item
+{
+    [self showAlertView];
 }
 
 - (void)recordingButtonAction:(UIBarButtonItem *)item
