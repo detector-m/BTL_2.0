@@ -155,6 +155,10 @@
 - (void)clickPlayBtn:(UIButton *)sender {
     Sound *sound = nil;
     
+    if(sender.selected) {
+        return;
+    }
+    
     if(sender.tag == 0) {
         sound = [Sound soundWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DoorOpened.mp3" ofType:nil]];
     }
@@ -166,7 +170,7 @@
     }
     if(!sound) return;
     
-    [[SoundManager sharedManager] stopAllSounds];
+    [[SoundManager sharedManager] stopAllSounds:NO];
     sender.selected = !sender.selected;
     
     [sound setCompletionHandler:^(BOOL isFinished){

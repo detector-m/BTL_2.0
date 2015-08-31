@@ -10,15 +10,19 @@
 	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>08885BCCBE916B6BE3CACC29B33A59E95A22E022</key>
+		<string>github.com:riven-m/BTL_2.0.git</string>
 		<key>9c3bc202-7c40-ff4d-a5bb-208097759062++1439</key>
-		<string>svn://211.157.146.151</string>
+		<string>svn://svn.dqcc.com.cn/ios/YJBlueLock2.0</string>
 		<key>9c3bc202-7c40-ff4d-a5bb-208097759062++5326</key>
-		<string>svn://211.157.146.151/ios</string>
+		<string>svn://svn.dqcc.com.cn/ios</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Smartlock.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>08885BCCBE916B6BE3CACC29B33A59E95A22E022</key>
+		<string>../..</string>
 		<key>9c3bc202-7c40-ff4d-a5bb-208097759062++1439</key>
 		<string>../..</string>
 		<key>9c3bc202-7c40-ff4d-a5bb-208097759062++5326</key>
@@ -26,13 +30,17 @@
 	</dict>
 	<key>IDESourceControlProjectRepositoryRootDictionary</key>
 	<dict>
+		<key>9c3bc202-7c40-ff4d-a5bb-208097759062++1439</key>
+		<string>svn://svn.dqcc.com.cn</string>
 		<key>9c3bc202-7c40-ff4d-a5bb-208097759062++5326</key>
-		<string>svn://211.157.146.151</string>
+		<string>svn://svn.dqcc.com.cn</string>
 	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:riven-m/BTL_2.0.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>9c3bc202-7c40-ff4d-a5bb-208097759062++1439</string>
+	<string>08885BCCBE916B6BE3CACC29B33A59E95A22E022</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -45,15 +53,15 @@
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.subversion</string>
+			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>9c3bc202-7c40-ff4d-a5bb-208097759062++1439</string>
+			<string>08885BCCBE916B6BE3CACC29B33A59E95A22E022</string>
 			<key>IDESourceControlWCCName</key>
 			<string>YJBlueLock2.0</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
+			<string>public.vcs.subversion</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>9c3bc202-7c40-ff4d-a5bb-208097759062++1439</string>
 			<key>IDESourceControlWCCName</key>
