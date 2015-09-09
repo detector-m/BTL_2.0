@@ -391,7 +391,7 @@
     __weak __typeof(self)weakSelf = self;
     [alert addButton:NSLocalizedString(@"确定", nil) actionBlock:^(void) {
         NSString *txtStr = [txt.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"@／：；（）¥「」＂、[]{}#%-*+=_\\|~＜＞$€^•'@#$%^&*()_+'\""];
+        NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"@／：；（）¥「」，＂、[]{}#%-*+=_\\|~＜＞$€^•'@#$%^&*()_+'\""];
         txtStr = [txtStr stringByTrimmingCharactersInSet:set];
         if(!txtStr || txtStr.length == 0)
             return;

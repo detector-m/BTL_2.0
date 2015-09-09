@@ -10,6 +10,7 @@
 
 #import "MoreDetailVC.h"
 #import "SystemSettingVC.h"
+#import "AboutVC.h"
 
 #import "RLHTTPAPIClient.h"
 
@@ -32,7 +33,7 @@ static NSString *kSetupWebPage = @"help.jsp";
     self.table.tableView.rowHeight = 60.0f;
     self->imageArray = [NSMutableArray array];
     [self.table.datas addObject:@"设置"];
-    [self.table.datas addObject:@"关于公司"];
+    [self.table.datas addObject:@"关于"];
     [self.table.datas addObject:@"帮助"];
 //    [self.table.datas addObject:@"安装教程"];
     
@@ -83,9 +84,11 @@ static NSString *kSetupWebPage = @"help.jsp";
         }
             break;
         case 1: {
-            MoreDetailVC *vc = [MoreDetailVC new];
-            vc.url = [kRLHTTPMobileBaseURLString stringByAppendingString:kAboutWebPage];//kAboutWebUrl;
-            vc.title = NSLocalizedString(@"关于公司", nil);
+//            MoreDetailVC *vc = [MoreDetailVC new];
+//            vc.url = [kRLHTTPMobileBaseURLString stringByAppendingString:kAboutWebPage];//kAboutWebUrl;
+//            vc.title = NSLocalizedString(@"关于公司", nil);
+//            [self.navigationController pushViewController:vc animated:YES];
+            AboutVC *vc = [AboutVC new];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;

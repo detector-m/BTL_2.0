@@ -137,7 +137,7 @@ NSDate *btl_dateFromString(NSString *dateString) {
         return nil;
     }
     NSDateFormatter *dateformatter = [[NSDateFormatter alloc] init];
-    [dateformatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+//    [dateformatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
     dateformatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     NSDate *date = [dateformatter dateFromString:dateString];
     

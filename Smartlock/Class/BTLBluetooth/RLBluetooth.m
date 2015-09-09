@@ -18,7 +18,7 @@
 static NSString *kDestServicesUUIDString = @"1910";
 static NSString *kDestCharacteristicUUIDString = @"fff2";
 
-static NSString *kDefaultForeverDateString = @"2099-12-31";
+static NSString *kDefaultForeverDateString = @"2099-12-31 00:00:00";
 
 @interface RLBluetooth ()
 @property (nonatomic, readwrite, strong) RLCentralManager *manager;
@@ -419,12 +419,16 @@ static RLBluetooth *_sharedBluetooth = nil;
         startDateBytes = calloc(startDateLen, sizeof(Byte));
         memcpy(startDateBytes, dateData, startDateLen);
     }
+    
 #pragma makr - tea for datas
     
     if(request.userType == 1) {
         if(/*request.cmdCode*/requestCmdCode == 0x02) {
             request.cmdMode = 0x01; //非管理员
             dateData = dateToBytes(&len, request.invalidDate.length? request.invalidDate: kDefaultForeverDateString);
+            if(dateData[0]+2000 >= 2099) {
+                memset(dateData, 0xff, 6);
+            }
         }
         else { return nil; }
     }
@@ -439,7 +443,7 @@ static RLBluetooth *_sharedBluetooth = nil;
         self.peripheralResponse = [[RLPeripheralResponse alloc] init];
         self.peripheralResponse.timeData = [NSData dataWithBytes:dateData length:len];
     }
-    
+
 //    int size = sizeof(data)+len;
 //    Byte *tempData = calloc(size, sizeof(Byte));
 //
@@ -463,21 +467,10 @@ static RLBluetooth *_sharedBluetooth = nil;
     //起止时间
     append_bytes_to_bytes(tempData, dateData, len, startDateBytes, startDateLen);
     
-//        int i=0;
-//    for(; i<12; i++) {
-//        if(i%6 == 0) {
-//            NSLog(@"\n");
-//        }
-//        NSLog(@"%0x", tempData[i]);
-//    }
-//    for(int j=0; j<dataSize; j++) {
-//        Byte *bytes = (Byte *)&data;
-//        NSLog(@"%0x", bytes[j]);
-//    }
-    
     //时间和管理员ID
     append_bytes_to_bytes(tempData+len + startDateLen, (Byte *)&data, dataSize, NULL, 0);
-//    for(; i<size; i++) {
+//    NSLog(@"---------");
+//    for(int i=startDateLen; i<size; i++) {
 //        NSLog(@"%0x", tempData[i]);
 //    }
 
@@ -524,6 +517,8 @@ static RLBluetooth *_sharedBluetooth = nil;
         }
         else
             teaData = data;
+        
+//        teaData = data;
 #pragma mark -
         
         cmd.btl_cmd_data = (Byte *)[teaData bytes];

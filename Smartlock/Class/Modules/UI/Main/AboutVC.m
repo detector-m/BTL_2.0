@@ -27,7 +27,7 @@
     
     [self.table.datas addObject:@"公司名称"];
     [self.table.datas addObject:@"隐私政策"];
-    [self.table.datas addObject:@"致谢"];
+    [self.table.datas addObject:@"关于公司"];
     
     self.table.tableView.tableHeaderView = [self headerViewForTableView];
     self.table.tableView.tableFooterView = [self footerViewForTableView];
@@ -130,8 +130,10 @@
         vc.title = NSLocalizedString(@"隐私政策", nil);
     }
     else {
-        vc.url = [kRLHTTPMobileBaseURLString stringByAppendingString:@"excuse.jsp"];//kAboutWebUrl;
-        vc.title = NSLocalizedString(@"致谢", nil);
+        vc.url = [kRLHTTPMobileBaseURLString stringByAppendingString:@"about.jsp"];//kAboutWebUrl;
+        vc.title = NSLocalizedString(@"关于公司", nil);
+//        vc.url = [kRLHTTPMobileBaseURLString stringByAppendingString:@"excuse.jsp"];//kAboutWebUrl;
+//        vc.title = NSLocalizedString(@"致谢", nil);
     }
     [self.navigationController pushViewController:vc animated:YES];
 }

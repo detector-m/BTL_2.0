@@ -11,8 +11,8 @@
 
 #import "RLDate.h"
 
-static NSString *kForeverDateString = @"2099-12-31";
-static NSString *kInvalidDateString = @"1970-01-01";
+static NSString *kForeverDateString = @"2099-12-31 00:00:00";
+static NSString *kInvalidDateString = @"1970-01-01 00:00:00";
 @implementation KeyModel
 
 - (instancetype)initWithParameters:(NSDictionary *)parameters {
@@ -91,6 +91,9 @@ static NSString *kInvalidDateString = @"1970-01-01";
 
 #pragma mark -
 - (BOOL)isValid {
+    if(self.status == kKeyExpire || self.status == kKeyFreeze || self.status == kKeyDelete) {
+        return NO;
+    }
     if(self.type == kKeyTypeTimes) {
         return self.validCount > 0;
     }
@@ -99,6 +102,6 @@ static NSString *kInvalidDateString = @"1970-01-01";
         
         return self.invalidTimeInterval >= time || self.startTimeInterval <= time;
     }
-    return self.status != kKeyExpire && self.status != kKeyFreeze;
+    return YES;//self.status != kKeyExpire && self.status != kKeyFreeze;
 }
 @end

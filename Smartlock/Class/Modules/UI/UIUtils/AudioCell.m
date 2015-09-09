@@ -27,14 +27,13 @@
     [super layoutSubviews];
     
     CGRect frame = self.contentView.frame;
-    CGFloat xOffset = 10;
+    CGFloat xOffset = (frame.size.height-ImageViewSize)/2;
     CGFloat yOffset = self.textLabel.frame.origin.y;
     CGFloat width = 0;
     CGFloat height = 0;
     
     self.imageView.frame = CGRectZero;
     _audioPlayBtn.frame = CGRectMake(xOffset, xOffset, ImageViewSize, ImageViewSize);
-    [self.contentView addSubview:_audioPlayBtn];
     
     xOffset = self.audioPlayBtn.frame.origin.x + self.audioPlayBtn.frame.size.width + Space;
     width = frame.size.width - xOffset - Space*2;

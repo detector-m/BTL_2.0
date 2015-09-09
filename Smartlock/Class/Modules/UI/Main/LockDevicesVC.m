@@ -138,11 +138,13 @@
         cell.detailTextLabel.text = [NSString stringWithFormat:@"钥匙有效期限%@", key.invalidDate];
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     if(key.userType == kUserTypeAdmin) {
         cell.imageView.image = [UIImage imageNamed:@"LockIcon"];
     }
     else {
         cell.imageView.image = [UIImage imageNamed:@"KeyIcon"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     if(!key.userType) {

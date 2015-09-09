@@ -97,7 +97,7 @@
 @property (nonatomic, assign) BOOL isNeedPop;
 @property (nonatomic, assign) Byte openLockCmdCode;
 
-@property (nonatomic, assign) BOOL isPeripheralResponsed;
+@property (atomic, assign) BOOL isPeripheralResponsed;
 @end
 
 @implementation MainVC
@@ -633,6 +633,10 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 
 #pragma mark - private methods
 - (void)addOpenLockRecordWithKey:(KeyModel *)key {
+    if(!key.isValid)  {
+        return;
+    }
+    
     if(key.type == kKeyTypeTimes) {
         if(key.validCount > 0) {
             --key.validCount;
@@ -725,12 +729,21 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
             continue;
         }
         
-        if(self.isPeripheralResponsed == YES || [User getOpenLockTypeSwitch]) {
+        if(![User getAutoOpenLockSwitch]) {
+            if(self.isPeripheralResponsed == YES) {
+                if(![User getVoiceSwitch]) {
+                    [[SoundManager sharedManager] playSound:@"SoundOperator.mp3" looping:NO];
+                }
+            }
+            
+            self.isPeripheralResponsed = NO;
+        }
+        else {
             if(![User getVoiceSwitch]) {
                 [[SoundManager sharedManager] playSound:@"SoundOperator.mp3" looping:NO];
             }
-            self.isPeripheralResponsed = NO;
         }
+        
         RLPeripheralRequest *perRequest = [[RLPeripheralRequest alloc] init];
         perRequest.cmdCode = _openLockCmdCode;
         perRequest.userPwd = key.keyOwner.pwd;
@@ -1000,9 +1013,9 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         [RLHUD hudAlertErrorWithBody:NSLocalizedString(@"电池电压过低，请更换电池！", nil)];
     }
     
-//    if(peripheralRes.updateTimeCode == 0x01) { //同步时间失败！
+    if(peripheralRes.updateTimeCode == 0x01) { //同步时间失败！
 //        [self updateLockTimeWithPeripheral:peripheral withKey:key];
-//    }
+    }
 }
 
 - (void)openLockFailedWithPeripherals:(NSArray *)peripherals error:(NSError *)error {
