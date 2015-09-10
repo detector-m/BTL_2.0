@@ -29,12 +29,12 @@
     
     [self.table.datas addObject:@"声音"];
     [self.table.datas addObject:@"自动开锁"];
-    BOOL bBoice = [User getAutoOpenLockSwitch];
-    if(bBoice) {
-        if(self.table.datas.count <= 2) {
-            [self.table.datas addObject:@"家用锁"];
-        }
-    }
+//    BOOL bBoice = [User getAutoOpenLockSwitch];
+//    if(bBoice) {
+//        if(self.table.datas.count <= 2) {
+//            [self.table.datas addObject:@"家用锁"];
+//        }
+//    }
     
     self.table.tableView.tableFooterView = [self footerViewForTableView];
     [self.table.tableView reloadData];
@@ -80,16 +80,18 @@
     [_autoOpenlockSwitch setSelected:bBoice];
     [User setAutoOpenLockSwitch:bBoice];
     
-    if(bBoice) {
-        if(self.table.datas.count <= 2) {
-            [self.table.datas addObject:@"家用锁"];
-        }
-    }
-    else {
-        if(self.table.datas.count > 2) {
-            [self.table.datas removeLastObject];
-        }
-    }
+    [User setOpenLockTypeSwitch:NO];
+    
+//    if(bBoice) {
+//        if(self.table.datas.count <= 2) {
+//            [self.table.datas addObject:@"家用锁"];
+//        }
+//    }
+//    else {
+//        if(self.table.datas.count > 2) {
+//            [self.table.datas removeLastObject];
+//        }
+//    }
     
     [UIView animateWithDuration:0.2 animations:^{
         [self.table.tableView reloadData];
@@ -130,7 +132,7 @@
     UILabel *licenceLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, frame.size.width-10, height)];
     licenceLabel.numberOfLines = 0;
     licenceLabel.textAlignment = NSTextAlignmentLeft;
-    licenceLabel.text = @"开锁模式为自动时：\n\t1 打开APP登陆并进入APP主界面  \n\t2 触摸锁设备开关 ，后将自动开锁；\n开锁模式为手动时：\n\t1 打开APP登陆并进入APP主界面   \n\t2 点击APP主界面开锁图标  \n\t3 触摸锁设备开关 ，后将自动开锁  \n\t4 当手动开锁模式时，可选择家用开锁类型，或者常开常闭类型，开关打开为家用型，关闭时为常开常闭。";
+    licenceLabel.text = @"开锁模式为自动时：\n\t1 打开APP登陆并进入APP主界面  \n\t2 触摸锁设备开关 ，后将自动开锁；\n开锁模式为手动时：\n\t1 打开APP登陆并进入APP主界面   \n\t2 点击APP主界面开锁图标  \n\t3 触摸锁设备开关 ，后将自动开锁  \n\t4 当手动开锁模式时，可选择家用开锁类型，或者常开常闭类型，开关打开为家用型，关闭时为常开常闭。当为常开常闭时，点击常开开关将开门且不会自动反锁，只有点击常关开关后才会进行反锁。";
     licenceLabel.font = [UIFont systemFontOfSize:13];
     licenceLabel.textColor = [UIColor blueColor];
     [self.footerForTableView addSubview:licenceLabel];
@@ -175,11 +177,11 @@
         [cell.contentView addSubview:self.autoOpenlockSwitch];
         cell.imageView.image = [UIImage imageNamed:@"LockIcon.png"];
     }
-    else if(indexPath.row == 2) {
-        [self.openlockTypeSwitch removeFromSuperview];
-        [cell.contentView addSubview:self.openlockTypeSwitch];
-        cell.imageView.image = [UIImage imageNamed:@"LockIcon.png"];
-    }
+//    else if(indexPath.row == 2) {
+//        [self.openlockTypeSwitch removeFromSuperview];
+//        [cell.contentView addSubview:self.openlockTypeSwitch];
+//        cell.imageView.image = [UIImage imageNamed:@"LockIcon.png"];
+//    }
     
     return cell;
 }

@@ -172,6 +172,8 @@
 		9602375A1AF7745A005996E0 /* MainBackground.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 960237571AF7745A005996E0 /* MainBackground.jpeg */; };
 		9602375B1AF7745A005996E0 /* MainBackground@2x.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 960237581AF7745A005996E0 /* MainBackground@2x.jpeg */; };
 		9602375C1AF7745A005996E0 /* MainBackground@3x.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 960237591AF7745A005996E0 /* MainBackground@3x.jpeg */; };
+		9605A75C1BA1341E0049E7DB /* app.js in Resources */ = {isa = PBXBuildFile; fileRef = 9605A75B1BA1341E0049E7DB /* app.js */; };
+		9605A75E1BA168460049E7DB /* ContactForSendKey.png in Resources */ = {isa = PBXBuildFile; fileRef = 9605A75D1BA168460049E7DB /* ContactForSendKey.png */; };
 		960A23A31AF89954002111E3 /* SendKeyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 960A23A21AF89954002111E3 /* SendKeyVC.m */; };
 		960A23A61AF89BA9002111E3 /* ProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 960A23A51AF89BA9002111E3 /* ProfileVC.m */; };
 		960A23A91AF89C24002111E3 /* ResetPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 960A23A81AF89C24002111E3 /* ResetPasswordVC.m */; };
@@ -738,6 +740,8 @@
 		960237571AF7745A005996E0 /* MainBackground.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = MainBackground.jpeg; sourceTree = "<group>"; };
 		960237581AF7745A005996E0 /* MainBackground@2x.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "MainBackground@2x.jpeg"; sourceTree = "<group>"; };
 		960237591AF7745A005996E0 /* MainBackground@3x.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "MainBackground@3x.jpeg"; sourceTree = "<group>"; };
+		9605A75B1BA1341E0049E7DB /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
+		9605A75D1BA168460049E7DB /* ContactForSendKey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContactForSendKey.png; sourceTree = "<group>"; };
 		960A23A11AF89953002111E3 /* SendKeyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendKeyVC.h; sourceTree = "<group>"; };
 		960A23A21AF89954002111E3 /* SendKeyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendKeyVC.m; sourceTree = "<group>"; };
 		960A23A41AF89BA9002111E3 /* ProfileVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileVC.h; sourceTree = "<group>"; };
@@ -2580,6 +2584,7 @@
 		96BD79981ABFE64A00CAF7A4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				9605A75D1BA168460049E7DB /* ContactForSendKey.png */,
 				962E56591B8EE2A000B9DA6D /* AudioPlay.png */,
 				962E565A1B8EE2A000B9DA6D /* AudioStop.png */,
 				961546121B7DBEF0006C1C5C /* NormalCloseDisable.png */,
@@ -2614,6 +2619,7 @@
 				960A23C71AFDDD16002111E3 /* Refresh.png */,
 				960A23C81AFDDD16002111E3 /* Refresh@2x.png */,
 				960A23C91AFDDD16002111E3 /* Refresh@3x.png */,
+				9605A75B1BA1341E0049E7DB /* app.js */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -3190,7 +3196,9 @@
 				96002BDE1B16FB4D0072CF05 /* KeyIcon.png in Resources */,
 				96002BF41B1C3F240072CF05 /* DoorOpened.mp3 in Resources */,
 				960237551AF75416005996E0 /* Cupid@2x.png in Resources */,
+				9605A75E1BA168460049E7DB /* ContactForSendKey.png in Resources */,
 				96DA3EB31ACAB82D00FAD340 /* Account@3x.png in Resources */,
+				9605A75C1BA1341E0049E7DB /* app.js in Resources */,
 				961546191B7DBEF0006C1C5C /* NormalOpenEnable.png in Resources */,
 				962E565C1B8EE2A000B9DA6D /* AudioStop.png in Resources */,
 				960237511AF75416005996E0 /* Arrow.png in Resources */,

@@ -26,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _offsetEdge = 5;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachable:) name:AFNetworkingReachabilityDidChangeNotification object:nil];
 
     [self setupWebView];
@@ -35,9 +35,9 @@
 - (void)setupWebView {
     CGRect frame = self.view.frame;
     
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(_offsetEdge, 0, frame.size.width-_offsetEdge*2, frame.size.height)];
     self.webView.delegate = self;
-    self.webView.scrollView.bounces = YES;
+    self.webView.scrollView.bounces = NO;
     [self.view addSubview:self.webView];
     [self loadRequest];
 }
@@ -80,7 +80,11 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     self.isWebViewLoaded = YES;
     self.isWebViewLoading = NO;
+    
     [RLHUD hideStatusBarProgress];
+    
+    NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", webView.frame.size.width];
+    [webView stringByEvaluatingJavaScriptFromString:meta];
 }
 - (void) webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     DLog(@"error=%@", error);

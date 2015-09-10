@@ -17,6 +17,8 @@
 #import "RHAddressBook.h"
 #import "RHPerson.h"
 
+#import <JavaScriptCore/JavaScriptCore.h>
+
 @interface SendKeyWithABVC ()
 
 @end
@@ -108,11 +110,12 @@
     person.firstNamePhonetic = @"";
     NSString *phone = [person.phoneNumbers valueAtIndex:0];
     
-    NSString *lockIDString = [RLTypecast integerToString:self.lockId];
+//    NSString *lockIDString = [RLTypecast integerToString:self.lockId];
     
-    SendKeyVC *vc = [[SendKeyVC alloc] init];
-    vc.lockID = lockIDString;
+//    SendKeyVC *vc = [[SendKeyVC alloc] init];
+//    vc.lockID = lockIDString;
     
+    SendKeyVC *vc = (SendKeyVC *)self.vc;
     if([phone hasPrefix:@"+"]) {
         phone = [phone substringFromIndex:4];
     }
@@ -120,8 +123,18 @@
     if(![phone isMobile]) {
         phone = nil;
     }
-    vc.phone = phone;
+    else {
+        NSString *path = [[NSBundle mainBundle]pathForResource:@"app"ofType:@"js"];
+        NSString *script = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+        JSContext *context = [vc.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+        [context evaluateScript:script];
+        
+        JSValue *function = context[@"setInputById"];
+        [function callWithArguments:@[@"member",phone]];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+//    vc.phone = phone;
     
-    [self.navigationController pushViewController:vc animated:YES];
+//    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

@@ -112,6 +112,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [UIView animateWithDuration:0.1 animations:^{
+        self.navigationController.navigationBarHidden = YES;
+    }];
+    
     if([User getAutoOpenLockSwitch] && [User getOpenLockTypeSwitch]) {
 //        self.closeLockBtn.hidden = NO;
         self.normallyOpenLockBtn.enabled = YES;
@@ -135,9 +139,6 @@
     
     self.messageBadgeNumber = [[MyCoreDataManager sharedManager] objectsCountWithKey:@"isRead" contains:@NO withTablename:NSStringFromClass([Message class])];
 
-    [UIView animateWithDuration:0.1 animations:^{
-        self.navigationController.navigationBarHidden = YES;
-    }];
     [self setBackButtonHide:YES];
     [self loadBannersRequest];
     
@@ -150,7 +151,10 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    self.navigationController.navigationBarHidden = NO;
+    [UIView animateWithDuration:0.1 animations:^{
+        self.navigationController.navigationBarHidden = NO;
+    }];
+//    self.navigationController.navigationBarHidden = NO;
     [self setBackButtonHide:NO];
     [self stopLoadingBannersRequest];
     
@@ -371,6 +375,7 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
         
 //normallyOpenLockBtn;
 //normallyCloseLockBtn;
+#if 0
         heightOffset += self.openLockBtn.frame.size.height-2;
         
         self.normallyOpenLockBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -392,7 +397,7 @@ static NSString *kBannersPage = @"/bleLock/advice.jhtml";
 //        if([User getAutoOpenLockSwitch] && [User getOpenLockTypeSwitch]) {
 //            self.normallyCloseLockBtn.hidden = NO;
 //        }
-        
+#endif
         [self.scrollView bringSubviewToFront:self.arrow];
         
 //        heightOffset += self.openLockBtn.frame.size.height + 20;

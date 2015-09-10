@@ -10,4 +10,6 @@
 
 @interface SendKeyWithABVC : RLABViewController
 @property (nonatomic, assign) NSUInteger lockId;
+
+@property (nonatomic, weak) UIViewController *vc;
 @end

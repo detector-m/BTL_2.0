@@ -12,6 +12,7 @@
 @property (nonatomic, strong) NSString *url;
 @property (nonatomic, strong) UIWebView *webView;
 
+@property (nonatomic, assign) CGFloat offsetEdge;
 #pragma mark -
 @property (assign) BOOL isWebViewLoaded;
 @property (assign) BOOL isWebViewLoading;

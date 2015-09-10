@@ -13,7 +13,7 @@
 #import "DeviceManager.h"
 #import "RLColor.h"
 
-#import "SendKeyWithABVC.h"
+#import "SendKeyVC.h"
 
 @implementation KeysOfLockVC
 - (void)viewDidLoad {
@@ -35,10 +35,13 @@
 }
 
 - (void)clickedRightItem:(UIBarButtonItem *)item {
-    SendKeyWithABVC *vc = [[SendKeyWithABVC alloc] init];
-    vc.lockId = self.lockId;
-    vc.filterItems = self.table.datas;
-    vc.title = NSLocalizedString(@"发送钥匙", nil);
+//    SendKeyWithABVC *vc = [[SendKeyWithABVC alloc] init];
+//    vc.lockId = self.lockId;
+//    vc.filterItems = self.table.datas;
+//    vc.title = NSLocalizedString(@"发送钥匙", nil);
+    
+    SendKeyVC *vc = [SendKeyVC new];
+    vc.lockID = [RLTypecast integerToString:self.lockId];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
