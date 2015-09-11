@@ -22,6 +22,12 @@
     self.title = NSLocalizedString(@"钥匙列表", nil);
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self loadKeysOfLockWithLockID:_lockId];
+}
+
 - (void)setupRightItem {
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"发送钥匙" style:UIBarButtonItemStylePlain target:self action:@selector(clickedRightItem:)];
 }
@@ -71,7 +77,7 @@
 - (void)setLockId:(NSUInteger)lockId {
     _lockId = lockId;
     
-    [self loadKeysOfLockWithLockID:_lockId];
+//    [self loadKeysOfLockWithLockID:_lockId];
 }
 
 #pragma mark -

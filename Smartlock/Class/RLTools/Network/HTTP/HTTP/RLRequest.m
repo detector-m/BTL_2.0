@@ -29,6 +29,9 @@
             if(error.code == NSURLErrorNotConnectedToInternet) {
                 return ;
             }
+            else if(error.code == 3840) {
+                return;
+            }
             [RLHUD hudAlertErrorWithBody:@"网络有问题！请检查网络"];
         }
     }];

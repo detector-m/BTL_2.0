@@ -57,7 +57,7 @@
             break;
             
         case -998: //访问的请求参数错误
-            [RLHUD hudAlertErrorWithBody:@"请重新登录！"];
+            [RLHUD hudAlertErrorWithBody:@"请求出错！"];
             break;
             
         case -500: //服务器内部错误

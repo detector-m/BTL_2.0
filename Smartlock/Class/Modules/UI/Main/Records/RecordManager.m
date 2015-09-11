@@ -24,6 +24,9 @@
     recordsListString = [recordsListString stringByReplacingCharactersInRange:NSMakeRange(recordsListString.length-1, 1) withString:@""];
     
     [DeviceManager openLock:recordsListString token:[User sharedUser].sessionToken withBlock:^(DeviceResponse *response, NSError *error) {
+        if(error || response.status != 0) {
+            return ;
+        }
         [[MyCoreDataManager sharedManager] updateObjectsInObjectTable:@{@"isUpdate":@YES} withKey:@"isUpdate" contains:@NO withTablename:NSStringFromClass([OpenLockRecord class])];
         if(block) {
             block(YES);

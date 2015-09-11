@@ -12,6 +12,7 @@
 
 #import "RLSecurityPolicy.h"
 
+// 2表示是永家 1表示是ios系统
 #define PlatFormFlag (21)
 @implementation LoginModel
 - (NSDictionary *)toDictionary {
